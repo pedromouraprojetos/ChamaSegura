@@ -20,23 +20,22 @@
             android:layout_width="255dp"
             android:layout_height="245dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="58dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="38dp"
+            android:layout_marginBottom="35dp"
             android:src="@drawable/logo" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bem-Vindo"
-            android:textSize="30sp"
+            android:textSize="25sp"
+            android:text="Em caso de incendio ou perda do "
             android:textColor="@android:color/black"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="34dp"/>
+            android:layout_gravity="center_horizontal"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="A sua aplicação de registo das"
+            android:text="controlo da queimada, por favor,"
             android:textSize="25sp"
             android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"/>
@@ -44,11 +43,38 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="vossas queimadas"
+            android:text="contacte as autoridades"
             android:textSize="25sp"
             android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="135dp"/>
+            android:layout_marginBottom="45dp"/>
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Entrar"
+            app:layout_constraintTop_toBottomOf="@id/contentLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button2"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="15dp"
+            android:layout_gravity="center_horizontal"/>
+
+        <!-- Segundo botão -->
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registar"
+            app:layout_constraintTop_toBottomOf="@id/contentLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/button1"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="50dp"
+            android:layout_gravity="center_horizontal"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,14 +82,6 @@
             android:orientation="horizontal"
             android:gravity="center">
 
-            <!-- Bola preta -->
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/ball_black"
-                android:layout_margin="20dp"/>
-
-            <!-- Bola cinza 1 -->
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -75,6 +93,13 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/ball_white"
+                android:layout_margin="20dp"/>
+
+            <!-- Bola preta -->
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ball_black"
                 android:layout_margin="20dp"/>
         </LinearLayout>
 

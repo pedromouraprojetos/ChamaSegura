@@ -21,22 +21,21 @@
             android:layout_height="245dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="58dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="55dp"
             android:src="@drawable/logo" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bem-Vindo"
-            android:textSize="30sp"
+            android:textSize="25sp"
+            android:text="Nesta aplicação vais poder "
             android:textColor="@android:color/black"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="34dp"/>
+            android:layout_gravity="center_horizontal"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="A sua aplicação de registo das"
+            android:text="agendar e rever as suas"
             android:textSize="25sp"
             android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"/>
@@ -44,7 +43,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="vossas queimadas"
+            android:textSize="25sp"
+            android:text="queimadas e comunicar com a"
+            android:textColor="@android:color/black"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sua Câmara Municipal"
             android:textSize="25sp"
             android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"
@@ -56,6 +63,12 @@
             android:orientation="horizontal"
             android:gravity="center">
 
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ball_white"
+                android:layout_margin="20dp"/>
+
             <!-- Bola preta -->
             <ImageView
                 android:layout_width="50dp"
@@ -63,12 +76,6 @@
                 android:src="@drawable/ball_black"
                 android:layout_margin="20dp"/>
 
-            <!-- Bola cinza 1 -->
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/ball_white"
-                android:layout_margin="20dp"/>
 
             <!-- Bola cinza 2 -->
             <ImageView
