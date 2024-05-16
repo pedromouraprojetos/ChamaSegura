@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login">
+    tools:context=".Register">
 
     <!-- Container para a imagem de fundo e o logo -->
     <FrameLayout
@@ -39,7 +39,7 @@
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Entrar"
+        android:text="Registar"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
@@ -65,15 +65,16 @@
         android:id="@+id/emailEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:drawableEnd="@drawable/email"
-        app:layout_constraintTop_toBottomOf="@id/email"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/parentEnd"
-        android:layout_marginTop="5dp"
         android:layout_marginStart="25dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="25dp"
-        android:padding="12dp" />
+        android:drawableEnd="@drawable/email"
+        android:inputType="textEmailAddress"
+        android:padding="12dp"
+        app:layout_constraintEnd_toStartOf="@+id/parentEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/password"
@@ -102,18 +103,19 @@
         android:layout_marginEnd="25dp"
         android:padding="12dp" />
 
-    <!-- Esqueceu a Palavra-Passe? -->
-    <TextView
-        android:id="@+id/forgotPasswordTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Esqueceu a Palavra-Passe?"
-        android:textSize="14sp"
-        android:textColor="@android:color/holo_blue_dark"
+    <!-- Botão Registar -->
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="315dp"
+        android:layout_height="72dp"
+        android:text="Registar"
+        android:drawableEnd="@drawable/seta"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
         app:layout_constraintTop_toBottomOf="@id/passwordEditText"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="25dp"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/parentEnd"
+        android:layout_marginTop="30dp" />
 
     <!-- Botão Entrar -->
     <Button
@@ -124,24 +126,11 @@
         android:drawableEnd="@drawable/seta"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/forgotPasswordTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/parentEnd"
-        android:layout_marginTop="30dp" />
-
-    <!-- Botão Registar -->
-    <Button
-        android:id="@+id/registerButton"
-        android:layout_width="315dp"
-        android:layout_height="72dp"
-        android:text="Registar"
-        android:drawableEnd="@drawable/seta"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@id/loginButton"
+        app:layout_constraintTop_toBottomOf="@id/registerButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/parentEnd"
         android:layout_marginTop="8dp" />
+
 
     <!-- Constraint para alinhar os elementos -->
     <View
