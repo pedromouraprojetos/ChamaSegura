@@ -13,6 +13,13 @@
         android:theme="@style/Theme.ChamaSegura"
         tools:targetApi="31">
         <activity
+            android:name=".NotificacoesUser"
+            android:exported="false" />
+        <activity
+            android:name=".HomePageUser"
+            android:exported="false"
+            android:label="@string/title_activity_home_page_user" />
+        <activity
             android:name=".Profile"
             android:exported="false" />
         <activity
