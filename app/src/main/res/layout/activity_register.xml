@@ -22,7 +22,7 @@
             android:layout_width="280dp"
             android:layout_height="250dp"
             android:contentDescription="Background Image"
-            android:src="@drawable/bolasTopo"
+            android:src="@drawable/bolastopo"
             android:scaleType="centerCrop" />
 
         <!-- Logo -->

@@ -18,15 +18,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:padding="16dp"
-        app:layout_constraintTop_margin="24dp"
-        app:layout_constraintStart_margin="16dp"/>
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"/>
 
     <!-- Imagem de Avatar como Botão -->
     <ImageButton
         android:id="@+id/avatarButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/profileImg"
+        android:src="@drawable/profileimg"
         android:layout_marginTop="40dp"
         app:layout_constraintTop_toBottomOf="@id/backButton"
         app:layout_constraintStart_toStartOf="parent"
