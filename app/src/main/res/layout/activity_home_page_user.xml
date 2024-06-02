@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_home"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
     <!-- Header with gradient background -->
     <RelativeLayout
@@ -33,9 +33,9 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="22dp"
             android:background="@drawable/profile"
-            android:src="@drawable/profile"
+            android:clipToOutline="true"
             android:scaleType="centerCrop"
-            android:clipToOutline="true"/>
+            android:src="@drawable/profile" />
 
         <!-- Greeting Message -->
         <TextView
@@ -43,11 +43,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:padding="16dp"
             android:text="Boas {First/Last Name},"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
             android:textAlignment="center"
-            android:padding="16dp"/>
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
     </RelativeLayout>
 
     <!-- List of Items -->
@@ -55,9 +55,9 @@
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_below="@id/header"
         android:layout_above="@id/bottom_navigation"
+        android:layout_below="@id/header"
+        android:layout_weight="1"
         android:padding="16dp">
         <!-- Conteúdo do ScrollView vai aqui -->
     </ScrollView>
@@ -69,37 +69,37 @@
         android:layout_height="92dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
+        android:elevation="8dp"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:elevation="8dp">
+        android:paddingBottom="8dp">
 
         <!-- Notification Icon -->
         <ImageView
             android:id="@+id/notification_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/ic_notification"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_notification" />
 
         <!-- Fire Icon (Center) -->
         <ImageView
             android:id="@+id/fire_icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_fire"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_fire" />
 
         <!-- Profile Icon -->
         <ImageView
             android:id="@+id/profile_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_profile"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_profile" />
     </RelativeLayout>
 
     <!-- Floating Action Button -->
@@ -107,9 +107,9 @@
         android:id="@+id/fab"
         android:layout_width="59dp"
         android:layout_height="59dp"
-        android:src="@drawable/addchama"
-        android:layout_margin="16dp"
         android:layout_above="@id/bottom_navigation"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="24dp"/>
+        android:layout_margin="16dp"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/addchama" />
 </RelativeLayout>
