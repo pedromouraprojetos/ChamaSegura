@@ -57,12 +57,12 @@
             android:text="Entrar"
             android:drawableEnd="@drawable/seta"
             android:drawablePadding="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/button2"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="15dp"
             android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_background"
+            android:textColor="@android:color/white"
             tools:ignore="RtlCompat"/>
 
         <Button
@@ -73,13 +73,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="50dp"
-            android:background="@drawable/background_botton"
+            android:background="@drawable/button_background2"
             android:drawableEnd="@drawable/seta"
             android:drawablePadding="8dp"
             android:text="Registar"
             android:textAlignment="textStart"
-            app:layout_constraintEnd_toStartOf="@id/button2"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@android:color/white"
             tools:ignore="RtlCompat" />
 
         <LinearLayout
@@ -110,6 +109,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
