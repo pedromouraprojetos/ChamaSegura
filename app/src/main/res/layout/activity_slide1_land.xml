@@ -15,38 +15,56 @@
 
         <!-- Adicione aqui os elementos do seu layout -->
         <ImageView
-            android:layout_width="255dp"
-            android:layout_height="245dp"
+            android:id="@+id/imageViewLogo"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="58dp"
-            android:layout_marginBottom="24dp"
-            android:src="@drawable/logo" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/logo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/textViewWelcome"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
+            android:id="@+id/textViewWelcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bem-Vindo"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="34dp"/>
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@id/textViewDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
+            android:id="@+id/textViewDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="A sua aplicação de registo das"
-            android:textSize="25sp"
+            android:textSize="16sp"
             android:textColor="@android:color/black"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@id/textViewSubtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
+            android:id="@+id/textViewSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="vossas queimadas"
-            android:textSize="25sp"
+            android:textSize="16sp"
             android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="135dp"/>
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@id/linearLayoutBalls"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,10 +94,6 @@
                 android:layout_margin="20dp"/>
         </LinearLayout>
 
-
-
-
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
