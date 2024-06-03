@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/forgotpass"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ForgotPassword">
+
+    <!-- Container para a imagem de fundo e o logo -->
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="537dp"
+        android:layout_height="254dp"
+        android:layout_margin="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Imagem de Fundo -->
+
+        <!-- Logo -->
+
+        <ImageView
+            android:id="@+id/backgroundImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="Background Image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bolastopo" />
+
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="470dp"
+            android:layout_height="208dp"
+            android:contentDescription="Logo"
+            android:src="@drawable/logo" />
+
+    </FrameLayout>
+
+    <!-- Endereço de Email -->
+
+    <!-- Botão Enviar -->
+
+    <!-- Constraint para alinhar os elementos -->
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="775dp"
+        android:layout_height="105dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="167dp"
+        android:text="Esqueci-me da minha palavra-passe"
+        android:textColor="@android:color/black"
+        android:textSize="45sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.389" />
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="17dp"
+        android:text="Endereço de Email"
+        android:textColor="#616161"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/emailEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:drawableEnd="@drawable/email"
+        android:inputType="textEmailAddress"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/parentEnd"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/sendButton"
+        android:layout_width="315dp"
+        android:layout_height="72dp"
+        android:text="Enviar"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/parentEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailEditText"
+        app:layout_constraintVertical_bias="0.231" />
+
+    <View
+        android:id="@+id/parentEnd"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

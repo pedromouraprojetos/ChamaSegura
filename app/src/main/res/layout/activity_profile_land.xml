@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_profile">
+
+    <!-- Botão de Voltar -->
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/setaback"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="16dp"
+        android:tint="@android:color/white"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"/>
+
+    <!-- Imagem de Avatar como Botão -->
+    <ImageButton
+        android:id="@+id/avatarButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/profileimg"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toBottomOf="@id/backButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="centerCrop"
+        android:padding="0dp" />
+
+    <!-- Nome de Utilizador -->
+    <EditText
+        android:id="@+id/usernameEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nome de Utilizador"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="32dp"
+        android:textColorHint="@android:color/white"
+        android:textColor="@android:color/white"
+        android:paddingBottom="8dp"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/avatarButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintWidth_default="spread"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <View
+        android:id="@+id/usernameLine"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/usernameEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <!-- Primeiro Nome -->
+    <EditText
+        android:id="@+id/firstNameEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Primeiro Nome"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="16dp"
+        android:textColorHint="@android:color/white"
+        android:textColor="@android:color/white"
+        android:paddingBottom="8dp"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/usernameLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintWidth_default="spread"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <View
+        android:id="@+id/firstNameLine"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/firstNameEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <!-- Sobrenome -->
+    <EditText
+        android:id="@+id/lastNameEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Sobrenome"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="16dp"
+        android:textColorHint="@android:color/white"
+        android:textColor="@android:color/white"
+        android:paddingBottom="8dp"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/firstNameLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintWidth_default="spread"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <View
+        android:id="@+id/lastNameLine"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/lastNameEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <!-- Botão Confirmar -->
+    <Button
+        android:id="@+id/confirmButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@android:color/white"
+        android:textColor="@android:color/black"
+        android:textSize="50px"
+        android:text="Guardar Dados"
+        android:drawableEnd="@drawable/save"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/lastNameLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <!-- Barra de Navegação Inferior -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomNavigationBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Notification Icon -->
+        <ImageView
+            android:id="@+id/notificationIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_notification"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="16dp"/>
+
+        <!-- Fire Icon (Center) -->
+        <ImageView
+            android:id="@+id/fireIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_fire1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <!-- Profile Icon -->
+        <ImageView
+            android:id="@+id/profileIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_profile1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="16dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
