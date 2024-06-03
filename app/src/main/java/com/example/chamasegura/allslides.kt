@@ -1,10 +1,11 @@
 package com.example.chamasegura
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
-
 
 class allslides : RecyclerView.Adapter<allslides.IntroViewHolder>(){
 
@@ -20,7 +21,18 @@ class allslides : RecyclerView.Adapter<allslides.IntroViewHolder>(){
     }
 
     override fun onBindViewHolder(holder: IntroViewHolder, position: Int) {
-        // Aqui você pode configurar o conteúdo dos slides se necessário
+        if (position == 2) { // O terceiro slide (índice 2)
+            holder.itemView.findViewById<Button>(R.id.button1).setOnClickListener {
+                val context = it.context
+                val intent = Intent(context, Login::class.java)
+                context.startActivity(intent)
+            }
+            holder.itemView.findViewById<Button>(R.id.button2).setOnClickListener {
+                val context = it.context
+                val intent = Intent(context, Register::class.java)
+                context.startActivity(intent)
+            }
+        }
     }
 
     override fun getItemCount() = slideLayouts.size
@@ -32,5 +44,4 @@ class allslides : RecyclerView.Adapter<allslides.IntroViewHolder>(){
     inner class IntroViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         // Configure as views dos slides se necessário
     }
-
 }
