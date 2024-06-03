@@ -37,6 +37,9 @@
         <activity
             android:name=".Login"
             android:exported="false" />
+        <activity
+            android:name=".ForgotPassword"
+            android:exported="false"/>
     </application>
 
 </manifest>
