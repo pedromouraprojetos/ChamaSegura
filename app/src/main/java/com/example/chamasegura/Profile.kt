@@ -1,7 +1,9 @@
 package com.example.chamasegura
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +26,19 @@ class Profile : AppCompatActivity() {
         findViewById<ImageButton>(R.id.backButton).setOnClickListener {
             // Aqui você pode finalizar a atividade ou outra ação
             finish()
+        }
+
+        // Configurar a navegação
+        findViewById<ImageView>(R.id.notificationIcon).setOnClickListener {
+            startActivity(Intent(this, NotificacoesUser::class.java))
+        }
+
+        findViewById<ImageView>(R.id.fireIcon).setOnClickListener {
+            startActivity(Intent(this, HomePageUser::class.java))
+        }
+
+        findViewById<ImageView>(R.id.profileIcon).setOnClickListener {
+            // Já está na Profile, então não precisa de ação aqui.
         }
     }
 }
