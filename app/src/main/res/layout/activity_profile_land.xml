@@ -24,16 +24,18 @@
     <!-- Imagem de Avatar como Botão -->
     <ImageButton
         android:id="@+id/avatarButton"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:src="@drawable/profileimg"
-        android:layout_marginTop="40dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="centerCrop"
         app:layout_constraintTop_toBottomOf="@id/backButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:scaleType="centerCrop"
-        android:padding="0dp" />
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintVertical_bias="0.4" />
 
     <!-- Nome de Utilizador -->
     <EditText
@@ -42,7 +44,6 @@
         android:layout_height="wrap_content"
         android:hint="Nome de Utilizador"
         android:background="@android:color/transparent"
-        android:layout_marginTop="32dp"
         android:textColorHint="@android:color/white"
         android:textColor="@android:color/white"
         android:paddingBottom="8dp"
@@ -52,18 +53,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintWidth_default="spread"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="32dp" />
 
     <View
         android:id="@+id/usernameLine"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginTop="8dp"
         android:background="@android:color/white"
         app:layout_constraintTop_toBottomOf="@id/usernameEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="8dp" />
 
     <!-- Primeiro Nome -->
     <EditText
@@ -72,7 +78,6 @@
         android:layout_height="wrap_content"
         android:hint="Primeiro Nome"
         android:background="@android:color/transparent"
-        android:layout_marginTop="16dp"
         android:textColorHint="@android:color/white"
         android:textColor="@android:color/white"
         android:paddingBottom="8dp"
@@ -82,18 +87,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintWidth_default="spread"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="16dp" />
 
     <View
         android:id="@+id/firstNameLine"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginTop="8dp"
         android:background="@android:color/white"
         app:layout_constraintTop_toBottomOf="@id/firstNameEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="8dp" />
 
     <!-- Sobrenome -->
     <EditText
@@ -102,7 +112,6 @@
         android:layout_height="wrap_content"
         android:hint="Sobrenome"
         android:background="@android:color/transparent"
-        android:layout_marginTop="16dp"
         android:textColorHint="@android:color/white"
         android:textColor="@android:color/white"
         android:paddingBottom="8dp"
@@ -112,36 +121,43 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintWidth_default="spread"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="16dp" />
 
     <View
         android:id="@+id/lastNameLine"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginTop="8dp"
         android:background="@android:color/white"
         app:layout_constraintTop_toBottomOf="@id/lastNameEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="8dp" />
 
     <!-- Botão Confirmar -->
     <Button
         android:id="@+id/confirmButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:backgroundTint="@android:color/white"
         android:textColor="@android:color/black"
-        android:textSize="50px"
+        android:textSize="18sp"
         android:text="Guardar Dados"
-        android:drawableEnd="@drawable/save"
         android:textAllCaps="false"
         app:layout_constraintTop_toBottomOf="@id/lastNameLine"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"/>
 
     <!-- Barra de Navegação Inferior -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -172,8 +188,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_fire1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/notificationIcon"
+            app:layout_constraintEnd_toStartOf="@id/profileIcon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -191,3 +207,4 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

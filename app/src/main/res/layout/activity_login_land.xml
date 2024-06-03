@@ -17,21 +17,19 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <!-- Imagem de Fundo -->
-
-        <!-- Logo -->
-
         <ImageView
             android:id="@+id/backgroundImageView"
-            android:layout_width="match_parent"
-            android:layout_height="334dp"
+            android:layout_width="280dp"
+            android:layout_height="250dp"
             android:contentDescription="Background Image"
             android:scaleType="centerCrop"
             android:src="@drawable/bolastopo" />
 
+        <!-- Logo -->
         <ImageView
             android:id="@+id/logoImageView"
-            android:layout_width="418dp"
-            android:layout_height="254dp"
+            android:layout_width="170dp"
+            android:layout_height="150dp"
             android:layout_marginStart="8dp"
             android:contentDescription="Logo"
             android:src="@drawable/logo" />
@@ -41,35 +39,31 @@
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="Entrar"
         android:textColor="@android:color/black"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-        app:layout_constraintVertical_bias="0.212" />
+        app:layout_constraintTop_toBottomOf="@id/frameLayout" />
 
     <TextView
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
+        android:layout_marginTop="16dp"
         android:text="Endereço de Email"
         android:textColor="#616161"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+        app:layout_constraintTop_toBottomOf="@id/titleTextView" />
 
     <!-- Endereço de Email -->
     <EditText
         android:id="@+id/emailEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginTop="8dp"
         android:drawableEnd="@drawable/email"
         android:inputType="textEmailAddress"
         android:padding="12dp"
@@ -81,8 +75,7 @@
         android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:text="Palavra-Passe"
         android:textColor="#616161"
         android:textSize="12sp"
@@ -94,9 +87,7 @@
         android:id="@+id/passwordEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginTop="8dp"
         android:drawableEnd="@drawable/cadeado"
         android:inputType="textPassword"
         android:padding="12dp"
@@ -109,8 +100,7 @@
         android:id="@+id/forgotPasswordTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:text="Esqueceu a Palavra-Passe?"
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="14sp"
@@ -118,8 +108,6 @@
         app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
 
     <!-- Botão Entrar -->
-
-    <!-- Botão Registar -->
     <Button
         android:id="@+id/loginButton"
         android:layout_width="315dp"
@@ -133,11 +121,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/forgotPasswordTextView" />
 
+    <!-- Botão Registar -->
     <Button
         android:id="@+id/registerButton"
         android:layout_width="315dp"
         android:layout_height="72dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:drawableEnd="@drawable/seta"
         android:text="Registar"
         android:textAllCaps="false"
@@ -153,4 +142,5 @@
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
