@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="-50dp"
         android:text="Esqueci-me da minha palavra-passe"
         android:textColor="@android:color/black"
         android:textSize="18sp"
@@ -52,7 +52,7 @@
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
         android:text="Endereço de Email"
         android:textColor="#616161"
@@ -65,7 +65,7 @@
         android:id="@+id/emailEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="25dp"
         android:drawableEnd="@drawable/email"
@@ -78,7 +78,7 @@
     <!-- Botão Enviar -->
     <Button
         android:id="@+id/sendButton"
-        android:layout_width="0dp"
+        android:layout_width="300dp"
         android:layout_height="72dp"
         android:layout_marginTop="30dp"
         android:text="Enviar"
@@ -94,5 +94,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sendButton"
         tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
