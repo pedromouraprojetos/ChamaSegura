@@ -11,10 +11,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.chamasegura.retrofit.LoginRequest
-import com.example.chamasegura.retrofit.LoginResponse
 import com.example.chamasegura.retrofit.RetrofitClient
 import com.example.chamasegura.retrofit.SupabaseAuthService
+import com.example.chamasegura.retrofit.tabels.Users
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -67,30 +66,29 @@ class Login : AppCompatActivity() {
 
     private fun loginUser(email: String, password: String) {
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
-        val loginRequest = LoginRequest(email, password)
 
-        service.login(loginRequest).enqueue(object : Callback<LoginResponse> {
-            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+        service.verifyUser("eq.$email", "eq.$password").enqueue(object : Callback<List<Users>> {
+            override fun onResponse(call: Call<List<Users>>, response: Response<List<Users>>) {
                 if (response.isSuccessful) {
-                    val loginResponse = response.body()
-                    if (loginResponse != null) {
-                        // Sucesso na autenticação
+                    val users = response.body()
+                    if (users != null && users.isNotEmpty()) {
+                        // Sucesso na verificação das credenciais
                         Toast.makeText(this@Login, "Login bem-sucedido", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this@Login, HomePageUser::class.java)
                         startActivity(intent)
                         finish()
                     } else {
-                        showError("Erro na resposta do servidor")
-                        Log.e("Login", "Erro na resposta do servidor: resposta vazia")
+                        showError("Email ou palavra-passe inválida")
+                        Log.e("Login", "Falha na verificação das credenciais: usuário não encontrado")
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()
                     showError("Email ou palavra-passe inválida")
-                    Log.e("Login", "Falha no login: $errorBody")
+                    Log.e("Login", "Falha na verificação das credenciais: $errorBody")
                 }
             }
 
-            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+            override fun onFailure(call: Call<List<Users>>, t: Throwable) {
                 showError("Falha na conexão: ${t.message}")
                 Log.e("Login", "Falha na conexão", t)
             }
