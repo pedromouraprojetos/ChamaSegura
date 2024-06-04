@@ -67,26 +67,16 @@
                     android:textSize="18sp"
                     android:layout_marginBottom="8dp"/> <!-- Adicionando margem inferior -->
 
-                <!-- Linha preta -->
-                <View
+                <EditText
+                    android:id="@+id/localizacaoEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/black"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/localizacaoTextView"
-                    android:layout_marginTop="8dp"/> <!-- Adicionando margem superior -->
-
-                <!-- Ícone -->
-                <ImageView
-                    android:id="@+id/localizacaoIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/localizacao"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_marginTop="8dp"
+                    android:hint="Digite a localização" />
             </RelativeLayout>
 
-
-            <!-- Localização -->
+            <!-- Coordenadas -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -100,25 +90,16 @@
                     android:textSize="18sp"
                     android:layout_marginBottom="8dp"/>
 
-
-                <!-- Linha preta -->
-                <View
+                <EditText
+                    android:id="@+id/coordenadasEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/black"
-                    android:layout_below="@id/coordenadasTextView"/>
-
-                <!-- Ícone -->
-                <ImageView
-                    android:id="@+id/coordenadasIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/coordenadas"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/coordenadasTextView"
+                    android:layout_marginTop="8dp"
+                    android:hint="Digite as coordenadas" />
             </RelativeLayout>
 
-            <!-- Localização -->
+            <!-- Tipo -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -132,24 +113,16 @@
                     android:textSize="18sp"
                     android:layout_marginBottom="8dp"/>
 
-                <!-- Linha preta -->
-                <View
+                <EditText
+                    android:id="@+id/tipoEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/black"
-                    android:layout_below="@id/tipoTextView"/>
-
-                <!-- Ícone -->
-                <ImageView
-                    android:id="@+id/tipoIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/localizacao"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tipoTextView"
+                    android:layout_marginTop="8dp"
+                    android:hint="Digite o tipo" />
             </RelativeLayout>
 
-            <!-- Localização -->
+            <!-- Data De Realização -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -163,78 +136,48 @@
                     android:textSize="18sp"
                     android:layout_marginBottom="8dp"/>
 
-                <!-- Linha preta -->
-                <View
+                <EditText
+                    android:id="@+id/dataEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/black"
-                    android:layout_below="@id/dataTextView"/>
-
-                <!-- Ícone -->
-                <ImageView
-                    android:id="@+id/dataIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/data"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/dataTextView"
+                    android:layout_marginTop="8dp"
+                    android:hint="Digite a data de realização" />
             </RelativeLayout>
 
-
-
-            <!-- Localização -->
+            <!-- Motivo -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp">
 
                 <TextView
-                    android:id="@+id/MotivoTextView"
+                    android:id="@+id/motivoTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Motivo"
                     android:textSize="18sp"
                     android:layout_marginBottom="8dp"/>
 
-                <!-- Linha preta -->
-                <View
+                <EditText
+                    android:id="@+id/motivoEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/black"
-                    android:layout_below="@id/MotivoTextView"/>
-
-                <!-- Ícone -->
-                <ImageView
-                    android:id="@+id/MotivoIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/motivo"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".MainActivity">
-
-                <!-- Botão "Solicitar Aprovação" -->
-                <Button
-                    android:id="@+id/solicitar_aprovacao_button"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Solicitar Aprovação"
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="350dp"/>
-
+                    android:layout_below="@id/motivoTextView"
+                    android:layout_marginTop="8dp"
+                    android:hint="Digite o motivo" />
             </RelativeLayout>
+
+            <!-- Botão "Solicitar Aprovação" -->
+            <Button
+                android:id="@+id/solicitar_aprovacao_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Solicitar Aprovação"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center_horizontal"/>
         </LinearLayout>
     </ScrollView>
-
-
 
     <!-- Navegação Inferior -->
     <RelativeLayout
@@ -275,5 +218,4 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
-
 </RelativeLayout>

@@ -1,10 +1,13 @@
 package com.example.chamasegura.retrofit
 
 import com.example.chamasegura.retrofit.tabels.Users
+import com.example.chamasegura.retrofit.tabels.Queimadas
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Headers
 import retrofit2.http.Query
+import retrofit2.http.Body
 
 interface SupabaseAuthService {
     @Headers(
@@ -16,4 +19,7 @@ interface SupabaseAuthService {
         @Query("email") email: String,
         @Query("password") password: String
     ): Call<List<Users>>
+
+    @POST("rest/v1/Queimadas")
+    fun createQueimada(@Body queimadas: Queimadas): Call<Void>
 }
