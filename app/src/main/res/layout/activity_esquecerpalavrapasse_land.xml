@@ -35,11 +35,13 @@
             android:src="@drawable/logo" />
     </FrameLayout>
 
+    <!-- Endereço de Email -->
+
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
+        android:layout_marginStart="288dp"
         android:layout_marginTop="-50dp"
         android:text="Esqueci-me da minha palavra-passe"
         android:textColor="@android:color/black"
@@ -52,19 +54,19 @@
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="296dp"
+        android:layout_marginTop="24dp"
         android:text="Endereço de Email"
         android:textColor="#616161"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleTextView" />
 
-    <!-- Endereço de Email -->
+    <!-- Botão Enviar -->
     <EditText
         android:id="@+id/emailEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="346dp"
+        android:layout_height="54dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="25dp"
@@ -72,23 +74,24 @@
         android:inputType="textEmailAddress"
         android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/email" />
 
-    <!-- Botão Enviar -->
+    <!-- Constraint para alinhar os elementos -->
     <Button
         android:id="@+id/sendButton"
         android:layout_width="300dp"
         android:layout_height="72dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="28dp"
         android:text="Enviar"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.447"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emailEditText" />
 
-    <!-- Constraint para alinhar os elementos -->
     <View
         android:id="@+id/parentEnd"
         android:layout_width="0dp"
