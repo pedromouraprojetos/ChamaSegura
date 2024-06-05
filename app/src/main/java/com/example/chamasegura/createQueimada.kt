@@ -67,7 +67,10 @@ class createQueimada : AppCompatActivity() {
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
 
         // Chamada para verificar se a localização já existe
-        service.getLocationByCoordinates(latitude, longitude).enqueue(object : Callback<List<Location>> {
+        val latitudeQuery = "eq.$latitude"
+        val longitudeQuery = "eq.$longitude"
+
+        service.getLocationByCoordinates(latitudeQuery, longitudeQuery).enqueue(object : Callback<List<Location>> {
             override fun onResponse(call: Call<List<Location>>, response: Response<List<Location>>) {
                 if (response.isSuccessful) {
                     val locations = response.body()
