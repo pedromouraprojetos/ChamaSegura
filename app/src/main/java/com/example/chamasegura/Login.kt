@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.chamasegura.retrofit.RetrofitClient
 import com.example.chamasegura.retrofit.SupabaseAuthService
+import com.example.chamasegura.retrofit.UserInfo
 import com.example.chamasegura.retrofit.tabels.Users
 import retrofit2.Call
 import retrofit2.Callback
@@ -74,10 +75,19 @@ class Login : AppCompatActivity() {
                     if (users != null && users.isNotEmpty()) {
                         // Sucesso na verificação das credenciais
                         val user = users[0]
-                        Toast.makeText(this@Login, "Login bem-sucedido", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this@Login, HomePageUser::class.java)
-                        intent.putExtra("firstName", user.email)
-                        startActivity(intent)
+                        if (user.FirstEnter) {
+                            // Se FirstEnter é TRUE
+                            val userInfo = UserInfo.getInstance()
+                            userInfo.email = user.email
+                            val intent = Intent(this@Login, Profile::class.java) // Altere para a sua página desejada
+                            startActivity(intent)
+                        } else {
+                            // Se FirstEnter é FALSE
+                            val userInfo = UserInfo.getInstance()
+                            userInfo.email = user.email
+                            val intent = Intent(this@Login, HomePageUser::class.java) // Altere para a sua página desejada
+                            startActivity(intent)
+                        }
                         finish()
                     } else {
                         showError("Email ou palavra-passe inválida")
@@ -96,6 +106,7 @@ class Login : AppCompatActivity() {
             }
         })
     }
+
 
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
