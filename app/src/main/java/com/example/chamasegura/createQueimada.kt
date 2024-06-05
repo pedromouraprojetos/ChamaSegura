@@ -76,10 +76,8 @@ class createQueimada : AppCompatActivity() {
             return
         }
 
-        // Criação do serviço Retrofit
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
 
-        // Chamada para verificar se a localização já existe
         val latitudeQuery = "eq.$latitude"
         val longitudeQuery = "eq.$longitude"
 
@@ -90,35 +88,31 @@ class createQueimada : AppCompatActivity() {
                     Log.d("createQueimada", "Resposta bem-sucedida: $locations")
 
                     if (locations.isNullOrEmpty()) {
-                        // Se a localização não existir, cria uma nova e adiciona a queimada
-                        Log.d("createQueimada2", "Resposta bem-sucedida: $locations")
-                        Log.d("createQueimada2", "Latitude: $latitude")
-                        Log.d("createQueimada2", "Longitude: $longitude")
-
                         adicionarNovaLocalizacao(latitude, longitude) {
                             solicitarAprovacao()
                         }
                     } else {
-                        // Se a localização existir, obtém o ID correspondente e adiciona a queimada
                         val locationId = locations.firstOrNull()?.idLocation?.toLong()
                         Log.d("createQueimada3", "Resposta bem-sucedida: $locationId")
 
                         if (locationId != null) {
                             adicionarQueimada(locationId, tipo, data, motivo, status, idUser)
+                            val resultIntent = Intent()
+                            resultIntent.putExtra("queimadaDate", data)
+                            resultIntent.putExtra("queimadaStatus", status)
+                            setResult(RESULT_OK, resultIntent)
                             finish()
                         } else {
                             Toast.makeText(this@createQueimada, "ID de localização inválido", Toast.LENGTH_SHORT).show()
                         }
                     }
                 } else {
-                    // Tratar falha na solicitação
                     Toast.makeText(this@createQueimada, "Falha na solicitação", Toast.LENGTH_SHORT).show()
                     Log.e("createQueimada", "Falha na verificação da localização por coordenadas: ${response.code()} - ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<List<Location>>, t: Throwable) {
-                // Tratar falha na solicitação
                 Toast.makeText(this@createQueimada, "Falha na solicitação: ${t.message}", Toast.LENGTH_SHORT).show()
                 Log.e("createQueimada", "Falha na verificação da localização por coordenadas", t)
             }

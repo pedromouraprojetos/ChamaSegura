@@ -1,4 +1,3 @@
-// HomePageUser.kt
 package com.example.chamasegura
 
 import android.content.Intent
@@ -37,7 +36,6 @@ class HomePageUser : AppCompatActivity() {
             insets
         }
 
-        // Recebe os dados do Intent
         val firstName = intent.getStringExtra("firstName") ?: "null"
         idUser = intent.getLongExtra("idUser", 0)
         if (idUser == 0L) {
@@ -46,21 +44,17 @@ class HomePageUser : AppCompatActivity() {
             return
         }
 
-        // Atualiza a saudação
         val greetingMessage = findViewById<TextView>(R.id.greeting_message)
         greetingMessage.text = "Olá $firstName!"
 
-        // Recebe os dados da queimada criada (se houver)
         val queimadaDate = intent.getStringExtra("queimadaDate")
         val queimadaStatus = intent.getStringExtra("queimadaStatus")
 
-        // Atualiza a interface com os dados da queimada criada
         if (queimadaDate != null && queimadaStatus != null) {
             val queimadaInfoTextView = findViewById<TextView>(R.id.queimada_info)
             queimadaInfoTextView.text = "Queimada Criada em $queimadaDate com status: $queimadaStatus"
         }
 
-        // Configurar a navegação
         findViewById<ImageView>(R.id.notification_icon).setOnClickListener {
             val intent = Intent(this, NotificacoesUser::class.java)
             intent.putExtra("firstName", firstName)
@@ -72,22 +66,20 @@ class HomePageUser : AppCompatActivity() {
             drawerLayout.openDrawer(GravityCompat.START)
         }
 
-        findViewById<ImageView>(R.id.fire_icon).setOnClickListener {
-            // Já está na HomePageUser, então não precisa de ação aqui.
-        }
+        findViewById<ImageView>(R.id.fire_icon).setOnClickListener {}
 
         findViewById<ImageView>(R.id.profile_icon).setOnClickListener {
             val intent = Intent(this, Profile::class.java)
             intent.putExtra("firstName", firstName)
-            intent.putExtra("idUser", idUser) // Certifique-se de passar o idUser aqui também
+            intent.putExtra("idUser", idUser)
             startActivity(intent)
         }
 
         findViewById<ImageView>(R.id.fab).setOnClickListener {
             val intent = Intent(this, createQueimada::class.java)
             intent.putExtra("firstName", firstName)
-            intent.putExtra("idUser", idUser) // Certifique-se de passar o idUser aqui também
-            startActivity(intent)
+            intent.putExtra("idUser", idUser)
+            startActivityForResult(intent, REQUEST_CODE_CREATE_QUEIMADA)
         }
 
         findViewById<ImageView>(R.id.menu_icon).setOnClickListener {
@@ -98,7 +90,6 @@ class HomePageUser : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_logout -> {
-                    // Perform logout logic here
                     logout()
                     true
                 }
@@ -106,8 +97,18 @@ class HomePageUser : AppCompatActivity() {
             }
         }
 
-        // Chamada da API para obter as queimadas pendentes
         fetchPendingQueimadas(idUser)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_CREATE_QUEIMADA && resultCode == RESULT_OK) {
+            fetchPendingQueimadas(idUser)
+        }
+    }
+
+    companion object {
+        const val REQUEST_CODE_CREATE_QUEIMADA = 1
     }
 
     private fun fetchPendingQueimadas(idUser: Long) {
@@ -157,9 +158,7 @@ class HomePageUser : AppCompatActivity() {
         queimadaInfoTextView.text = sb.toString()
     }
 
-
     private fun logout() {
-        // Clear user session and navigate to login screen
         val intent = Intent(this, Login::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
