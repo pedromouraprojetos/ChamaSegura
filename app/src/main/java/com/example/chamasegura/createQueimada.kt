@@ -74,12 +74,18 @@ class createQueimada : AppCompatActivity() {
             override fun onResponse(call: Call<List<Location>>, response: Response<List<Location>>) {
                 if (response.isSuccessful) {
                     val locations = response.body()
+                    Log.d("createQueimada", "Resposta bem-sucedida: $locations")
+
                     if (locations.isNullOrEmpty()) {
                         // Se a localização não existir, cria uma nova e adiciona a queimada
+                        Log.d("createQueimada2", "Resposta bem-sucedida: $locations")
+
                         adicionarNovaLocalizacaoEQueimada(latitude, longitude, tipo, data, motivo)
                     } else {
                         // Se a localização existir, obtém o ID correspondente e adiciona a queimada
-                        val locationId = locations.firstOrNull()?.id?.toInt()
+                        val locationId = locations.firstOrNull()?.idLocation?.toLong()
+                        Log.d("createQueimada3", "Resposta bem-sucedida: $locationId")
+
                         if (locationId != null) {
                             adicionarQueimada(locationId, tipo, data, motivo)
                         } else {
@@ -110,7 +116,7 @@ class createQueimada : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val location = response.body()
                     if (location != null) {
-                        val locationId: Int? = location.id // Alterado para Int?
+                        val locationId: Long? = location.idLocation
                         if (locationId != null) {
                             adicionarQueimada(locationId, tipo, data, motivo)
                         } else {
@@ -132,7 +138,7 @@ class createQueimada : AppCompatActivity() {
         })
     }
 
-    private fun adicionarQueimada(locationId: Int, tipo: String, data: String, motivo: String) {
+    private fun adicionarQueimada(locationId: Long, tipo: String, data: String, motivo: String) {
         val queimadas = Queimadas(locationId, tipo, data, motivo)
 
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
