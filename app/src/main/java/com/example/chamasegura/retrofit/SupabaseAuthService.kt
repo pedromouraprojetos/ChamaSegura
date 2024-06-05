@@ -43,5 +43,6 @@ interface SupabaseAuthService {
         "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoaWtzb3B2d3R5aGRkeHZza21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwMTI2NTksImV4cCI6MjAzMDU4ODY1OX0.Rv-VuClP-0oPTiYf37H0VbGowZaPzyTvtm3Ro-_oGyI"
     )
     @POST("rest/v1/Location")
-    fun createLocation(@Body location: Location): Call<Location>
+    fun createLocation(@Body location: Location): Call<Void>
+
 }

@@ -79,8 +79,11 @@ class createQueimada : AppCompatActivity() {
                     if (locations.isNullOrEmpty()) {
                         // Se a localização não existir, cria uma nova e adiciona a queimada
                         Log.d("createQueimada2", "Resposta bem-sucedida: $locations")
+                        Log.d("createQueimada2", "Latitude: $latitude")
+                        Log.d("createQueimada2", "Longitude: $longitude")
 
-                        adicionarNovaLocalizacaoEQueimada(latitude, longitude, tipo, data, motivo)
+                        adicionarNovaLocalizacao(latitude, longitude)
+                        solicitarAprovacao()
                     } else {
                         // Se a localização existir, obtém o ID correspondente e adiciona a queimada
                         val locationId = locations.firstOrNull()?.idLocation?.toLong()
@@ -88,6 +91,7 @@ class createQueimada : AppCompatActivity() {
 
                         if (locationId != null) {
                             adicionarQueimada(locationId, tipo, data, motivo)
+                            finish()
                         } else {
                             Toast.makeText(this@createQueimada, "ID de localização inválido", Toast.LENGTH_SHORT).show()
                         }
@@ -107,36 +111,28 @@ class createQueimada : AppCompatActivity() {
         })
     }
 
-    private fun adicionarNovaLocalizacaoEQueimada(latitude: String, longitude: String, tipo: String, data: String, motivo: String) {
-        val novaLocalizacao = Location(null, latitude, longitude)
+    private fun adicionarNovaLocalizacao(latitude: String, longitude: String) {
+        val novaLocalizacao = Location(idLocation = null, latitude = latitude, longitude = longitude)
 
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
-        service.createLocation(novaLocalizacao).enqueue(object : Callback<Location> {
-            override fun onResponse(call: Call<Location>, response: Response<Location>) {
+        service.createLocation(novaLocalizacao).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                Log.e("createQueimada", "Teste1: $novaLocalizacao")
                 if (response.isSuccessful) {
-                    val location = response.body()
-                    if (location != null) {
-                        val locationId: Long? = location.idLocation
-                        if (locationId != null) {
-                            adicionarQueimada(locationId, tipo, data, motivo)
-                        } else {
-                            Toast.makeText(this@createQueimada, "ID de localização inválido", Toast.LENGTH_SHORT).show()
-                        }
-                    } else {
-                        Toast.makeText(this@createQueimada, "Localização não retornada", Toast.LENGTH_SHORT).show()
-                    }
+                    Log.e("createQueimada", "Localização adicionada com sucesso")
                 } else {
                     Toast.makeText(this@createQueimada, "Erro ao adicionar nova localização", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(call: Call<Location>, t: Throwable) {
+            override fun onFailure(call: Call<Void>, t: Throwable) {
                 val errorMessage = "Falha ao adicionar nova localização: ${t.message}\n${t.localizedMessage}"
                 Toast.makeText(this@createQueimada, errorMessage, Toast.LENGTH_LONG).show()
                 Log.e("createQueimada", errorMessage, t)
             }
         })
     }
+
 
     private fun adicionarQueimada(locationId: Long, tipo: String, data: String, motivo: String) {
         val queimadas = Queimadas(locationId, tipo, data, motivo)
