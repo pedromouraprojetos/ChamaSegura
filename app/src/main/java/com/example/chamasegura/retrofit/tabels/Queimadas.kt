@@ -5,5 +5,6 @@ data class Queimadas(
     val type: String,
     val date: String,
     val reason: String,
-    val status: String
+    val status: String,
+    val idUser: Long
 )

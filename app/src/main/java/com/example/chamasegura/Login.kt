@@ -77,6 +77,7 @@ class Login : AppCompatActivity() {
                         Toast.makeText(this@Login, "Login bem-sucedido", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this@Login, HomePageUser::class.java)
                         intent.putExtra("firstName", user.email)
+                        intent.putExtra("idUser", user.idUsers)
                         startActivity(intent)
                         finish()
                     } else {

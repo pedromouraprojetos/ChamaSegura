@@ -47,7 +47,7 @@ class Register : AppCompatActivity() {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                val user = Users(email, password)
+                val user = Users(null, email, password)
                 registerUser(user)
             } else {
                 Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show()

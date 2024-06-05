@@ -10,9 +10,11 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.navigation.NavigationView
+import android.widget.Toast
 
 class HomePageUser : AppCompatActivity() {
     private lateinit var drawerLayout: androidx.drawerlayout.widget.DrawerLayout
+    private var idUser: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +31,12 @@ class HomePageUser : AppCompatActivity() {
 
         // Recebe os dados do Intent
         val firstName = intent.getStringExtra("firstName") ?: "null"
+        idUser = intent.getLongExtra("idUser", 0)
+        if (idUser == 0L) {
+            Toast.makeText(this, "Erro: ID do usuário inválido", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
 
         // Atualiza a saudação
         val greetingMessage = findViewById<TextView>(R.id.greeting_message)
@@ -38,6 +46,7 @@ class HomePageUser : AppCompatActivity() {
         findViewById<ImageView>(R.id.notification_icon).setOnClickListener {
             val intent = Intent(this, NotificacoesUser::class.java)
             intent.putExtra("firstName", firstName)
+            intent.putExtra("idUser", idUser)
             startActivity(intent)
         }
 
@@ -48,12 +57,14 @@ class HomePageUser : AppCompatActivity() {
         findViewById<ImageView>(R.id.profile_icon).setOnClickListener {
             val intent = Intent(this, Profile::class.java)
             intent.putExtra("firstName", firstName)
+            intent.putExtra("idUser", idUser) // Certifique-se de passar o idUser aqui também
             startActivity(intent)
         }
 
         findViewById<ImageView>(R.id.fab).setOnClickListener {
             val intent = Intent(this, createQueimada::class.java)
             intent.putExtra("firstName", firstName)
+            intent.putExtra("idUser", idUser) // Certifique-se de passar o idUser aqui também
             startActivity(intent)
         }
 
