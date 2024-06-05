@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
     <!-- Header com fundo de gradiente -->
     <RelativeLayout
@@ -166,33 +165,5 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:elevation="8dp">
-
-        <!-- Ícone de Notificação -->
-        <ImageView
-            android:id="@+id/notification_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/ic_notification"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"/>
-
-        <!-- Ícone de Fogo (Centro) -->
-        <ImageView
-            android:id="@+id/fire_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_fire"
-            android:layout_centerInParent="true"/>
-
-        <!-- Ícone de Perfil -->
-        <ImageView
-            android:id="@+id/profile_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_profile"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"/>
     </RelativeLayout>
 </RelativeLayout>

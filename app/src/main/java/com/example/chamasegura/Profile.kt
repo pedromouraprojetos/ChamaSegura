@@ -16,6 +16,9 @@ class Profile : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_profile)
 
+        // Recebe os dados do Intent
+        val firstName = intent.getStringExtra("firstName") ?: "null"
+
         // Configurar o clique no botão de avatar
         findViewById<ImageButton>(R.id.avatarButton).setOnClickListener {
             // Aqui você pode abrir uma nova atividade, um diálogo para selecionar uma imagem ou outra ação
@@ -24,21 +27,12 @@ class Profile : AppCompatActivity() {
 
         // Configurar o clique no botão de voltar
         findViewById<ImageButton>(R.id.backButton).setOnClickListener {
-            // Aqui você pode finalizar a atividade ou outra ação
+            // Finalizar a atividade e retornar para a HomePageUser com o nome do usuário
+            val intent = Intent(this, HomePageUser::class.java)
+            intent.putExtra("firstName", firstName)
+            startActivity(intent)
             finish()
         }
 
-        // Configurar a navegação
-        findViewById<ImageView>(R.id.notificationIcon).setOnClickListener {
-            startActivity(Intent(this, NotificacoesUser::class.java))
-        }
-
-        findViewById<ImageView>(R.id.fireIcon).setOnClickListener {
-            startActivity(Intent(this, HomePageUser::class.java))
-        }
-
-        findViewById<ImageView>(R.id.profileIcon).setOnClickListener {
-            // Já está na Profile, então não precisa de ação aqui.
-        }
     }
 }

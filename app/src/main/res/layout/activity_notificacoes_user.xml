@@ -12,16 +12,6 @@
         android:background="@drawable/tab"
         android:padding="16dp">
 
-        <!-- Menu Icon -->
-        <ImageView
-            android:id="@+id/menu_icon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/menu" />
-
         <!-- User Profile Picture -->
         <ImageView
             android:id="@+id/profile_picture"

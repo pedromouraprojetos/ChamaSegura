@@ -73,8 +73,10 @@ class Login : AppCompatActivity() {
                     val users = response.body()
                     if (users != null && users.isNotEmpty()) {
                         // Sucesso na verificação das credenciais
+                        val user = users[0]
                         Toast.makeText(this@Login, "Login bem-sucedido", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this@Login, HomePageUser::class.java)
+                        intent.putExtra("firstName", user.email)
                         startActivity(intent)
                         finish()
                     } else {

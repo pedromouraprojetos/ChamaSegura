@@ -20,17 +20,25 @@ class NotificacoesUser : AppCompatActivity() {
             insets
         }
 
+        // Recebe os dados do Intent
+        val firstName = intent.getStringExtra("firstName") ?: "null"
+
         // Configurar a navegação
         findViewById<ImageView>(R.id.notification_icon).setOnClickListener {
             // Já está na NotificacoesUser, então não precisa de ação aqui.
         }
 
         findViewById<ImageView>(R.id.fire_icon).setOnClickListener {
-            startActivity(Intent(this, HomePageUser::class.java))
+            val intent = Intent(this, HomePageUser::class.java)
+            intent.putExtra("firstName", firstName)
+            startActivity(intent)
+            finish()
         }
 
         findViewById<ImageView>(R.id.profile_icon).setOnClickListener {
-            startActivity(Intent(this, Profile::class.java))
+            val intent = Intent(this, Profile::class.java)
+            intent.putExtra("firstName", firstName)
+            startActivity(intent)
         }
     }
 }

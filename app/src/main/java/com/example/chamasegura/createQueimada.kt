@@ -1,9 +1,11 @@
 package com.example.chamasegura
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chamasegura.retrofit.RetrofitClient
@@ -21,6 +23,7 @@ class createQueimada : AppCompatActivity() {
     private lateinit var dataEditText: EditText
     private lateinit var motivoEditText: EditText
     private lateinit var solicitarAprovacaoButton: Button
+    private lateinit var firstName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +39,14 @@ class createQueimada : AppCompatActivity() {
         // Configuração do clique do botão
         solicitarAprovacaoButton.setOnClickListener {
             solicitarAprovacao()
+        }
+
+        // Adicionar clique na seta para voltar para a HomePageUser
+        findViewById<ImageView>(R.id.menu_icon).setOnClickListener {
+            val intent = Intent(this, HomePageUser::class.java)
+            intent.putExtra("firstName", firstName)
+            startActivity(intent)
+            finish()
         }
     }
 
