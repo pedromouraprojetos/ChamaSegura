@@ -48,7 +48,7 @@ class HomePageUser : AppCompatActivity() {
 
         // Atualiza a saudação
         val greetingMessage = findViewById<TextView>(R.id.greeting_message)
-        greetingMessage.text = "Boas $firstName,"
+        greetingMessage.text = "Olá $firstName!"
 
         // Recebe os dados da queimada criada (se houver)
         val queimadaDate = intent.getStringExtra("queimadaDate")
