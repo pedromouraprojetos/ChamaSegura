@@ -4,5 +4,6 @@ data class Queimadas(
     val location: Long,
     val type: String,
     val date: String,
-    val reason: String
+    val reason: String,
+    val status: String
 )

@@ -57,6 +57,7 @@ class createQueimada : AppCompatActivity() {
         val tipo = tipoEditText.text.toString()
         val data = dataEditText.text.toString()
         val motivo = motivoEditText.text.toString()
+        val status = "Pendente"
 
         if (latitude == null || longitude == null) {
             Toast.makeText(this@createQueimada, "Coordenadas inválidas", Toast.LENGTH_SHORT).show()
@@ -90,7 +91,7 @@ class createQueimada : AppCompatActivity() {
                         Log.d("createQueimada3", "Resposta bem-sucedida: $locationId")
 
                         if (locationId != null) {
-                            adicionarQueimada(locationId, tipo, data, motivo)
+                            adicionarQueimada(locationId, tipo, data, motivo, status)
                             finish()
                         } else {
                             Toast.makeText(this@createQueimada, "ID de localização inválido", Toast.LENGTH_SHORT).show()
@@ -134,8 +135,8 @@ class createQueimada : AppCompatActivity() {
     }
 
 
-    private fun adicionarQueimada(locationId: Long, tipo: String, data: String, motivo: String) {
-        val queimadas = Queimadas(locationId, tipo, data, motivo)
+    private fun adicionarQueimada(locationId: Long, tipo: String, data: String, motivo: String, status: String) {
+        val queimadas = Queimadas(locationId, tipo, data, motivo, status)
 
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
         service.createQueimada(queimadas).enqueue(object : Callback<Void> {
