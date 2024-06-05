@@ -125,8 +125,9 @@ class createQueimada : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<Location>, t: Throwable) {
-                Toast.makeText(this@createQueimada, "Falha ao adicionar nova localização: ${t.message}", Toast.LENGTH_SHORT).show()
-                Log.e("createQueimada", "Falha ao adicionar nova localização", t)
+                val errorMessage = "Falha ao adicionar nova localização: ${t.message}\n${t.localizedMessage}"
+                Toast.makeText(this@createQueimada, errorMessage, Toast.LENGTH_LONG).show()
+                Log.e("createQueimada", errorMessage, t)
             }
         })
     }
