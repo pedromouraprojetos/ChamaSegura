@@ -1,9 +1,8 @@
 package com.example.chamasegura.retrofit.tabels
 
 data class Queimadas(
-    val localizacao: String,
-    val coordenadas: String,
-    val tipo: String,
-    val data: String,
-    val motivo: String
+    val location: Int,
+    val type: String,
+    val date: String,
+    val reason: String
 )

@@ -53,29 +53,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Localização -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/localizacaoTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Localização"
-                    android:textSize="18sp"
-                    android:layout_marginBottom="8dp"/> <!-- Adicionando margem inferior -->
-
-                <EditText
-                    android:id="@+id/localizacaoEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/localizacaoTextView"
-                    android:layout_marginTop="8dp"
-                    android:hint="Digite a localização" />
-            </RelativeLayout>
-
             <!-- Coordenadas -->
             <RelativeLayout
                 android:layout_width="match_parent"
