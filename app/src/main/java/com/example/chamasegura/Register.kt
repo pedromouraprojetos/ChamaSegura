@@ -62,14 +62,14 @@ class Register : AppCompatActivity() {
         service.addUsers(user).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(this@Register, "Registro bem-sucedido", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@Register, "Registo bem-sucedido", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@Register, Login::class.java)
                     startActivity(intent)
                     finish()
                 } else {
                     val errorBody = response.errorBody()?.string()
-                    showError("Erro no registro: $errorBody")
-                    Log.e("Register", "Falha no registro: $errorBody")
+                    showError("Erro no registo: $errorBody")
+                    Log.e("Register", "Falha no registo: $errorBody")
                 }
             }
 
