@@ -75,6 +75,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:padding="16dp">
+
+            <TextView
+                android:id="@+id/queimada_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/greeting_message"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:text=""/>
+
             <!-- Conteúdo do ScrollView vai aqui -->
         </ScrollView>
 
