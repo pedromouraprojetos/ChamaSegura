@@ -76,25 +76,15 @@ class Login : AppCompatActivity() {
                         // Sucesso na verificação das credenciais
                         val user = users[0]
 
-                        if (user.FirstEnter) {
-                            // Se FirstEnter é TRUE
-                            val userInfo = UserInfo.getInstance()
-                            userInfo.email = user.email
-                            val intent = Intent(this@Login, Profile::class.java) // Altere para a sua página desejada
-                            startActivity(intent)
-                        } else {
-                            // Se FirstEnter é FALSE
-                            val userInfo = UserInfo.getInstance()
-                            userInfo.email = user.email
-                            val intent = Intent(this@Login, HomePageUser::class.java) // Altere para a sua página desejada
-                            startActivity(intent)
-                        }
+                        val userInfo = UserInfo.getInstance()
+                        userInfo.email = user.email
 
-                        Toast.makeText(this@Login, "Login bem-sucedido", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this@Login, HomePageUser::class.java)
-                        intent.putExtra("firstName", user.email)
+                        intent.putExtra("firstName", user.name)
                         intent.putExtra("idUser", user.idUsers)
                         startActivity(intent)
+
+                        Toast.makeText(this@Login, "Login bem-sucedido", Toast.LENGTH_SHORT).show()
                     } else {
                         showError("Email ou palavra-passe inválida")
                         Log.e("Login", "Falha na verificação das credenciais: usuário não encontrado")
@@ -112,7 +102,6 @@ class Login : AppCompatActivity() {
             }
         })
     }
-
 
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

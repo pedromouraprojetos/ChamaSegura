@@ -135,7 +135,6 @@ class HomePageUser : AppCompatActivity() {
                 }
             }
 
-
             override fun onFailure(call: Call<List<Queimadas>>, t: Throwable) {
                 Toast.makeText(this@HomePageUser, "Falha na solicitação: ${t.message}", Toast.LENGTH_SHORT).show()
                 updatePendingQueimadasUI(emptyList())

@@ -4,5 +4,6 @@ data class Users(
     val idUsers: Long?,
     val email: String,
     val password: String,
-    val FirstEnter: Boolean
+    val FirstEnter: Boolean,
+    val name: String
 )
