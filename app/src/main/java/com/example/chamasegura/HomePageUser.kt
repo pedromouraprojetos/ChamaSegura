@@ -1,5 +1,6 @@
 package com.example.chamasegura
 
+import QueimadasAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.chamasegura.retrofit.RetrofitClient
 import com.example.chamasegura.retrofit.SupabaseAuthService
 import com.example.chamasegura.retrofit.tabels.Queimadas
@@ -21,6 +24,7 @@ import retrofit2.Response
 
 class HomePageUser : AppCompatActivity() {
     private lateinit var drawerLayout: androidx.drawerlayout.widget.DrawerLayout
+    private lateinit var recyclerView: RecyclerView
     private var idUser: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +33,8 @@ class HomePageUser : AppCompatActivity() {
         setContentView(R.layout.activity_home_page_user)
 
         drawerLayout = findViewById(R.id.drawer_layout)
+        recyclerView = findViewById(R.id.recycler_view_queimadas)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.navigation_home)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -46,14 +52,6 @@ class HomePageUser : AppCompatActivity() {
 
         val greetingMessage = findViewById<TextView>(R.id.greeting_message)
         greetingMessage.text = "Olá $firstName!"
-
-        val queimadaDate = intent.getStringExtra("queimadaDate")
-        val queimadaStatus = intent.getStringExtra("queimadaStatus")
-
-        if (queimadaDate != null && queimadaStatus != null) {
-            val queimadaInfoTextView = findViewById<TextView>(R.id.queimada_info)
-            queimadaInfoTextView.text = "Queimada Criada em $queimadaDate com status: $queimadaStatus"
-        }
 
         findViewById<ImageView>(R.id.notification_icon).setOnClickListener {
             val intent = Intent(this, NotificacoesUser::class.java)
@@ -143,18 +141,8 @@ class HomePageUser : AppCompatActivity() {
     }
 
     private fun updatePendingQueimadasUI(queimadas: List<Queimadas>) {
-        val queimadaInfoTextView = findViewById<TextView>(R.id.queimada_info)
-        val sb = StringBuilder()
-        if (queimadas.isEmpty()) {
-            Log.d("HomePageUser", "Nenhuma queimada pendente")
-            sb.append("Não tem Queimadas Pendentes")
-        } else {
-            for (queimada in queimadas) {
-                sb.append("Data: ${queimada.date} Estado: ${queimada.status}\n")
-            }
-        }
-        Log.d("HomePageUser", "Texto definido no TextView: $sb")
-        queimadaInfoTextView.text = sb.toString()
+        val adapter = QueimadasAdapter(queimadas)
+        recyclerView.adapter = adapter
     }
 
     private fun logout() {
