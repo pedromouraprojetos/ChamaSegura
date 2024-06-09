@@ -1,5 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/group_user_menu">
+        <item
+            android:id="@+id/nav_user_menu"
+            android:title="Menu User"
+            android:enabled="false" />
+    </group>
     <item
         android:id="@+id/nav_logout"
         android:title="Logout" />
+    <item
+        android:id="@+id/nav_divider"
+        android:title=""
+        android:enabled="false"
+        android:orderInCategory="999"
+        android:icon="@drawable/divider" />
 </menu>
