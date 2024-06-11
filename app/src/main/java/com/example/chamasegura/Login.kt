@@ -79,10 +79,19 @@ class Login : AppCompatActivity() {
                         val userInfo = UserInfo.getInstance()
                         userInfo.email = user.email
 
-                        val intent = Intent(this@Login, HomePageUser::class.java)
-                        intent.putExtra("firstName", user.name)
-                        intent.putExtra("idUser", user.idUsers)
-                        startActivity(intent)
+                        if (user.FirstEnter==true) {
+                            // Ação se firstEnter for true
+                            val intent = Intent(this@Login, Profile::class.java)
+                            intent.putExtra("firstName", user.name)
+                            intent.putExtra("idUser", user.idUsers)
+                            startActivity(intent)
+                        } else {
+                            // Ação se firstEnter for false
+                            val intent = Intent(this@Login, HomePageUser::class.java)
+                            intent.putExtra("firstName", user.name)
+                            intent.putExtra("idUser", user.idUsers)
+                            startActivity(intent)
+                        }
 
                         Toast.makeText(this@Login, "Login bem-sucedido", Toast.LENGTH_SHORT).show()
                     } else {

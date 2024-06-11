@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.CalendarView
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -15,16 +16,20 @@ import com.example.chamasegura.retrofit.tabels.Location
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class createQueimada : AppCompatActivity() {
 
     private lateinit var coordenadasEditText: EditText
     private lateinit var tipoEditText: EditText
-    private lateinit var dataEditText: EditText
+    private lateinit var dataCalendarView: CalendarView
     private lateinit var motivoEditText: EditText
     private lateinit var solicitarAprovacaoButton: Button
     private lateinit var firstName: String
     private var idUser: Long = 0
+    private var selectedDate: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +38,13 @@ class createQueimada : AppCompatActivity() {
         // Inicialização dos componentes de UI
         coordenadasEditText = findViewById(R.id.coordenadasEditText)
         tipoEditText = findViewById(R.id.tipoEditText)
-        dataEditText = findViewById(R.id.dataEditText)
+        dataCalendarView = findViewById(R.id.dataEditText)
         motivoEditText = findViewById(R.id.motivoEditText)
         solicitarAprovacaoButton = findViewById(R.id.solicitar_aprovacao_button)
 
         // Receber o idUser e firstName passados pelo Intent
         idUser = intent.getLongExtra("idUser", 0)
-        firstName = intent.getStringExtra("firstName") ?: "null"
+        firstName = intent.getStringExtra("name") ?: "null"
 
         if (idUser == 0L) {
             Toast.makeText(this, "Erro: ID do usuário inválido", Toast.LENGTH_SHORT).show()
@@ -60,6 +65,15 @@ class createQueimada : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+        // Configurar CalendarView para pegar a data selecionada
+        dataCalendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            val calendar = java.util.Calendar.getInstance()
+            calendar.set(year, month, dayOfMonth)
+            val date = calendar.time
+            val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            selectedDate = formatter.format(date)
+        }
     }
 
     private fun solicitarAprovacao() {
@@ -67,7 +81,7 @@ class createQueimada : AppCompatActivity() {
         val latitude = coordenadas.getOrNull(0)
         val longitude = coordenadas.getOrNull(1)
         val tipo = tipoEditText.text.toString()
-        val data = dataEditText.text.toString()
+        val data = selectedDate
         val motivo = motivoEditText.text.toString()
         val status = "Pendente"
 
@@ -164,4 +178,3 @@ class createQueimada : AppCompatActivity() {
         })
     }
 }
-
