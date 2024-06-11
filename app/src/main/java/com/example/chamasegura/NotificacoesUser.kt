@@ -12,7 +12,7 @@ import com.example.chamasegura.retrofit.SupabaseAuthService
 import com.example.chamasegura.retrofit.tabels.Queimadas
 import com.example.chamasegura.retrofit.tabels.Users
 import com.example.chamasegura.retrofit.tabels.Roles
-import QueimadasAdapter
+import QueimadasAdapter2
 import android.content.Intent
 import android.widget.ImageView
 import androidx.core.view.GravityCompat
@@ -67,8 +67,8 @@ class NotificacoesUser : AppCompatActivity() {
             }
         }
 
-        //recyclerView = findViewById(R.id.recycler_view_queimadas)
-        //recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView = findViewById(R.id.recycler_view_queimadas)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
         val idUser = MyApp.userId.toLong()
 
@@ -97,7 +97,7 @@ class NotificacoesUser : AppCompatActivity() {
                                             val roleType = role.type.toString()
                                             Log.d("Role", "Tipo de role: $roleType")
                                             if (roleType in listOf("Admin", "Bombeiros", "Proteção Civil", "Municipio")) {
-                                                //fetchPendingQueimadas()
+                                                fetchPendingQueimadas(roleType)
                                             }
                                         } else {
                                             Toast.makeText(this@NotificacoesUser, "Tipo de role não encontrado", Toast.LENGTH_SHORT).show()
@@ -140,36 +140,36 @@ class NotificacoesUser : AppCompatActivity() {
         }
     }
 
-    private fun fetchPendingQueimadas() {
-        service.getAllPendingQueimadas().enqueue(object : Callback<List<Queimadas>> {
+    private fun fetchPendingQueimadas(roleType: String) {
+        service.getQueimadasByStatus("eq.Pendente").enqueue(object : Callback<List<Queimadas>> {
             override fun onResponse(call: Call<List<Queimadas>>, response: Response<List<Queimadas>>) {
                 if (response.isSuccessful) {
                     val queimadas = response.body()
                     if (!queimadas.isNullOrEmpty()) {
-                        updatePendingQueimadasUI(queimadas)
+                        updatePendingQueimadasUI(queimadas, roleType)
                     } else {
                         Log.e("home", "Resposta vazia ou nula")
-                        updatePendingQueimadasUI(emptyList())
+                        updatePendingQueimadasUI(emptyList(), roleType)
                     }
                 } else {
                     Log.e("home", "Erro na resposta da API: ${response.code()}")
                     val errorBody = response.errorBody()?.string()
                     Log.e("home", "Error body: $errorBody")
                     Toast.makeText(this@NotificacoesUser, "Erro ao buscar queimadas pendentes", Toast.LENGTH_SHORT).show()
-                    updatePendingQueimadasUI(emptyList())
+                    updatePendingQueimadasUI(emptyList(), roleType)
                 }
             }
 
             override fun onFailure(call: Call<List<Queimadas>>, t: Throwable) {
                 Toast.makeText(this@NotificacoesUser, "Falha na solicitação: ${t.message}", Toast.LENGTH_SHORT).show()
-                updatePendingQueimadasUI(emptyList())
+                updatePendingQueimadasUI(emptyList(), roleType)
             }
         })
     }
 
-    private fun updatePendingQueimadasUI(queimadas: List<Queimadas>) {
-        val adapter = QueimadasAdapter(queimadas)
-        //recyclerView.adapter = adapter
+    private fun updatePendingQueimadasUI(queimadas: List<Queimadas>, roleType: String) {
+        val adapter = QueimadasAdapter2(queimadas, roleType)
+        recyclerView.adapter = adapter
     }
 
     private fun logout() {

@@ -1,5 +1,6 @@
 package com.example.chamasegura.retrofit
 
+import com.example.chamasegura.retrofit.tabels.Aprovation
 import com.example.chamasegura.retrofit.tabels.Users
 import com.example.chamasegura.retrofit.tabels.Queimadas
 import com.example.chamasegura.retrofit.tabels.Location
@@ -79,7 +80,8 @@ interface SupabaseAuthService {
         "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoaWtzb3B2d3R5aGRkeHZza21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwMTI2NTksImV4cCI6MjAzMDU4ODY1OX0.Rv-VuClP-0oPTiYf37H0VbGowZaPzyTvtm3Ro-_oGyI"
     )
     @GET("rest/v1/Queimadas")
-    fun getAllPendingQueimadas(
+    fun getQueimadasByStatus(
+        @Query("status") status: String
     ): Call<List<Queimadas>>
 
     @Headers(
@@ -88,4 +90,11 @@ interface SupabaseAuthService {
     )
     @GET("rest/v1/TypeQueimadas")
     fun getTypeQueimadas(): Call<List<TypeQueimadas>>
+
+    @Headers(
+        "Content-Type: application/json",
+        "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoaWtzb3B2d3R5aGRkeHZza21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwMTI2NTksImV4cCI6MjAzMDU4ODY1OX0.Rv-VuClP-0oPTiYf37H0VbGowZaPzyTvtm3Ro-_oGyI"
+    )
+    @POST("rest/v1/Aprovation")
+    fun addAprovationEntry(@Body bombeiros: String): Call<Void>
 }

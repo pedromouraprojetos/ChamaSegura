@@ -1,6 +1,7 @@
 package com.example.chamasegura.retrofit.tabels
 
 data class Queimadas(
+    val idQueimada: Long?,
     val location: Long,
     val idTypeQueimadas: Long,
     val date: String,

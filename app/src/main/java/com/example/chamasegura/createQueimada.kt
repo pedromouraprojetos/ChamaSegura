@@ -141,7 +141,8 @@ class createQueimada : AppCompatActivity() {
                         Log.d("createQueimada3", "Resposta bem-sucedida: $locationId")
 
                         if (locationId != null) {
-                            adicionarQueimada(locationId, type, data, motivo, status, idUser)
+                            val idQueimada = 0.toLong()
+                            adicionarQueimada(idQueimada, locationId, type, data, motivo, status, idUser)
                             val resultIntent = Intent()
                             resultIntent.putExtra("queimadaDate", data)
                             resultIntent.putExtra("queimadaStatus", status)
@@ -187,8 +188,8 @@ class createQueimada : AppCompatActivity() {
         })
     }
 
-    private fun adicionarQueimada(locationId: Long, idTypeQueimadas: Long, data: String, motivo: String, status: String, idUser: Long) {
-        val queimadas = Queimadas(locationId, idTypeQueimadas, data, motivo, status, idUser)
+    private fun adicionarQueimada(idQueimada: Long, locationId: Long, idTypeQueimadas: Long, data: String, motivo: String, status: String, idUser: Long) {
+        val queimadas = Queimadas(idQueimada=null, locationId, idTypeQueimadas, data, motivo, status, idUser)
 
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
         service.createQueimada(queimadas).enqueue(object : Callback<Void> {
