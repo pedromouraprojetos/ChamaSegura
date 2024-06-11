@@ -1,5 +1,6 @@
 package com.example.chamasegura
 
+import MyApp
 import QueimadasAdapter
 import android.content.Intent
 import android.os.Bundle
@@ -42,9 +43,10 @@ class HomePageUser : AppCompatActivity() {
             insets
         }
 
-        val fullname = intent.getStringExtra("firstName") ?: "null"
-        val firstName = fullname.split(" ").firstOrNull() ?: "null"
-        idUser = intent.getLongExtra("idUser", 0)
+        val fullname = MyApp.firstName
+        val firstName = fullname.split(" ").firstOrNull() ?: "{name}"
+        val idUser = MyApp.userId.toLong()
+
         if (idUser == 0L) {
             Toast.makeText(this, "Erro: ID do usuário inválido", Toast.LENGTH_SHORT).show()
             finish()

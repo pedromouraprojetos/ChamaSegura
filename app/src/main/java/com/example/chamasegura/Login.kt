@@ -1,5 +1,6 @@
 package com.example.chamasegura
 
+import MyApp
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -82,14 +83,14 @@ class Login : AppCompatActivity() {
                         if (user.FirstEnter==true) {
                             // Ação se firstEnter for true
                             val intent = Intent(this@Login, Profile::class.java)
-                            intent.putExtra("firstName", user.name)
-                            intent.putExtra("idUser", user.idUsers)
+                            MyApp.userId = user.idUsers.toString()
+                            MyApp.firstName = user.name.toString()
                             startActivity(intent)
                         } else {
                             // Ação se firstEnter for false
                             val intent = Intent(this@Login, HomePageUser::class.java)
-                            intent.putExtra("firstName", user.name)
-                            intent.putExtra("idUser", user.idUsers)
+                            MyApp.userId = user.idUsers.toString()
+                            MyApp.firstName = user.name.toString()
                             startActivity(intent)
                         }
 
