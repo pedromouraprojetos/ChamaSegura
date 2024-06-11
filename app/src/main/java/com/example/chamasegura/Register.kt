@@ -49,7 +49,7 @@ class Register : AppCompatActivity() {
             val firstEnter = true
             if (email.isNotEmpty() && password.isNotEmpty()) {
 
-                val user = Users(null, email, password,firstEnter, null)
+                val user = Users(null, email, password,firstEnter, null, null)
 
                 registerUser(user)
             } else {

@@ -48,7 +48,7 @@ class HomePageUser : AppCompatActivity() {
         val idUser = MyApp.userId.toLong()
 
         if (idUser == 0L) {
-            Toast.makeText(this, "Erro: ID do usuário inválido", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Erro: ID do user inválido", Toast.LENGTH_SHORT).show()
             finish()
             return
         }
