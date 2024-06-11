@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Toast
@@ -14,6 +15,7 @@ import com.example.chamasegura.retrofit.RetrofitClient
 import com.example.chamasegura.retrofit.SupabaseAuthService
 import com.example.chamasegura.retrofit.tabels.Queimadas
 import com.example.chamasegura.retrofit.tabels.Location
+import com.example.chamasegura.retrofit.tabels.TypeQueimadas
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,13 +26,14 @@ import java.util.Locale
 class createQueimada : AppCompatActivity() {
 
     private lateinit var coordenadasEditText: EditText
-    private lateinit var tipoEditText: EditText
+    private lateinit var tipoSpinner: Spinner
     private lateinit var dataCalendarView: CalendarView
     private lateinit var motivoEditText: EditText
     private lateinit var solicitarAprovacaoButton: Button
     private lateinit var firstName: String
     private var idUser: Long = 0
     private var selectedDate: String = ""
+    private lateinit var typeQueimadasList: List<TypeQueimadas>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +41,7 @@ class createQueimada : AppCompatActivity() {
 
         // Inicialização dos componentes de UI
         coordenadasEditText = findViewById(R.id.coordenadasEditText)
-        tipoEditText = findViewById(R.id.tipoSpinner)
+        tipoSpinner = findViewById(R.id.tipoSpinner)
         dataCalendarView = findViewById(R.id.dataEditText)
         motivoEditText = findViewById(R.id.motivoEditText)
         solicitarAprovacaoButton = findViewById(R.id.solicitar_aprovacao_button)
@@ -75,13 +78,40 @@ class createQueimada : AppCompatActivity() {
             val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             selectedDate = formatter.format(date)
         }
+
+        // Buscar e popular o Spinner com os tipos de queimadas
+        loadTypeQueimadas()
+    }
+
+    private fun loadTypeQueimadas() {
+        val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+        service.getTypeQueimadas().enqueue(object : Callback<List<TypeQueimadas>> {
+            override fun onResponse(call: Call<List<TypeQueimadas>>, response: Response<List<TypeQueimadas>>) {
+                if (response.isSuccessful) {
+                    typeQueimadasList = response.body() ?: emptyList()
+                    val adapter = ArrayAdapter(
+                        this@createQueimada,
+                        android.R.layout.simple_spinner_dropdown_item,
+                        typeQueimadasList.map { it.type }
+                    )
+                    tipoSpinner.adapter = adapter
+                } else {
+                    Toast.makeText(this@createQueimada, "Erro ao buscar tipos de queimadas", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<TypeQueimadas>>, t: Throwable) {
+                Toast.makeText(this@createQueimada, "Erro de rede: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun solicitarAprovacao() {
         val coordenadas = coordenadasEditText.text.toString().split(",").map { it.trim() }
         val latitude = coordenadas.getOrNull(0)
         val longitude = coordenadas.getOrNull(1)
-        val type = tipoEditText.text.toString().toLong()
+        val selectedPosition = tipoSpinner.selectedItemPosition
+        val type = typeQueimadasList[selectedPosition].idTypeQueimadas
         val data = selectedDate
         val motivo = motivoEditText.text.toString()
         val status = "Pendente"
@@ -157,8 +187,8 @@ class createQueimada : AppCompatActivity() {
         })
     }
 
-    private fun adicionarQueimada(locationId: Long, tipo: Long, data: String, motivo: String, status: String, idUser: Long) {
-        val queimadas = Queimadas(locationId, tipo, data, motivo, status, idUser)
+    private fun adicionarQueimada(locationId: Long, idTypeQueimadas: Long, data: String, motivo: String, status: String, idUser: Long) {
+        val queimadas = Queimadas(locationId, idTypeQueimadas, data, motivo, status, idUser)
 
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
         service.createQueimada(queimadas).enqueue(object : Callback<Void> {

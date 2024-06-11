@@ -48,7 +48,7 @@ class QueimadasAdapter(private val queimadas: List<Queimadas>) : RecyclerView.Ad
             .create()
 
         dialogView.findViewById<TextView>(R.id.text_coordinates).text = "Coordenadas: (${queimada.location})"
-        dialogView.findViewById<TextView>(R.id.text_type).text = "Tipo: ${queimada.type}"
+        dialogView.findViewById<TextView>(R.id.text_type).text = "Tipo: ${queimada.idTypeQueimadas}"
         dialogView.findViewById<TextView>(R.id.text_date).text = "Data: ${queimada.date}"
         dialogView.findViewById<TextView>(R.id.text_reason).text = "Motivo: ${queimada.reason}"
 
