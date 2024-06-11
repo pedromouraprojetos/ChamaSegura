@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chamasegura.retrofit.RetrofitClient
@@ -37,7 +38,7 @@ class createQueimada : AppCompatActivity() {
 
         // Inicialização dos componentes de UI
         coordenadasEditText = findViewById(R.id.coordenadasEditText)
-        tipoEditText = findViewById(R.id.tipoEditText)
+        tipoEditText = findViewById(R.id.tipoSpinner)
         dataCalendarView = findViewById(R.id.dataEditText)
         motivoEditText = findViewById(R.id.motivoEditText)
         solicitarAprovacaoButton = findViewById(R.id.solicitar_aprovacao_button)
@@ -80,7 +81,7 @@ class createQueimada : AppCompatActivity() {
         val coordenadas = coordenadasEditText.text.toString().split(",").map { it.trim() }
         val latitude = coordenadas.getOrNull(0)
         val longitude = coordenadas.getOrNull(1)
-        val tipo = tipoEditText.text.toString()
+        val type = tipoEditText.text.toString().toLong()
         val data = selectedDate
         val motivo = motivoEditText.text.toString()
         val status = "Pendente"
@@ -110,7 +111,7 @@ class createQueimada : AppCompatActivity() {
                         Log.d("createQueimada3", "Resposta bem-sucedida: $locationId")
 
                         if (locationId != null) {
-                            adicionarQueimada(locationId, tipo, data, motivo, status, idUser)
+                            adicionarQueimada(locationId, type, data, motivo, status, idUser)
                             val resultIntent = Intent()
                             resultIntent.putExtra("queimadaDate", data)
                             resultIntent.putExtra("queimadaStatus", status)
@@ -156,7 +157,7 @@ class createQueimada : AppCompatActivity() {
         })
     }
 
-    private fun adicionarQueimada(locationId: Long, tipo: String, data: String, motivo: String, status: String, idUser: Long) {
+    private fun adicionarQueimada(locationId: Long, tipo: Long, data: String, motivo: String, status: String, idUser: Long) {
         val queimadas = Queimadas(locationId, tipo, data, motivo, status, idUser)
 
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
