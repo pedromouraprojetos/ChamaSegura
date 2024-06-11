@@ -55,7 +55,7 @@
                 android:text="Boas {First/Last Name},"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
-                android:textSize="24sp"
+                android:textSize="40sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/menu_icon"
@@ -70,6 +70,15 @@
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@id/header"
+            app:layout_constraintBottom_toTopOf="@id/extra_space_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- View at the bottom to create extra space -->
+        <View
+            android:id="@+id/extra_space_view"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
             app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
