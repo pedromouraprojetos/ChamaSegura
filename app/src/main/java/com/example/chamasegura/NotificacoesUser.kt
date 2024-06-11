@@ -9,21 +9,66 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.chamasegura.retrofit.RetrofitClient
 import com.example.chamasegura.retrofit.SupabaseAuthService
+import com.example.chamasegura.retrofit.tabels.Queimadas
 import com.example.chamasegura.retrofit.tabels.Users
 import com.example.chamasegura.retrofit.tabels.Roles
+import QueimadasAdapter
+import android.content.Intent
+import android.widget.ImageView
+import androidx.core.view.GravityCompat
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.navigation.NavigationView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import androidx.drawerlayout.widget.DrawerLayout
 
 class NotificacoesUser : AppCompatActivity() {
-
     val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+    private lateinit var drawerLayout: DrawerLayout
+
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("teste", "entrou")
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_notificacoes_user)
+        drawerLayout = findViewById(R.id.notificacoes)
+
+        //Bottom Menu
+
+        findViewById<ImageView>(R.id.fire_icon).setOnClickListener {
+            val intent = Intent(this, HomePageUser::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.notification_icon).setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        findViewById<ImageView>(R.id.profile_icon).setOnClickListener {
+            val intent = Intent(this, Profile::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.menu_icon).setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
+        navigationView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_logout -> {
+                    logout()
+                    true
+                }
+                else -> false
+            }
+        }
+
+        //recyclerView = findViewById(R.id.recycler_view_queimadas)
+        //recyclerView.layoutManager = LinearLayoutManager(this)
 
         val idUser = MyApp.userId.toLong()
 
@@ -51,6 +96,9 @@ class NotificacoesUser : AppCompatActivity() {
                                             val role = rolesList[0]
                                             val roleType = role.type.toString()
                                             Log.d("Role", "Tipo de role: $roleType")
+                                            if (roleType in listOf("Admin", "Bombeiros", "Proteção Civil", "Municipio")) {
+                                                //fetchPendingQueimadas()
+                                            }
                                         } else {
                                             Toast.makeText(this@NotificacoesUser, "Tipo de role não encontrado", Toast.LENGTH_SHORT).show()
                                         }
@@ -90,5 +138,44 @@ class NotificacoesUser : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+
+    private fun fetchPendingQueimadas() {
+        service.getAllPendingQueimadas().enqueue(object : Callback<List<Queimadas>> {
+            override fun onResponse(call: Call<List<Queimadas>>, response: Response<List<Queimadas>>) {
+                if (response.isSuccessful) {
+                    val queimadas = response.body()
+                    if (!queimadas.isNullOrEmpty()) {
+                        updatePendingQueimadasUI(queimadas)
+                    } else {
+                        Log.e("home", "Resposta vazia ou nula")
+                        updatePendingQueimadasUI(emptyList())
+                    }
+                } else {
+                    Log.e("home", "Erro na resposta da API: ${response.code()}")
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("home", "Error body: $errorBody")
+                    Toast.makeText(this@NotificacoesUser, "Erro ao buscar queimadas pendentes", Toast.LENGTH_SHORT).show()
+                    updatePendingQueimadasUI(emptyList())
+                }
+            }
+
+            override fun onFailure(call: Call<List<Queimadas>>, t: Throwable) {
+                Toast.makeText(this@NotificacoesUser, "Falha na solicitação: ${t.message}", Toast.LENGTH_SHORT).show()
+                updatePendingQueimadasUI(emptyList())
+            }
+        })
+    }
+
+    private fun updatePendingQueimadasUI(queimadas: List<Queimadas>) {
+        val adapter = QueimadasAdapter(queimadas)
+        //recyclerView.adapter = adapter
+    }
+
+    private fun logout() {
+        val intent = Intent(this, Login::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }
