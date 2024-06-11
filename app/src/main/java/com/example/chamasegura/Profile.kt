@@ -15,6 +15,7 @@ import com.example.chamasegura.retrofit.UserInfo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.content.Intent
 
 class Profile : AppCompatActivity() {
 
@@ -36,6 +37,14 @@ class Profile : AppCompatActivity() {
         voltar = findViewById(R.id.backButton)
         avatar = findViewById(R.id.avatarButton)
         save = findViewById(R.id.confirmButton)
+
+        // Configurar o clique do botão "Voltar"
+        voltar.setOnClickListener {
+            // Iniciar uma nova atividade para retornar à tela inicial (home)
+            val intent = Intent(this, HomePageUser::class.java)
+            startActivity(intent)
+            finish() // Opcional: finaliza esta atividade para que o usuário não possa retornar para ela pressionando o botão de voltar do dispositivo
+        }
 
         save.setOnClickListener {
             val userEmail = UserInfo.getInstance().email
