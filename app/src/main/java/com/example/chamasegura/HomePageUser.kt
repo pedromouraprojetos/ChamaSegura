@@ -42,7 +42,8 @@ class HomePageUser : AppCompatActivity() {
             insets
         }
 
-        val firstName = intent.getStringExtra("firstName") ?: "null"
+        val fullname = intent.getStringExtra("firstName") ?: "null"
+        val firstName = fullname.split(" ").firstOrNull() ?: "null"
         idUser = intent.getLongExtra("idUser", 0)
         if (idUser == 0L) {
             Toast.makeText(this, "Erro: ID do usuário inválido", Toast.LENGTH_SHORT).show()
