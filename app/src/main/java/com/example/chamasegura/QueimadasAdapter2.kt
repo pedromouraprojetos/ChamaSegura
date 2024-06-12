@@ -15,6 +15,10 @@ import com.example.chamasegura.R
 import com.example.chamasegura.retrofit.RetrofitClient
 import com.example.chamasegura.retrofit.SupabaseAuthService
 import com.example.chamasegura.retrofit.tabels.Queimadas
+import com.example.chamasegura.retrofit.UpdateAprovationBombeirosRequest
+import com.example.chamasegura.retrofit.UpdateAprovationProtecaoCivilRequest
+import com.example.chamasegura.retrofit.UpdateAprovationMunicipioRequest
+import com.example.chamasegura.retrofit.UpdateAprovationAdminRequest
 
 class QueimadasAdapter2(private val queimadas: List<Queimadas>, private val roleType: String) : RecyclerView.Adapter<QueimadasAdapter2.ViewHolder>() {
 
@@ -47,7 +51,7 @@ class QueimadasAdapter2(private val queimadas: List<Queimadas>, private val role
     }
 
     private fun showQueimadaDetails(context: Context, queimada: Queimadas) {
-        var status: String = "Pendente"
+        var status = "Pendente"
         val dialogView = LayoutInflater.from(context).inflate(R.layout.activity_queimada_details2, null)
 
         val dialog = AlertDialog.Builder(context)
@@ -63,58 +67,93 @@ class QueimadasAdapter2(private val queimadas: List<Queimadas>, private val role
 
         // Configurar cliques nos botões check e cross
         dialogView.findViewById<ImageView>(R.id.check).setOnClickListener {
-            val idQueimada = queimada.idQueimada
             Toast.makeText(dialogView.context, "Queimada Aceite com Sucesso", Toast.LENGTH_SHORT).show()
             status = "Confirmada"
+            setStatus(status, queimada.idAprovation)
         }
 
         dialogView.findViewById<ImageView>(R.id.cross).setOnClickListener {
-            val idQueimada = queimada.idQueimada
             Toast.makeText(dialogView.context, "Queimada Recusada com Sucesso", Toast.LENGTH_SHORT).show()
             status = "Recusada"
+            setStatus(status, queimada.idAprovation)
         }
-
-        setStatus(status)
     }
 
-    private fun setStatus(status: String) {
+    private fun setStatus(status: String, idAprovation: Long?) {
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
 
         when (roleType) {
             "Admin" -> {
+                val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+                Log.d("status", "status: $status")
+                val updateAprovationAdminRequest = UpdateAprovationAdminRequest(status)
 
-            }
-            "Bombeiros" -> {
-                val call = service.addAprovationEntry(status)
-
-                call.enqueue(object : Callback<Void> {
+                service.updateAprovationAdmin("eq.$idAprovation", updateAprovationAdminRequest).enqueue(object : Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         if (response.isSuccessful) {
-                            // Processamento bem-sucedido
-                            Log.d("AddAprovation", "Aprovação adicionada para Bombeiros: ${response.message()}")
-                            Log.d("AddAprovation", "Código de Status: ${response.code()}")
-                            Log.d("AddAprovation", "Corpo da Resposta: ${response.body()?.toString()}")
-
                         } else {
-                            // Lidar com erros de resposta
-                            Log.e("AddAprovation", "Erro ao adicionar aprovação para Bombeiros: ${response.message()}")
+                            Log.d("updateAdminStatus", "Código de resposta: ${response.code()}, Corpo de erro: ${response.errorBody()?.string()}")
                         }
                     }
 
                     override fun onFailure(call: Call<Void>, t: Throwable) {
-                        // Lidar com falhas na comunicação
-                        Log.e("AddAprovation", "Falha na solicitação de adição de aprovação para Bombeiros: ${t.message}")
+                        Log.e("updateAdminStatus", "Falha na atualização do status", t)
+                    }
+                })
+            }
+            "Bombeiros" -> {
+                val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+                Log.d("status", "status: $status")
+                val updateAprovationBombeirosRequest = UpdateAprovationBombeirosRequest(status)
+
+                service.updateAprovationBombeiros("eq.$idAprovation", updateAprovationBombeirosRequest).enqueue(object : Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        if (response.isSuccessful) {
+                        } else {
+                            Log.d("updateBombeirosStatus", "Código de resposta: ${response.code()}, Corpo de erro: ${response.errorBody()?.string()}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                        Log.e("updateBombeirosStatus", "Falha na atualização do status", t)
                     }
                 })
             }
             "Proteção Civil" -> {
+                val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+                Log.d("status", "status: $status")
+                val updateAprovationProtecaoCivilRequest = UpdateAprovationProtecaoCivilRequest(status)
 
+                service.updateAprovationProtecaoCivil("eq.$idAprovation", updateAprovationProtecaoCivilRequest).enqueue(object : Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        if (response.isSuccessful) {
+                        } else {
+                            Log.d("updateProtecaoCivilStatus", "Código de resposta: ${response.code()}, Corpo de erro: ${response.errorBody()?.string()}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                        Log.e("updateProtecaoCivilStatus", "Falha na atualização do status", t)
+                    }
+                })
             }
             "Municipio" -> {
+                val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+                Log.d("status", "status: $status")
+                val updateAprovationMunicipioRequest = UpdateAprovationMunicipioRequest(status)
 
-            }
-            else -> {
+                service.updateAprovationMunicipio("eq.$idAprovation", updateAprovationMunicipioRequest).enqueue(object : Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        if (response.isSuccessful) {
+                        } else {
+                            Log.d("updateMunicipioStatus", "Código de resposta: ${response.code()}, Corpo de erro: ${response.errorBody()?.string()}")
+                        }
+                    }
 
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                        Log.e("updateMunicipioStatus", "Falha na atualização do status", t)
+                    }
+                })
             }
         }
     }

@@ -17,6 +17,19 @@ import retrofit2.http.*
 data class UpdateQueimadaRequest(
     val idAprovation: Long
 )
+data class UpdateAprovationBombeirosRequest(
+    val bombeiros: String
+)
+data class UpdateAprovationProtecaoCivilRequest(
+    val protecao_civil: String
+)
+data class UpdateAprovationMunicipioRequest(
+    val municipio: String
+)
+
+data class UpdateAprovationAdminRequest(
+    val status: String
+)
 
 interface SupabaseAuthService {
     @Headers(
@@ -117,13 +130,6 @@ interface SupabaseAuthService {
         "Content-Type: application/json",
         "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoaWtzb3B2d3R5aGRkeHZza21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwMTI2NTksImV4cCI6MjAzMDU4ODY1OX0.Rv-VuClP-0oPTiYf37H0VbGowZaPzyTvtm3Ro-_oGyI"
     )
-    @POST("rest/v1/Aprovation")
-    fun addAprovationEntry(@Body bombeiros: String): Call<Void>
-
-    @Headers(
-        "Content-Type: application/json",
-        "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoaWtzb3B2d3R5aGRkeHZza21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwMTI2NTksImV4cCI6MjAzMDU4ODY1OX0.Rv-VuClP-0oPTiYf37H0VbGowZaPzyTvtm3Ro-_oGyI"
-    )
     @GET("rest/v1/Queimadas")
     fun getAllQueimadas(): Call<List<Queimadas>>
 
@@ -133,4 +139,44 @@ interface SupabaseAuthService {
     )
     @GET("rest/v1/Aprovation")
     fun getAllAprovations(): Call<List<Aprovation>>
+
+    @Headers(
+        "Content-Type: application/json",
+        "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoaWtzb3B2d3R5aGRkeHZza21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwMTI2NTksImV4cCI6MjAzMDU4ODY1OX0.Rv-VuClP-0oPTiYf37H0VbGowZaPzyTvtm3Ro-_oGyI"
+    )
+    @PATCH("rest/v1/Aprovation")
+    fun updateAprovationBombeiros(
+        @Query("idAprovation") idAprovation: String,
+        @Body updateAprovationBombeirosRequest: UpdateAprovationBombeirosRequest
+    ): Call<Void>
+
+    @Headers(
+        "Content-Type: application/json",
+        "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoaWtzb3B2d3R5aGRkeHZza21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwMTI2NTksImV4cCI6MjAzMDU4ODY1OX0.Rv-VuClP-0oPTiYf37H0VbGowZaPzyTvtm3Ro-_oGyI"
+    )
+    @PATCH("rest/v1/Aprovation")
+    fun updateAprovationProtecaoCivil(
+        @Query("idAprovation") idAprovation: String,
+        @Body updateAprovationProtecaoCivilRequest: UpdateAprovationProtecaoCivilRequest
+    ): Call<Void>
+
+    @Headers(
+        "Content-Type: application/json",
+        "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoaWtzb3B2d3R5aGRkeHZza21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwMTI2NTksImV4cCI6MjAzMDU4ODY1OX0.Rv-VuClP-0oPTiYf37H0VbGowZaPzyTvtm3Ro-_oGyI"
+    )
+    @PATCH("rest/v1/Aprovation")
+    fun updateAprovationMunicipio(
+        @Query("idAprovation") idAprovation: String,
+        @Body updateAprovationMunicipioRequest: UpdateAprovationMunicipioRequest
+    ): Call<Void>
+
+    @Headers(
+        "Content-Type: application/json",
+        "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoaWtzb3B2d3R5aGRkeHZza21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwMTI2NTksImV4cCI6MjAzMDU4ODY1OX0.Rv-VuClP-0oPTiYf37H0VbGowZaPzyTvtm3Ro-_oGyI"
+    )
+    @PATCH("rest/v1/Queimadas")
+    fun updateAprovationAdmin(
+        @Query("idAprovation") idAprovation: String,
+        @Body updateAprovationAdminRequest: UpdateAprovationAdminRequest
+    ): Call<Void>
 }
