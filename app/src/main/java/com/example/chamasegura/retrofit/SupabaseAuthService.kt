@@ -12,6 +12,11 @@ import retrofit2.http.POST
 import retrofit2.http.Headers
 import retrofit2.http.Query
 import retrofit2.http.Body
+import retrofit2.http.*
+
+data class UpdateQueimadaRequest(
+    val idAprovation: Long
+)
 
 interface SupabaseAuthService {
     @Headers(
@@ -48,6 +53,23 @@ interface SupabaseAuthService {
     )
     @POST("rest/v1/Queimadas")
     fun createQueimada(@Body queimadas: Queimadas): Call<Void>
+
+    @Headers(
+        "Content-Type: application/json",
+        "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoaWtzb3B2d3R5aGRkeHZza21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwMTI2NTksImV4cCI6MjAzMDU4ODY1OX0.Rv-VuClP-0oPTiYf37H0VbGowZaPzyTvtm3Ro-_oGyI"
+    )
+    @POST("rest/v1/Aprovation")
+    fun createAprovation(@Body aprovation: Aprovation): Call<Void>
+
+    @Headers(
+        "Content-Type: application/json",
+        "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoaWtzb3B2d3R5aGRkeHZza21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwMTI2NTksImV4cCI6MjAzMDU4ODY1OX0.Rv-VuClP-0oPTiYf37H0VbGowZaPzyTvtm3Ro-_oGyI"
+    )
+    @PATCH("rest/v1/Queimadas")
+    fun updateQueimada(
+        @Query("idQueimada") idQueimada: String,
+        @Body updateQueimadaRequest: UpdateQueimadaRequest
+    ): Call<Void>
 
     @Headers(
         "Content-Type: application/json",
@@ -97,4 +119,18 @@ interface SupabaseAuthService {
     )
     @POST("rest/v1/Aprovation")
     fun addAprovationEntry(@Body bombeiros: String): Call<Void>
+
+    @Headers(
+        "Content-Type: application/json",
+        "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoaWtzb3B2d3R5aGRkeHZza21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwMTI2NTksImV4cCI6MjAzMDU4ODY1OX0.Rv-VuClP-0oPTiYf37H0VbGowZaPzyTvtm3Ro-_oGyI"
+    )
+    @GET("rest/v1/Queimadas")
+    fun getAllQueimadas(): Call<List<Queimadas>>
+
+    @Headers(
+        "Content-Type: application/json",
+        "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoaWtzb3B2d3R5aGRkeHZza21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwMTI2NTksImV4cCI6MjAzMDU4ODY1OX0.Rv-VuClP-0oPTiYf37H0VbGowZaPzyTvtm3Ro-_oGyI"
+    )
+    @GET("rest/v1/Aprovation")
+    fun getAllAprovations(): Call<List<Aprovation>>
 }

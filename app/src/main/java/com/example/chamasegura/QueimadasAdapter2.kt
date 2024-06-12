@@ -91,7 +91,10 @@ class QueimadasAdapter2(private val queimadas: List<Queimadas>, private val role
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         if (response.isSuccessful) {
                             // Processamento bem-sucedido
-                            Log.d("AddAprovation", "Aprovação adicionada para Bombeiros")
+                            Log.d("AddAprovation", "Aprovação adicionada para Bombeiros: ${response.message()}")
+                            Log.d("AddAprovation", "Código de Status: ${response.code()}")
+                            Log.d("AddAprovation", "Corpo da Resposta: ${response.body()?.toString()}")
+
                         } else {
                             // Lidar com erros de resposta
                             Log.e("AddAprovation", "Erro ao adicionar aprovação para Bombeiros: ${response.message()}")

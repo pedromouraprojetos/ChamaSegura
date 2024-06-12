@@ -13,9 +13,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chamasegura.retrofit.RetrofitClient
 import com.example.chamasegura.retrofit.SupabaseAuthService
+import com.example.chamasegura.retrofit.UpdateQueimadaRequest
 import com.example.chamasegura.retrofit.tabels.Queimadas
 import com.example.chamasegura.retrofit.tabels.Location
 import com.example.chamasegura.retrofit.tabels.TypeQueimadas
+import com.example.chamasegura.retrofit.tabels.Aprovation
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -75,7 +77,7 @@ class createQueimada : AppCompatActivity() {
             val calendar = java.util.Calendar.getInstance()
             calendar.set(year, month, dayOfMonth)
             val date = calendar.time
-            val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             selectedDate = formatter.format(date)
         }
 
@@ -111,7 +113,7 @@ class createQueimada : AppCompatActivity() {
         val latitude = coordenadas.getOrNull(0)
         val longitude = coordenadas.getOrNull(1)
         val selectedPosition = tipoSpinner.selectedItemPosition
-        val type = typeQueimadasList[selectedPosition].idTypeQueimadas
+        val type = typeQueimadasList.getOrNull(selectedPosition)?.idTypeQueimadas
         val data = selectedDate
         val motivo = motivoEditText.text.toString()
         val status = "Pendente"
@@ -142,7 +144,7 @@ class createQueimada : AppCompatActivity() {
 
                         if (locationId != null) {
                             val idQueimada = 0.toLong()
-                            adicionarQueimada(idQueimada, locationId, type, data, motivo, status, idUser)
+                            adicionarQueimada(idQueimada, locationId, type ?: 0, data, motivo, status, idUser)
                             val resultIntent = Intent()
                             resultIntent.putExtra("queimadaDate", data)
                             resultIntent.putExtra("queimadaStatus", status)
@@ -153,17 +155,28 @@ class createQueimada : AppCompatActivity() {
                         }
                     }
                 } else {
-                    Toast.makeText(this@createQueimada, "Falha na solicitação", Toast.LENGTH_SHORT).show()
-                    Log.e("createQueimada", "Falha na verificação da localização por coordenadas: ${response.code()} - ${response.errorBody()?.string()}")
+                    handleErrorResponse(response)
                 }
             }
 
             override fun onFailure(call: Call<List<Location>>, t: Throwable) {
-                Toast.makeText(this@createQueimada, "Falha na solicitação: ${t.message}", Toast.LENGTH_SHORT).show()
-                Log.e("createQueimada", "Falha na verificação da localização por coordenadas", t)
+                handleFailure(t)
             }
         })
     }
+
+    private fun handleErrorResponse(response: Response<*>) {
+        val errorMessage = "Erro na solicitação: ${response.code()} - ${response.errorBody()?.string()}"
+        Log.e("createQueimada", errorMessage)
+        Toast.makeText(this@createQueimada, errorMessage, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun handleFailure(t: Throwable) {
+        val errorMessage = "Falha na solicitação: ${t.message}"
+        Log.e("createQueimada", errorMessage, t)
+        Toast.makeText(this@createQueimada, errorMessage, Toast.LENGTH_SHORT).show()
+    }
+
 
     private fun adicionarNovaLocalizacao(latitude: String, longitude: String, callback: () -> Unit) {
         val novaLocalizacao = Location(idLocation = null, latitude = latitude, longitude = longitude)
@@ -189,16 +202,19 @@ class createQueimada : AppCompatActivity() {
     }
 
     private fun adicionarQueimada(idQueimada: Long, locationId: Long, idTypeQueimadas: Long, data: String, motivo: String, status: String, idUser: Long) {
-        val queimadas = Queimadas(idQueimada=null, locationId, idTypeQueimadas, data, motivo, status, idUser)
+        val queimadas = Queimadas(idQueimada = null, locationId, idTypeQueimadas, data, motivo, status, idUser, idAprovation = null)
 
+        Log.d("entrou", "entrou")
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
         service.createQueimada(queimadas).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(this@createQueimada, "Solicitação enviada com sucesso", Toast.LENGTH_SHORT).show()
-                    finish()  // Retorna ao ecrã principal
+                    val idQueimadaCriada = response.body()
+                        Toast.makeText(this@createQueimada, "Solicitação enviada com sucesso", Toast.LENGTH_SHORT).show()
+                        ultimoId(queimadas)
                 } else {
-                    Log.d("createQueimada", "Código de resposta: ${response.code()}, Corpo de erro: ${response.errorBody()?.string()}")
+                    val errorBody = response.errorBody()?.string() ?: "Erro desconhecido"
+                    Log.d("createQueimada", "Código de resposta: ${response.code()}, Corpo de erro: $errorBody")
                     Toast.makeText(this@createQueimada, "Erro ao enviar solicitação", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -206,7 +222,140 @@ class createQueimada : AppCompatActivity() {
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Toast.makeText(this@createQueimada, "Falha na solicitação: ${t.message}", Toast.LENGTH_SHORT).show()
                 Log.e("createQueimada", "Falha na solicitação", t)
+                Log.e("createQueimada", "Mensagem de erro: ${t.localizedMessage}")
             }
         })
     }
+
+    private fun criarNovaAprovacao(queimada: Queimadas) {
+        val aprovacao = Aprovation(idAprovation = null, bombeiros = "Pendente", protecao_civil = "Pendente", municipio = "Pendente")
+
+        Log.d("entrou", "entrou")
+
+        val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+        service.createAprovation(aprovacao).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Log.d("teste", "teste")
+                    getUltimoIdAprovation(queimada, aprovacao)
+                } else {
+                    Log.d(
+                        "createQueimada",
+                        "Código de resposta: ${response.code()}, Corpo de erro: ${
+                            response.errorBody()?.string()
+                        }"
+                    )
+                    Toast.makeText(
+                        this@createQueimada,
+                        "Erro ao criar aprovação",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Toast.makeText(
+                    this@createQueimada,
+                    "Falha na criação da aprovação: ${t.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+                Log.e("createQueimada", "Falha na criação da aprovação", t)
+            }
+        })
+    }
+
+    private fun atualizarQueimadaComIdAprovation(queimada: Queimadas, aprovation: Aprovation) {
+        Log.d("entrou", "entrou")
+
+        val idQueimada = queimada.idQueimada ?: run {
+            Log.e("createQueimada", "ID de Queimada nulo")
+            return
+        }
+
+        val idAprovation = aprovation.idAprovation ?: run {
+            Log.e("createQueimada", "ID de Aprovação nulo")
+            return
+        }
+
+        val updateQueimadaRequest = UpdateQueimadaRequest(aprovation.idAprovation)
+
+        Log.d("createQueimada", "ID de Queimada: $idQueimada")
+        Log.d("createQueimada", "ID de Aprovation: $idAprovation")
+
+        val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+        service.updateQueimada("eq.$idQueimada", updateQueimadaRequest).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(this@createQueimada, "Queimada atualizada com ID de aprovação", Toast.LENGTH_SHORT).show()
+                    finish()  // Retorna ao ecrã principal
+                } else {
+                    Log.d("createQueimada", "Código de resposta: ${response.code()}, Corpo de erro: ${response.errorBody()?.string()}")
+                    Toast.makeText(this@createQueimada, "Erro ao atualizar queimada com ID de aprovação", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Toast.makeText(this@createQueimada, "Falha na atualização da queimada: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("createQueimada", "Falha na atualização da queimada", t)
+            }
+        })
+    }
+
+
+    private fun ultimoId(queimada: Queimadas) {
+        val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+        Log.d("teste2", "teste2")
+        // Faz a chamada para obter todas as queimadas
+        service.getAllQueimadas().enqueue(object : Callback<List<Queimadas>> {
+            override fun onResponse(call: Call<List<Queimadas>>, response: Response<List<Queimadas>>) {
+                if (response.isSuccessful) {
+                    val queimadasList = response.body()
+                    if (queimadasList != null && queimadasList.isNotEmpty()) {
+                        // Encontra o maior ID entre todas as queimadas retornadas
+                        val ultimoId = queimadasList.maxByOrNull { it.idQueimada ?: 0 }?.idQueimada ?: 0
+
+                        val queimadaCriada = queimada.copy(idQueimada = ultimoId)
+
+                        criarNovaAprovacao(queimadaCriada)
+                    } else {
+                        println("Nenhuma queimada encontrada")
+                    }
+                } else {
+                    println("Falha ao obter queimadas: ${response.errorBody()?.string() ?: "Erro desconhecido"}")
+                }
+            }
+
+            override fun onFailure(call: Call<List<Queimadas>>, t: Throwable) {
+                println("Falha na solicitação: ${t.message}")
+            }
+        })
+    }
+
+    private fun getUltimoIdAprovation(queimada: Queimadas, aprovation: Aprovation) {
+        val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+        // Faz a chamada para obter todas as aprovations
+        service.getAllAprovations().enqueue(object : Callback<List<Aprovation>> {
+            override fun onResponse(call: Call<List<Aprovation>>, response: Response<List<Aprovation>>) {
+                if (response.isSuccessful) {
+                    val aprovationsList = response.body()
+                    if (aprovationsList != null && aprovationsList.isNotEmpty()) {
+                        // Encontra o maior ID entre todas as aprovations retornadas
+                        val ultimoId = aprovationsList.maxByOrNull { it.idAprovation ?: 0 }?.idAprovation ?: 0
+                        val aprovationCriada = aprovation.copy(idAprovation = ultimoId)
+                        atualizarQueimadaComIdAprovation(queimada, aprovationCriada)
+                    } else {
+                        println("Nenhuma aprovation encontrada")
+                    }
+                } else {
+                    println("Falha ao obter aprovation: ${response.errorBody()?.string() ?: "Erro desconhecido"}")
+                }
+            }
+
+            override fun onFailure(call: Call<List<Aprovation>>, t: Throwable) {
+                println("Falha na solicitação: ${t.message}")
+            }
+        })
+}
+
+
 }
