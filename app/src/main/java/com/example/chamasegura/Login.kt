@@ -60,7 +60,7 @@ class Login : AppCompatActivity() {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 loginUser(email, password)
             } else {
-                Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show()
+                showError("Por favor, preencha todos os campos")
                 Log.e("Login", "Campos de email ou senha vazios")
             }
         }

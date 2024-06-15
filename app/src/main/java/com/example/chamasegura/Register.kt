@@ -3,10 +3,10 @@ package com.example.chamasegura
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -25,7 +25,6 @@ class Register : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_register)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.forgotpass)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -46,15 +45,21 @@ class Register : AppCompatActivity() {
         registerButton.setOnClickListener {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
-            val firstEnter = true
+
             if (email.isNotEmpty() && password.isNotEmpty()) {
-
-                val user = Users(null, email, password,firstEnter, null, null)
-
-                registerUser(user)
+                if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    if (isValidPassword(password)) {
+                        val user = Users(null, email, password, true, null, null)
+                        registerUser(user)
+                    } else {
+                        showError("A senha deve conter pelo menos 8 caracteres, uma letra maiúscula e um caractere especial")
+                    }
+                } else {
+                    showError("Por favor, insira um email válido")
+                }
             } else {
-                Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show()
-                Log.e("Register", "Campos obrigatórios vazios")
+                showError("Por favor, preencha todos os campos")
+                Log.e("Register", "Campos de email ou senha vazios")
             }
         }
     }
@@ -72,19 +77,37 @@ class Register : AppCompatActivity() {
                 } else {
                     val errorBody = response.errorBody()?.string()
                     showError("Erro no registo: $errorBody")
-                    Log.e("Register", "Falha no registo: $errorBody")
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 showError("Falha na conexão: ${t.message}")
-                Log.e("Register", "Falha na conexão", t)
             }
         })
     }
 
+    private fun isValidPassword(password: String): Boolean {
+        if (password.length < 8) {
+            return false
+        }
+
+        val upperCasePattern = Regex("[A-Z]")
+        if (!upperCasePattern.containsMatchIn(password)) {
+            return false
+        }
+
+        val specialCharPattern = Regex("[!@#$%^&*(),.?\":{}|<>_]")
+        if (!specialCharPattern.containsMatchIn(password)) {
+            return false
+        }
+
+        return true
+    }
+
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        emailEditText.error = message
+        passwordEditText.error = message
         Log.e("Register", message)
     }
 }
