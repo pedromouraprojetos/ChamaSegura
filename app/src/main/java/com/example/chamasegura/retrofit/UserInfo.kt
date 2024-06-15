@@ -2,6 +2,7 @@ package com.example.chamasegura.retrofit
 
 class UserInfo private constructor() {
     var email: String? = null
+    var idRole: Long? = null
 
     companion object {
         private var instance: UserInfo? = null

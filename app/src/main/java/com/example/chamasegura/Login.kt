@@ -1,5 +1,6 @@
 package com.example.chamasegura
 
+
 import MyApp
 import android.content.Intent
 import android.os.Bundle
@@ -19,6 +20,7 @@ import com.example.chamasegura.retrofit.tabels.Users
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class Login : AppCompatActivity() {
     private lateinit var emailEditText: EditText
@@ -79,8 +81,14 @@ class Login : AppCompatActivity() {
 
                         val userInfo = UserInfo.getInstance()
                         userInfo.email = user.email
+                        userInfo.idRole = user.idRole
 
-                        if (user.FirstEnter==true) {
+                        if(user.idRole?.toInt() == 1) {
+                            val intent = Intent(this@Login, HomePageAdmin::class.java)
+                            MyApp.userId = user.idUsers.toString()
+                            MyApp.firstName = "admin"
+                            startActivity(intent)
+                        }else if (user.FirstEnter==true) {
                             // Ação se firstEnter for true
                             val intent = Intent(this@Login, Profile::class.java)
                             MyApp.userId = user.idUsers.toString()

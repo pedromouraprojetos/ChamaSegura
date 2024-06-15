@@ -1,3 +1,4 @@
+<!-- res/menu/admin_menu.xml -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/group_admin_menu">
         <item
@@ -6,9 +7,6 @@
             android:enabled="false"
             android:clickable="false"/>
     </group>
-    <item
-        android:id="@+id/nav_users"
-        android:title="Utilizadores" />
     <item
         android:id="@+id/nav_logout"
         android:title="Logout" />
