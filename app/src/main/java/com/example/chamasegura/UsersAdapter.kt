@@ -16,8 +16,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.content.Context
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import com.example.chamasegura.EditUserActivity
 
 
 class UsersAdapter(private var userList: List<Users>) :
@@ -55,8 +57,19 @@ class UsersAdapter(private var userList: List<Users>) :
 
             // Definir listeners para os ícones, se necessário
             editIcon.setOnClickListener {
-                // Lógica para editar o usuário
+                // Criar um Intent para abrir a atividade de edição do usuário
+                val intent = Intent(itemView.context, EditUserActivity::class.java)
+
+                // Passar os dados do usuário para a atividade de edição via Intent
+                intent.putExtra("userId", user.idUsers)
+                Log.d("teste2", "idUser: ${user.idUsers}")
+                intent.putExtra("userName", user.name)
+                intent.putExtra("userEmail", user.email)
+
+                // Iniciar a atividade de edição
+                itemView.context.startActivity(intent)
             }
+
 
             deleteIcon.setOnClickListener {
                 val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)

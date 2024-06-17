@@ -34,6 +34,15 @@ data class UpdateAprovationAdminRequest(
 data class UpdateEstadoConta(
     val estado_conta: String
 )
+
+data class UpdateUser(
+    val email: String,
+    val password: String,
+    val name: String,
+
+)
+
+
 interface SupabaseAuthService {
     @Headers(
         "Content-Type: application/json",
@@ -60,6 +69,17 @@ interface SupabaseAuthService {
     )
     @GET("rest/v1/Users")
     fun getAllUsers(): Call<List<Users>>
+
+
+    @Headers(
+        "Content-Type: application/json",
+        "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoaWtzb3B2d3R5aGRkeHZza21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwMTI2NTksImV4cCI6MjAzMDU4ODY1OX0.Rv-VuClP-0oPTiYf37H0VbGowZaPzyTvtm3Ro-_oGyI"
+    )
+    @PATCH("rest/v1/Users")
+    fun updateUser(
+        @Query("idUsers") idUsers: String,
+        @Body updateUserRequest: UpdateUser
+    ): Call<Void>
 
     @Headers(
         "Content-Type: application/json",

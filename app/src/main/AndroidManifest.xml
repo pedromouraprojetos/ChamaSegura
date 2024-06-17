@@ -48,6 +48,9 @@
         <activity
             android:name=".createQueimada"
             android:exported="false" />
+        <activity
+            android:name=".EditUserActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
