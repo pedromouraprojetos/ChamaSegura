@@ -53,7 +53,7 @@
                 android:id="@+id/icon2"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/trash"
+                android:src="@drawable/swap"
                 android:layout_marginStart="8dp"/>
         </LinearLayout>
 

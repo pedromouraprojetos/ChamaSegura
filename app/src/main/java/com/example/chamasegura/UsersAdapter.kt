@@ -1,11 +1,24 @@
+import android.app.AlertDialog
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chamasegura.R
+import com.example.chamasegura.retrofit.RetrofitClient
+import com.example.chamasegura.retrofit.SupabaseAuthService
+import com.example.chamasegura.retrofit.UpdateEstadoConta
 import com.example.chamasegura.retrofit.tabels.Users
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import android.content.Context
+import android.os.Handler
+import android.os.Looper
+
 
 class UsersAdapter(private var userList: List<Users>) :
     RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
@@ -46,8 +59,48 @@ class UsersAdapter(private var userList: List<Users>) :
             }
 
             deleteIcon.setOnClickListener {
-                // Lógica para deletar o usuário
+                val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+                val updateEstadoConta = UpdateEstadoConta("Desativado")
+                val idUsers = user.idUsers
+
+                service.UpdateEstadoConta("eq.$idUsers", updateEstadoConta).enqueue(object :
+                    Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        if (response.isSuccessful) {
+                            // Mostrar Toast de sucesso
+                            Toast.makeText(
+                                itemView.context,
+                                "Conta desativada com sucesso",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Log.d(
+                                "updateStatus",
+                                "Código de resposta: ${response.code()}, Corpo de erro: ${
+                                    response.errorBody()?.string()
+                                }"
+                            )
+                            // Mostrar Toast de erro
+                            Toast.makeText(
+                                itemView.context,
+                                "Erro ao desativar conta",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                        Log.e("updateStatus", "Falha na atualização do status", t)
+                        // Mostrar Toast de falha
+                        Toast.makeText(
+                            itemView.context,
+                            "Falha ao desativar conta",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
             }
         }
     }
 }
+

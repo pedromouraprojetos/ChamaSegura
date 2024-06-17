@@ -49,7 +49,7 @@ class Register : AppCompatActivity() {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     if (isValidPassword(password)) {
-                        val user = Users(null, email, password, true, null, null)
+                        val user = Users(null, email, password, true, null, null, "ativo")
                         registerUser(user)
                     } else {
                         showError("A senha deve conter pelo menos 8 caracteres, uma letra maiúscula e um caractere especial")
