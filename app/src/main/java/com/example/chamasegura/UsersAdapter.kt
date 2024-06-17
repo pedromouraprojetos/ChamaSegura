@@ -60,19 +60,26 @@ class UsersAdapter(private var userList: List<Users>) :
 
             deleteIcon.setOnClickListener {
                 val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
-                val updateEstadoConta = UpdateEstadoConta("Desativado")
+                val novoEstado = if (user.estado_conta == "Ativo") "Desativado" else "Ativo"
+                val updateEstadoConta = UpdateEstadoConta(novoEstado)
                 val idUsers = user.idUsers
 
                 service.UpdateEstadoConta("eq.$idUsers", updateEstadoConta).enqueue(object :
                     Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         if (response.isSuccessful) {
+                            // Atualizar o estado do usuário localmente
+                            user.estado_conta = novoEstado
+
                             // Mostrar Toast de sucesso
                             Toast.makeText(
                                 itemView.context,
-                                "Conta desativada com sucesso",
+                                "Conta ${novoEstado.toLowerCase()} com sucesso",
                                 Toast.LENGTH_SHORT
                             ).show()
+
+                            // Atualizar a UI
+                            notifyItemChanged(adapterPosition)
                         } else {
                             Log.d(
                                 "updateStatus",
@@ -83,7 +90,7 @@ class UsersAdapter(private var userList: List<Users>) :
                             // Mostrar Toast de erro
                             Toast.makeText(
                                 itemView.context,
-                                "Erro ao desativar conta",
+                                "Erro ao ${novoEstado.toLowerCase()} a conta",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -94,12 +101,13 @@ class UsersAdapter(private var userList: List<Users>) :
                         // Mostrar Toast de falha
                         Toast.makeText(
                             itemView.context,
-                            "Falha ao desativar conta",
+                            "Falha ao ${novoEstado.toLowerCase()} a conta",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                 })
             }
+
         }
     }
 }

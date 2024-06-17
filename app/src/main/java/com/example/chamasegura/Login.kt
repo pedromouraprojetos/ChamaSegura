@@ -77,6 +77,12 @@ class Login : AppCompatActivity() {
                         // Sucesso na verificação das credenciais
                         val user = users[0]
 
+                        if (user.estado_conta == "Desativado") {
+                            showError("Conta desativada. Entre em contato com o suporte.")
+                            Log.e("Login", "Tentativa de login com conta desativada")
+                            return
+                        }
+
                         val userInfo = UserInfo.getInstance()
                         userInfo.email = user.email
                         userInfo.idRole = user.idRole
