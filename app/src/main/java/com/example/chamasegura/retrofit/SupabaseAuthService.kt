@@ -62,6 +62,15 @@ interface SupabaseAuthService {
         "Content-Type: application/json",
         "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoaWtzb3B2d3R5aGRkeHZza21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwMTI2NTksImV4cCI6MjAzMDU4ODY1OX0.Rv-VuClP-0oPTiYf37H0VbGowZaPzyTvtm3Ro-_oGyI"
     )
+    @DELETE("rest/v1/Users/{idUsers}")
+    fun deleteUser(
+        @Path("idUsers") idUser: Long
+    ): Call<Void>
+
+    @Headers(
+        "Content-Type: application/json",
+        "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoaWtzb3B2d3R5aGRkeHZza21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwMTI2NTksImV4cCI6MjAzMDU4ODY1OX0.Rv-VuClP-0oPTiYf37H0VbGowZaPzyTvtm3Ro-_oGyI"
+    )
     @GET("rest/v1/Roles")
     fun getRole(
         @Query("idRole") idRole: String,

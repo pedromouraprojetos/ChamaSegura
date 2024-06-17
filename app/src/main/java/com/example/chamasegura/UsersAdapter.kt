@@ -1,4 +1,3 @@
-import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,29 +46,7 @@ class UsersAdapter(private var userList: List<Users>) :
             }
 
             deleteIcon.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val user = userList[position]
-
-                    // Aqui você pode implementar a lógica para confirmar a exclusão do usuário
-                    // Por exemplo, exibir um diálogo de confirmação antes de excluir o usuário
-
-                    // Exemplo: Exibir um AlertDialog para confirmar a exclusão
-                    val context = itemView.context
-                    AlertDialog.Builder(context)
-                        .setTitle("Confirmar Exclusão")
-                        .setMessage("Tem certeza que deseja excluir ${user.name}?")
-                        .setPositiveButton("Excluir") { _, _ ->
-                            // Lógica para excluir o usuário
-                            // Implemente aqui a chamada para a API ou a lógica para excluir o usuário
-
-                            // Exemplo: Remover o usuário da lista
-                            userList = userList.filterNot { it.idUsers == user.idUsers }
-                            notifyDataSetChanged()
-                        }
-                        .setNegativeButton("Cancelar", null)
-                        .show()
-                }
+                // Lógica para deletar o usuário
             }
         }
     }
