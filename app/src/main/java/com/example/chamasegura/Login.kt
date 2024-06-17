@@ -1,6 +1,4 @@
 package com.example.chamasegura
-
-
 import MyApp
 import android.content.Intent
 import android.os.Bundle

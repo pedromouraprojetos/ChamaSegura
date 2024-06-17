@@ -1,5 +1,5 @@
 package com.example.chamasegura
-
+import UsersAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
@@ -8,11 +8,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.chamasegura.retrofit.SupabaseAuthService
+import com.example.chamasegura.retrofit.RetrofitClient
+import com.example.chamasegura.retrofit.tabels.Users
 import com.google.android.material.navigation.NavigationView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomePageAdmin : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var usersAdapter: UsersAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,5 +55,35 @@ class HomePageAdmin : AppCompatActivity() {
                 else -> false
             }
         }
+
+        // Initialize RecyclerView
+        recyclerView = findViewById(R.id.recyclerViewUsers)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        usersAdapter = UsersAdapter(emptyList()) // Initially empty list
+        recyclerView.adapter = usersAdapter
+
+        // Fetch users from API and update RecyclerView
+        fetchUsers()
+    }
+
+    private fun fetchUsers() {
+        val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+        val call = service.getAllUsers()
+
+        call.enqueue(object : Callback<List<Users>> {
+            override fun onResponse(call: Call<List<Users>>, response: Response<List<Users>>) {
+                if (response.isSuccessful) {
+                    val users = response.body() ?: emptyList()
+
+                    usersAdapter.updateUsers(users)
+                } else {
+                    // Handle unsuccessful response
+                }
+            }
+
+            override fun onFailure(call: Call<List<Users>>, t: Throwable) {
+                // Handle failure
+            }
+        })
     }
 }
