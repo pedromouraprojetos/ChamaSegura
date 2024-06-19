@@ -63,8 +63,26 @@ class EditUserActivity : AppCompatActivity() {
     }
 
     private fun validateFields(email: String, password: String, name: String): Boolean {
-        return email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()
+        if (email.isEmpty() || password.isEmpty() || name.isEmpty()) {
+            return false
+        }
+
+        if (password.length < 8) {
+            return false
+        }
+
+        if (!password.any { it.isUpperCase() }) {
+            return false
+        }
+
+        val specialChars = setOf('!', '@', '#', '$', '%', '^', '&', '*')
+        if (!password.any { it in specialChars }) {
+            return false
+        }
+
+        return true
     }
+
 
     private fun isEmailOrNameDuplicate(email: String, name: String, callback: (Boolean) -> Unit) {
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
