@@ -1,5 +1,6 @@
 package com.example.chamasegura
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -22,6 +23,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -29,7 +31,7 @@ class createQueimada : AppCompatActivity() {
 
     private lateinit var coordenadasEditText: EditText
     private lateinit var tipoSpinner: Spinner
-    private lateinit var dataCalendarView: CalendarView
+    private lateinit var dataSolicitacao: EditText
     private lateinit var motivoEditText: EditText
     private lateinit var solicitarAprovacaoButton: Button
     private lateinit var firstName: String
@@ -41,10 +43,14 @@ class createQueimada : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_solicitaraprovacao)
 
+        dataSolicitacao = findViewById(R.id.datarealizacao)
+
+        dataSolicitacao.setOnClickListener { showDatePickerDialog(dataSolicitacao) }
+
         // Inicialização dos componentes de UI
         coordenadasEditText = findViewById(R.id.coordenadasEditText)
         tipoSpinner = findViewById(R.id.tipoSpinner)
-        dataCalendarView = findViewById(R.id.dataEditText)
+        dataSolicitacao = findViewById(R.id.datarealizacao)
         motivoEditText = findViewById(R.id.motivoEditText)
         solicitarAprovacaoButton = findViewById(R.id.solicitar_aprovacao_button)
 
@@ -72,14 +78,6 @@ class createQueimada : AppCompatActivity() {
             finish()
         }
 
-        // Configurar CalendarView para pegar a data selecionada
-        dataCalendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            val calendar = java.util.Calendar.getInstance()
-            calendar.set(year, month, dayOfMonth)
-            val date = calendar.time
-            val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            selectedDate = formatter.format(date)
-        }
 
         // Buscar e popular o Spinner com os tipos de queimadas
         loadTypeQueimadas()
@@ -210,8 +208,8 @@ class createQueimada : AppCompatActivity() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     val idQueimadaCriada = response.body()
-                        Toast.makeText(this@createQueimada, "Solicitação enviada com sucesso", Toast.LENGTH_SHORT).show()
-                        ultimoId(queimadas)
+                    Toast.makeText(this@createQueimada, "Solicitação enviada com sucesso", Toast.LENGTH_SHORT).show()
+                    ultimoId(queimadas)
                 } else {
                     val errorBody = response.errorBody()?.string() ?: "Erro desconhecido"
                     Log.d("createQueimada", "Código de resposta: ${response.code()}, Corpo de erro: $errorBody")
@@ -239,26 +237,13 @@ class createQueimada : AppCompatActivity() {
                     Log.d("teste", "teste")
                     getUltimoIdAprovation(queimada, aprovacao)
                 } else {
-                    Log.d(
-                        "createQueimada",
-                        "Código de resposta: ${response.code()}, Corpo de erro: ${
-                            response.errorBody()?.string()
-                        }"
-                    )
-                    Toast.makeText(
-                        this@createQueimada,
-                        "Erro ao criar aprovação",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Log.d("createQueimada", "Código de resposta: ${response.code()}, Corpo de erro: ${response.errorBody()?.string()}")
+                    Toast.makeText(this@createQueimada, "Erro ao criar aprovação", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(
-                    this@createQueimada,
-                    "Falha na criação da aprovação: ${t.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this@createQueimada, "Falha na criação da aprovação: ${t.message}", Toast.LENGTH_SHORT).show()
                 Log.e("createQueimada", "Falha na criação da aprovação", t)
             }
         })
@@ -300,7 +285,6 @@ class createQueimada : AppCompatActivity() {
             }
         })
     }
-
 
     private fun ultimoId(queimada: Queimadas) {
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
@@ -355,7 +339,18 @@ class createQueimada : AppCompatActivity() {
                 println("Falha na solicitação: ${t.message}")
             }
         })
-}
+    }
 
 
+    private fun showDatePickerDialog(editText: EditText) {
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(this, { _, year, monthOfYear, dayOfMonth ->
+            editText.setText("$year/${monthOfYear + 1}/$dayOfMonth")
+        }, year, month, day)
+        datePickerDialog.show()
+    }
 }
