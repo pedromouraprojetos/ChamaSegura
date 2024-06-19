@@ -1,4 +1,4 @@
-<!-- res/menu/admin_menu.xml -->
+<!-- res/menu/drawer_menu_admin.xml -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/group_admin_menu">
         <item
@@ -6,6 +6,9 @@
             android:title="Menu Admin"
             android:enabled="false"
             android:clickable="false"/>
+        <item
+            android:id="@+id/nav_create_user"
+            android:title="Criar Utilizador" />
     </group>
     <item
         android:id="@+id/nav_logout"

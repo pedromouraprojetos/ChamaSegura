@@ -46,6 +46,11 @@ class HomePageAdmin : AppCompatActivity() {
         val navigationView: NavigationView = findViewById(R.id.navigation_view)
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
+                R.id.nav_create_user -> {
+                    val intent = Intent(this, CreateUserActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.nav_logout -> {
                     val intent = Intent(this, Login::class.java)
                     startActivity(intent)
