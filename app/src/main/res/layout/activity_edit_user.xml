@@ -6,6 +6,16 @@
     android:padding="16dp"
     android:background="@drawable/background_linear">
 
+    <ImageView
+        android:id="@+id/imageViewArrow"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/setaback" />
+
     <!-- Logotipo -->
     <ImageView
         android:layout_width="292dp"

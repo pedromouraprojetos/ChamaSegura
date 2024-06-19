@@ -1,9 +1,11 @@
 package com.example.chamasegura
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chamasegura.retrofit.RetrofitClient
@@ -36,6 +38,14 @@ class EditUserActivity : AppCompatActivity() {
         // Obtém o email atual do usuário para comparação posterior
         fetchCurrentUserEmail()
 
+        // Configuração da seta para voltar à HomePageAdmin
+        val imageViewArrow = findViewById<ImageView>(R.id.imageViewArrow)
+        imageViewArrow.setOnClickListener {
+            val intent = Intent(this, HomePageAdmin::class.java)
+            startActivity(intent)
+            finish() // Finaliza a activity atual ao voltar para HomePageAdmin
+        }
+
         buttonSave.setOnClickListener {
             val email = editTextEmail.text.toString().trim()
             val password = editTextPassword.text.toString().trim()
@@ -59,7 +69,7 @@ class EditUserActivity : AppCompatActivity() {
     }
 
     private fun fetchCurrentUserEmail() {
-        currentUserEmail = "email_atual@exemplo.com"
+        currentUserEmail = "email_atual@exemplo.com" // Você pode implementar a lógica para obter o email atual do usuário aqui
     }
 
     private fun validateFields(email: String, password: String, name: String): Boolean {
@@ -82,7 +92,6 @@ class EditUserActivity : AppCompatActivity() {
 
         return true
     }
-
 
     private fun isEmailOrNameDuplicate(email: String, name: String, callback: (Boolean) -> Unit) {
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)

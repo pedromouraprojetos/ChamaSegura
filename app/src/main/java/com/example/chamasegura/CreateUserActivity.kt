@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chamasegura.retrofit.RetrofitClient
@@ -38,6 +39,12 @@ class CreateUserActivity : AppCompatActivity() {
             if (validateInputs(name, email, password)) {
                 createUser(name, email, password)
             }
+        }
+
+        // Configuração do botão de voltar no canto superior esquerdo
+        val imageViewBack: ImageView = findViewById(R.id.imageViewBack)
+        imageViewBack.setOnClickListener {
+            goToHomePageAdmin()
         }
     }
 
@@ -134,5 +141,11 @@ class CreateUserActivity : AppCompatActivity() {
 
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun goToHomePageAdmin() {
+        val intent = Intent(this, HomePageAdmin::class.java)
+        startActivity(intent)
+        finish()
     }
 }
