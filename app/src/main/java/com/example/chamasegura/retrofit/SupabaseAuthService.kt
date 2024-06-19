@@ -7,6 +7,7 @@ import com.example.chamasegura.retrofit.tabels.Location
 import com.example.chamasegura.retrofit.tabels.Municipalities
 import com.example.chamasegura.retrofit.tabels.TypeQueimadas
 import com.example.chamasegura.retrofit.tabels.Roles
+import com.example.chamasegura.retrofit.tabels.Rules
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -237,4 +238,10 @@ interface SupabaseAuthService {
         @Body updateEstadoConta: UpdateEstadoConta
     ): Call<Void>
 
+    @Headers(
+        "Content-Type: application/json",
+        "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoaWtzb3B2d3R5aGRkeHZza21uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwMTI2NTksImV4cCI6MjAzMDU4ODY1OX0.Rv-VuClP-0oPTiYf37H0VbGowZaPzyTvtm3Ro-_oGyI"
+    )
+    @POST("rest/v1/Rules")
+    fun createRules(@Body rules: Rules): Call<Void>
 }
