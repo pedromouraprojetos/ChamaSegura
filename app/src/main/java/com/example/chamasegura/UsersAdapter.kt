@@ -48,12 +48,14 @@ class UsersAdapter(private var userList: List<Users>) :
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val userName: TextView = itemView.findViewById(R.id.userName)
         private val userEmail: TextView = itemView.findViewById(R.id.userEmail)
+        private val userAccountState: TextView = itemView.findViewById(R.id.userAccountState) // Novo campo adicionado
         private val editIcon: ImageView = itemView.findViewById(R.id.icon1)
         private val deleteIcon: ImageView = itemView.findViewById(R.id.icon2)
 
         fun bind(user: Users) {
             userName.text = user.name ?: "Nome não fornecido"
             userEmail.text = user.email
+            userAccountState.text = user.estado_conta // Atualiza o estado da conta
 
             // Definir listeners para os ícones, se necessário
             editIcon.setOnClickListener {
@@ -70,7 +72,6 @@ class UsersAdapter(private var userList: List<Users>) :
                 itemView.context.startActivity(intent)
             }
 
-
             deleteIcon.setOnClickListener {
                 val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
                 val novoEstado = if (user.estado_conta == "Ativo") "Desativado" else "Ativo"
@@ -83,6 +84,7 @@ class UsersAdapter(private var userList: List<Users>) :
                         if (response.isSuccessful) {
                             // Atualizar o estado do usuário localmente
                             user.estado_conta = novoEstado
+                            userAccountState.text = novoEstado // Atualiza o campo na UI
 
                             // Mostrar Toast de sucesso
                             Toast.makeText(
@@ -120,8 +122,6 @@ class UsersAdapter(private var userList: List<Users>) :
                     }
                 })
             }
-
         }
     }
 }
-

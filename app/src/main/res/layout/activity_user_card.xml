@@ -35,6 +35,15 @@
                 android:layout_height="wrap_content"
                 android:text="user@example.com"
                 android:textSize="14sp"/>
+
+            <!-- Novo TextView para o estado da conta -->
+            <TextView
+                android:id="@+id/userAccountState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estado da Conta"
+                android:textSize="14sp"/>
+
         </LinearLayout>
 
         <LinearLayout
