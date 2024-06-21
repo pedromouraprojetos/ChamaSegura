@@ -82,34 +82,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/relativeLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/motivoTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Motivo"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/motivoEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/motivoTextView"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="40dp"
-                    android:hint="Digite o motivo"
-                    android:minHeight="48dp" />
-            </RelativeLayout>
-
-            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp">
@@ -121,7 +93,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Selecione o tipo de Proibição"
+                    android:text="Selecione o tipomotivo de Proibição"
                     android:textSize="18sp" />
 
                 <Spinner

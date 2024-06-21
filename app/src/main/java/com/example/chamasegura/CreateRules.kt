@@ -27,7 +27,6 @@ import java.util.Calendar
 class CreateRules : AppCompatActivity() {
 
     private lateinit var tipoSpinner: Spinner
-    private lateinit var motivoEditText: EditText
     private lateinit var inicioRegraEditText: EditText
     private lateinit var fimRegraEditText: EditText
     private lateinit var selecaoProibicaoSpinner: Spinner
@@ -50,7 +49,6 @@ class CreateRules : AppCompatActivity() {
 
         // Inicializar os componentes de UI
         tipoSpinner = findViewById(R.id.tipoSpinner)
-        motivoEditText = findViewById(R.id.motivoEditText)
         inicioRegraEditText = findViewById(R.id.inicioRegra)
         fimRegraEditText = findViewById(R.id.fimRegra)
         selecaoProibicaoSpinner = findViewById(R.id.selecaoProibicao)
@@ -76,15 +74,9 @@ class CreateRules : AppCompatActivity() {
         val selectedTypeId = municipalitiesIds[selectedTypeIndex]
         val selectedProibicaoIndex = selecaoProibicaoSpinner.selectedItemPosition
         val selectedProibicaoId = typeRulesIds[selectedProibicaoIndex]
-        val motivo = motivoEditText.text.toString()
         val inicioRegra = inicioRegraEditText.text.toString()
         val fimRegra = fimRegraEditText.text.toString()
 
-        if (motivo.isBlank()) {
-            Toast.makeText(this, "Por favor, digite o motivo", Toast.LENGTH_SHORT).show()
-            Log.d("CreateRules", "Motivo vazio")
-            return
-        }
         if (inicioRegra.isBlank()) {
             Toast.makeText(this, "Por favor, selecione a data de início", Toast.LENGTH_SHORT).show()
             Log.d("CreateRules", "Data de início vazia")
@@ -102,7 +94,7 @@ class CreateRules : AppCompatActivity() {
         }
 
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
-        val rule = Rules(null, selectedTypeId.toString(), inicioRegra, fimRegra, motivo, selectedProibicaoId.toString())
+        val rule = Rules(null, selectedTypeId.toString(), inicioRegra, fimRegra,selectedProibicaoId.toString())
 
         service.createRules(rule).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
@@ -123,7 +115,7 @@ class CreateRules : AppCompatActivity() {
         })
 
         // Log the user's input
-        Log.d("CreateRules", "Distrito ID: $selectedTypeId, Motivo: $motivo, Início: $inicioRegra, Fim: $fimRegra, Tipo de Proibição: $selectedProibicaoId")
+        Log.d("CreateRules", "Distrito ID: $selectedTypeId, Início: $inicioRegra, Fim: $fimRegra, Tipo de Proibição: $selectedProibicaoId")
     }
 
     private fun loadMunicipalities() {
@@ -205,7 +197,6 @@ class CreateRules : AppCompatActivity() {
 
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-        motivoEditText.error = message
         inicioRegraEditText.error = message
         fimRegraEditText.error = message
         Log.e("Rules", message)

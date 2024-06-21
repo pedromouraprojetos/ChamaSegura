@@ -5,6 +5,5 @@ data class Rules(
     val idMunicipalities: String,
     val date_start: String,
     val date_end: String,
-    val description: String,
     val idTypeRules: String,
 )
