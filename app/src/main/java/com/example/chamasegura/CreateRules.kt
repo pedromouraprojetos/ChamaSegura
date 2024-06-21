@@ -18,6 +18,7 @@ import com.example.chamasegura.retrofit.SupabaseAuthService
 import com.example.chamasegura.retrofit.SupabaseCreateService
 import com.example.chamasegura.retrofit.tabels.Municipalities
 import com.example.chamasegura.retrofit.tabels.Rules
+import com.example.chamasegura.retrofit.tabels.TypeRules
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,9 +30,12 @@ class CreateRules : AppCompatActivity() {
     private lateinit var motivoEditText: EditText
     private lateinit var inicioRegraEditText: EditText
     private lateinit var fimRegraEditText: EditText
+    private lateinit var selecaoProibicaoSpinner: Spinner
     private lateinit var saveRulesButton: Button
     private lateinit var typeMunicipalitiesList: List<Municipalities>
     private lateinit var municipalitiesIds: List<Int>
+    private lateinit var typeRulesList: List<TypeRules>
+    private lateinit var typeRulesIds: List<Int>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +53,7 @@ class CreateRules : AppCompatActivity() {
         motivoEditText = findViewById(R.id.motivoEditText)
         inicioRegraEditText = findViewById(R.id.inicioRegra)
         fimRegraEditText = findViewById(R.id.fimRegra)
+        selecaoProibicaoSpinner = findViewById(R.id.selecaoProibicao)
         saveRulesButton = findViewById(R.id.saveRules)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -63,11 +68,14 @@ class CreateRules : AppCompatActivity() {
         }
 
         loadMunicipalities()
+        loadTypeRules()  // Carregar os tipos de regras para o spinner selecaoProibicao
     }
 
     private fun saveRules() {
         val selectedTypeIndex = tipoSpinner.selectedItemPosition
         val selectedTypeId = municipalitiesIds[selectedTypeIndex]
+        val selectedProibicaoIndex = selecaoProibicaoSpinner.selectedItemPosition
+        val selectedProibicaoId = typeRulesIds[selectedProibicaoIndex]
         val motivo = motivoEditText.text.toString()
         val inicioRegra = inicioRegraEditText.text.toString()
         val fimRegra = fimRegraEditText.text.toString()
@@ -94,7 +102,7 @@ class CreateRules : AppCompatActivity() {
         }
 
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
-        val rule = Rules(null, selectedTypeId.toString(), inicioRegra, fimRegra, motivo)
+        val rule = Rules(null, selectedTypeId.toString(), inicioRegra, fimRegra, motivo, selectedProibicaoId.toString())
 
         service.createRules(rule).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
@@ -115,7 +123,7 @@ class CreateRules : AppCompatActivity() {
         })
 
         // Log the user's input
-        Log.d("CreateRules", "Distrito ID: $selectedTypeId, Motivo: $motivo, Início: $inicioRegra, Fim: $fimRegra")
+        Log.d("CreateRules", "Distrito ID: $selectedTypeId, Motivo: $motivo, Início: $inicioRegra, Fim: $fimRegra, Tipo de Proibição: $selectedProibicaoId")
     }
 
     private fun loadMunicipalities() {
@@ -144,6 +152,38 @@ class CreateRules : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<List<Municipalities>>, t: Throwable) {
+                Toast.makeText(this@CreateRules, "Erro de rede: ${t.message}", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        })
+    }
+
+    private fun loadTypeRules() {
+        val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+        service.getTypeRules().enqueue(object : Callback<List<TypeRules>> {
+            override fun onResponse(
+                call: Call<List<TypeRules>>,
+                response: Response<List<TypeRules>>
+            ) {
+                if (response.isSuccessful) {
+                    typeRulesList = response.body() ?: emptyList()
+                    typeRulesIds = typeRulesList.map { it.idTypeRules }
+                    val adapter = ArrayAdapter(
+                        this@CreateRules,
+                        android.R.layout.simple_spinner_dropdown_item,
+                        typeRulesList.map { it.typeRules }
+                    )
+                    selecaoProibicaoSpinner.adapter = adapter
+                } else {
+                    Toast.makeText(
+                        this@CreateRules,
+                        "Erro ao buscar tipos de regras",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<TypeRules>>, t: Throwable) {
                 Toast.makeText(this@CreateRules, "Erro de rede: ${t.message}", Toast.LENGTH_SHORT)
                     .show()
             }

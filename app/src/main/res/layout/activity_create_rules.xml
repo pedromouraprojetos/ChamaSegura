@@ -103,9 +103,34 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/motivoTextView"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="29dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="40dp"
                     android:hint="Digite o motivo"
+                    android:minHeight="48dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/TipoProibicao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Selecione o tipo de Proibição"
+                    android:textSize="18sp" />
+
+                <Spinner
+                    android:id="@+id/selecaoProibicao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/TipoProibicao"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="8dp"
                     android:minHeight="48dp" />
             </RelativeLayout>
 
@@ -137,7 +162,6 @@
                     android:focusable="false"
                     android:minHeight="48dp" />
             </RelativeLayout>
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
