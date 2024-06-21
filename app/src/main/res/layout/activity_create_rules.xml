@@ -93,7 +93,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Selecione o tipomotivo de Proibição"
+                    android:text="Selecione o motivo"
                     android:textSize="18sp" />
 
                 <Spinner
