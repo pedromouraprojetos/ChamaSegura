@@ -138,6 +138,40 @@
         android:layout_marginEnd="32dp"
         android:layout_marginTop="8dp" />
 
+    <TextView
+        android:id="@+id/destrito"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Selecione o seu destrito"
+        android:background="@android:color/transparent"
+        android:textColorHint="@android:color/white"
+        android:textColor="@android:color/white"
+        android:paddingBottom="8dp"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/lastNameLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintWidth_default="spread"
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="16dp" />
+
+    <Spinner
+        android:id="@+id/tipoSpinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/destrito"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintWidth_default="spread"
+        app:layout_constraintWidth_percent="0.8"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="1dp" />
+
     <!-- Botão Confirmar -->
     <Button
         android:id="@+id/confirmButton"
@@ -148,7 +182,7 @@
         android:textSize="18sp"
         android:text="Guardar Dados"
         android:textAllCaps="false"
-        app:layout_constraintTop_toBottomOf="@id/lastNameLine"
+        app:layout_constraintTop_toBottomOf="@id/destrito"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

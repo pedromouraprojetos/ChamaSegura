@@ -43,8 +43,7 @@ class HomePageUser : AppCompatActivity() {
             insets
         }
 
-        val fullname = MyApp.firstName
-        val firstName = fullname.split(" ").firstOrNull() ?: "{name}"
+        val fullname = "${MyApp.firstName}"
         val idUser = MyApp.userId.toLong()
 
         if (idUser == 0L) {
@@ -54,11 +53,11 @@ class HomePageUser : AppCompatActivity() {
         }
 
         val greetingMessage = findViewById<TextView>(R.id.greeting_message)
-        greetingMessage.text = "Olá $firstName!"
+        greetingMessage.text = "Olá $fullname!"
 
         findViewById<ImageView>(R.id.notification_icon).setOnClickListener {
             val intent = Intent(this, NotificacoesUser::class.java)
-            intent.putExtra("firstName", firstName)
+            intent.putExtra("firstName", fullname)
             intent.putExtra("idUser", idUser)
             startActivity(intent)
         }
@@ -71,14 +70,14 @@ class HomePageUser : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.profile_icon).setOnClickListener {
             val intent = Intent(this, Profile::class.java)
-            intent.putExtra("firstName", firstName)
+            intent.putExtra("firstName", fullname)
             intent.putExtra("idUser", idUser)
             startActivity(intent)
         }
 
         findViewById<ImageView>(R.id.fab).setOnClickListener {
             val intent = Intent(this, createQueimada::class.java)
-            intent.putExtra("firstName", firstName)
+            intent.putExtra("firstName", fullname)
             intent.putExtra("idUser", idUser)
             startActivityForResult(intent, REQUEST_CODE_CREATE_QUEIMADA)
         }

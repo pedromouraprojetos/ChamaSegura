@@ -9,7 +9,8 @@ import retrofit2.http.Query
 data class UpdateUserRequest(
     val username: String,
     val name: String,
-    val FirstEnter: Boolean
+    val FirstEnter: Boolean,
+    val idMunicipalities: String
 )
 
 interface UpdateInfoUserService {
