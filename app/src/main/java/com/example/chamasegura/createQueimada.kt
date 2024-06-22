@@ -2,6 +2,7 @@ package com.example.chamasegura
 
 import MyApp
 import MyApp.Companion.userId
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
@@ -143,8 +144,6 @@ class createQueimada : AppCompatActivity() {
                         Log.d("createQueimada3", "Resposta bem-sucedida: $locationId")
 
                         if (locationId != null) {
-                            val idQueimada = 0.toLong()
-
                             adicionarQueimada(locationId, type ?: 0, data, motivo, status, idUser)
                             val resultIntent = Intent()
                             resultIntent.putExtra("queimadaDate", data)
@@ -394,6 +393,7 @@ class createQueimada : AppCompatActivity() {
         })
     }
 
+    @SuppressLint("DefaultLocale")
     private fun showDatePickerDialog(editText: EditText) {
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
