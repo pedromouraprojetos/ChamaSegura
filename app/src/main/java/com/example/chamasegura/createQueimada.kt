@@ -1,10 +1,10 @@
 package com.example.chamasegura
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import android.widget.CalendarView
 import android.widget.EditText
 import android.widget.ArrayAdapter
 import android.widget.ImageView
@@ -22,14 +22,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.Calendar
 import java.util.Locale
 
 class createQueimada : AppCompatActivity() {
 
     private lateinit var coordenadasEditText: EditText
     private lateinit var tipoSpinner: Spinner
-    private lateinit var dataCalendarView: CalendarView
+    private lateinit var dataCalendarView: EditText
     private lateinit var motivoEditText: EditText
     private lateinit var solicitarAprovacaoButton: Button
     private lateinit var firstName: String
@@ -41,10 +41,14 @@ class createQueimada : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_solicitaraprovacao)
 
+        dataCalendarView = findViewById(R.id.datarealizacao)
+
+        dataCalendarView.setOnClickListener { showDatePickerDialog(dataCalendarView) }
+
         // Inicialização dos componentes de UI
         coordenadasEditText = findViewById(R.id.coordenadasEditText)
         tipoSpinner = findViewById(R.id.tipoSpinner)
-        dataCalendarView = findViewById(R.id.dataEditText)
+        dataCalendarView = findViewById(R.id.datarealizacao)
         motivoEditText = findViewById(R.id.motivoEditText)
         solicitarAprovacaoButton = findViewById(R.id.solicitar_aprovacao_button)
 
@@ -70,15 +74,6 @@ class createQueimada : AppCompatActivity() {
             intent.putExtra("idUser", idUser) // Certifique-se de passar idUser ao retornar
             startActivity(intent)
             finish()
-        }
-
-        // Configurar CalendarView para pegar a data selecionada
-        dataCalendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            val calendar = java.util.Calendar.getInstance()
-            calendar.set(year, month, dayOfMonth)
-            val date = calendar.time
-            val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            selectedDate = formatter.format(date)
         }
 
         // Buscar e popular o Spinner com os tipos de queimadas
@@ -114,7 +109,7 @@ class createQueimada : AppCompatActivity() {
         val longitude = coordenadas.getOrNull(1)
         val selectedPosition = tipoSpinner.selectedItemPosition
         val type = typeQueimadasList.getOrNull(selectedPosition)?.idTypeQueimadas
-        val data = selectedDate
+        val data = dataCalendarView.text.toString()
         val motivo = motivoEditText.text.toString()
         val status = "Pendente"
 
@@ -144,7 +139,7 @@ class createQueimada : AppCompatActivity() {
 
                         if (locationId != null) {
                             val idQueimada = 0.toLong()
-                            adicionarQueimada(idQueimada, locationId, type ?: 0, data, motivo, status, idUser)
+                            adicionarQueimada(locationId, type ?: 0, data, motivo, status, idUser)
                             val resultIntent = Intent()
                             resultIntent.putExtra("queimadaDate", data)
                             resultIntent.putExtra("queimadaStatus", status)
@@ -201,7 +196,7 @@ class createQueimada : AppCompatActivity() {
         })
     }
 
-    private fun adicionarQueimada(idQueimada: Long, locationId: Long, idTypeQueimadas: Long, data: String, motivo: String, status: String, idUser: Long) {
+    private fun adicionarQueimada(locationId: Long, idTypeQueimadas: Long, data: String, motivo: String, status: String, idUser: Long) {
         val queimadas = Queimadas(idQueimada = null, locationId, idTypeQueimadas, data, motivo, status, idUser, idAprovation = null)
 
         Log.d("entrou", "entrou")
@@ -209,7 +204,6 @@ class createQueimada : AppCompatActivity() {
         service.createQueimada(queimadas).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
-                    val idQueimadaCriada = response.body()
                         Toast.makeText(this@createQueimada, "Solicitação enviada com sucesso", Toast.LENGTH_SHORT).show()
                         ultimoId(queimadas)
                 } else {
@@ -355,7 +349,19 @@ class createQueimada : AppCompatActivity() {
                 println("Falha na solicitação: ${t.message}")
             }
         })
-}
+    }
 
+    private fun showDatePickerDialog(editText: EditText) {
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(this, { _, year, monthOfYear, dayOfMonth ->
+            val date = "$year-${String.format("%02d", monthOfYear + 1)}-${String.format("%02d", dayOfMonth)}"
+            editText.setText(date)
+        }, year, month, day)
+        datePickerDialog.show()
+    }
 
 }

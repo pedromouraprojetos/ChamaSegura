@@ -88,7 +88,7 @@ class Login : AppCompatActivity() {
                         userInfo.idRole = user.idRole
 
                         if(user.idRole?.toInt() == 1) {
-                            val intent = Intent(this@Login, CreateRules::class.java)
+                            val intent = Intent(this@Login, HomePageAdmin::class.java)
                             MyApp.userId = user.idUsers.toString()
                             MyApp.firstName = "admin"
                             startActivity(intent)
