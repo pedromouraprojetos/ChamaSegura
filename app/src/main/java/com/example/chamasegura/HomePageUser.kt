@@ -5,6 +5,7 @@ import QueimadasAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -36,6 +37,9 @@ class HomePageUser : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawer_layout)
         recyclerView = findViewById(R.id.recycler_view_queimadas)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        val fabButton = findViewById<ImageView>(R.id.fab)
+        val userRole = MyApp.role
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.navigation_home)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -75,11 +79,19 @@ class HomePageUser : AppCompatActivity() {
             startActivity(intent)
         }
 
-        findViewById<ImageView>(R.id.fab).setOnClickListener {
-            val intent = Intent(this, createQueimada::class.java)
-            intent.putExtra("firstName", fullname)
-            intent.putExtra("idUser", idUser)
-            startActivityForResult(intent, REQUEST_CODE_CREATE_QUEIMADA)
+        if (userRole.equals("5")) {
+            // Torna o botão visível
+            fabButton.visibility = View.VISIBLE
+            fabButton.setOnClickListener {
+                val intent = Intent(this, createQueimada::class.java)
+                intent.putExtra("firstName", fullname)
+                intent.putExtra("idUser", idUser)
+                intent.putExtra("role", userRole)
+                startActivityForResult(intent, REQUEST_CODE_CREATE_QUEIMADA)
+            }
+        } else {
+            // Torna o botão invisível
+            fabButton.visibility = View.GONE
         }
 
         findViewById<ImageView>(R.id.menu_icon).setOnClickListener {

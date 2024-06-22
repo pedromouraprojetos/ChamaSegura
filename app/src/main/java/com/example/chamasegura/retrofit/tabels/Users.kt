@@ -7,5 +7,6 @@ data class Users(
     val FirstEnter: Boolean?,
     val name: String?,
     val idRole: Long?,
-    var estado_conta: String
+    var estado_conta: String,
+    var idMunicipalities: Long?,
 )

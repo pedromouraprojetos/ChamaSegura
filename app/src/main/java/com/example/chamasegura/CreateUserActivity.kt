@@ -114,7 +114,7 @@ class CreateUserActivity : AppCompatActivity() {
 
     private fun createUser(name: String, email: String, password: String) {
         val service = RetrofitClient.instance.create(SupabaseCreateService::class.java)
-        val user = Users(null, email, password, true, name, null, "Ativo")
+        val user = Users(null, email, password, true, name, null, "Ativo", null)
 
         service.addUsers(user).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {

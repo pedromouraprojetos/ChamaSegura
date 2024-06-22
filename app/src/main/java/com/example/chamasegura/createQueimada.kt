@@ -1,5 +1,7 @@
 package com.example.chamasegura
 
+import MyApp
+import MyApp.Companion.userId
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
@@ -13,11 +15,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chamasegura.retrofit.RetrofitClient
 import com.example.chamasegura.retrofit.SupabaseAuthService
+import com.example.chamasegura.retrofit.UpdateInfoUserService
 import com.example.chamasegura.retrofit.UpdateQueimadaRequest
+import com.example.chamasegura.retrofit.UpdateUserRequest
 import com.example.chamasegura.retrofit.tabels.Queimadas
 import com.example.chamasegura.retrofit.tabels.Location
 import com.example.chamasegura.retrofit.tabels.TypeQueimadas
 import com.example.chamasegura.retrofit.tabels.Aprovation
+import com.example.chamasegura.retrofit.tabels.Users
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -139,6 +144,7 @@ class createQueimada : AppCompatActivity() {
 
                         if (locationId != null) {
                             val idQueimada = 0.toLong()
+
                             adicionarQueimada(locationId, type ?: 0, data, motivo, status, idUser)
                             val resultIntent = Intent()
                             resultIntent.putExtra("queimadaDate", data)
@@ -197,29 +203,66 @@ class createQueimada : AppCompatActivity() {
     }
 
     private fun adicionarQueimada(locationId: Long, idTypeQueimadas: Long, data: String, motivo: String, status: String, idUser: Long) {
-        val queimadas = Queimadas(idQueimada = null, locationId, idTypeQueimadas, data, motivo, status, idUser, idAprovation = null)
 
-        Log.d("entrou", "entrou")
-        val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
-        service.createQueimada(queimadas).enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
-                        Toast.makeText(this@createQueimada, "Solicitação enviada com sucesso", Toast.LENGTH_SHORT).show()
-                        ultimoId(queimadas)
+        // Chama a função getMunicipalities para obter o idMunicipalities correspondente ao idUser
+        getMunicipalities(idUser,
+            // Callback para tratamento geral
+            { result ->
+                // Aqui dentro, você pode usar o resultado obtido da API para tratamento geral
+                if (result != null) {
+                    Log.d("MainActivity", "Municipality ID: $result")
                 } else {
-                    val errorBody = response.errorBody()?.string() ?: "Erro desconhecido"
-                    Log.d("createQueimada", "Código de resposta: ${response.code()}, Corpo de erro: $errorBody")
-                    Toast.makeText(this@createQueimada, "Erro ao enviar solicitação", Toast.LENGTH_SHORT).show()
+                    Log.e("MainActivity", "Erro ao obter municípios")
+                }
+            },
+            // Callback para obter o idMunicipalities específico
+            { idMunicipalities ->
+                idMunicipalities?.let { municipalities ->
+                    // Aqui você pode criar o objeto Queimadas com o idMunicipalities obtido
+                    val queimadas = Queimadas(
+                        idQueimada = null,
+                        location = locationId,
+                        idTypeQueimadas = idTypeQueimadas,
+                        date = data,
+                        reason = motivo,
+                        status = status,
+                        idUser = idUser,
+                        idAprovation = null,
+                        idMunicipalities = municipalities // Aqui idMunicipalities é do tipo String conforme obtido da API
+                    )
+
+                    // Inicia a requisição para criar a queimada usando Retrofit
+                    val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+                    service.createQueimada(queimadas).enqueue(object : Callback<Void> {
+                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                            if (response.isSuccessful) {
+                                Toast.makeText(this@createQueimada, "Solicitação enviada com sucesso", Toast.LENGTH_SHORT).show()
+                                ultimoId(queimadas)
+                            } else {
+                                val errorBody = response.errorBody()?.string() ?: "Erro desconhecido"
+                                Log.d("createQueimada", "Código de resposta: ${response.code()}, Corpo de erro: $errorBody")
+                                Toast.makeText(this@createQueimada, "Erro ao enviar solicitação", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Void>, t: Throwable) {
+                            Toast.makeText(this@createQueimada, "Falha na solicitação: ${t.message}", Toast.LENGTH_SHORT).show()
+                            Log.e("createQueimada", "Falha na solicitação", t)
+                            Log.e("createQueimada", "Mensagem de erro: ${t.localizedMessage}")
+                        }
+                    })
+                } ?: run {
+                    // Trate o caso em que idMunicipalities é null
+                    Log.e("createQueimada", "Não foi possível obter o idMunicipalities para o idUser: $idUser")
+                    Toast.makeText(this@createQueimada, "Não foi possível obter o idMunicipalities", Toast.LENGTH_SHORT).show()
                 }
             }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(this@createQueimada, "Falha na solicitação: ${t.message}", Toast.LENGTH_SHORT).show()
-                Log.e("createQueimada", "Falha na solicitação", t)
-                Log.e("createQueimada", "Mensagem de erro: ${t.localizedMessage}")
-            }
-        })
+        )
     }
+
+
+
+
 
     private fun criarNovaAprovacao(queimada: Queimadas) {
         val aprovacao = Aprovation(idAprovation = null, bombeiros = "Pendente", protecao_civil = "Pendente", municipio = "Pendente")
@@ -363,5 +406,42 @@ class createQueimada : AppCompatActivity() {
         }, year, month, day)
         datePickerDialog.show()
     }
+
+    private fun getMunicipalities(idUser: Long, callback: (String?) -> Unit, municipalityIdCallback: (String?) -> Unit) {
+        val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+
+        service.getRoleIdByUserId("eq.$idUser").enqueue(object : Callback<List<Users>> {
+            override fun onResponse(call: Call<List<Users>>, response: Response<List<Users>>) {
+                if (response.isSuccessful) {
+                    val users = response.body()
+                    if (users != null && users.isNotEmpty()) {
+                        // Supondo que há apenas um usuário com o id específico
+                        val municipalityId = users[0].idMunicipalities.toString()
+                        Log.d("createQueimada", "Municipality ID: $municipalityId")
+                        municipalityIdCallback.invoke(municipalityId)
+                    } else {
+                        Log.e("createQueimada", "Usuário não encontrado ou lista vazia")
+                        municipalityIdCallback.invoke(null) // Usuário não encontrado ou lista vazia
+                    }
+                } else {
+                    Log.e("createQueimada", "Erro na resposta: ${response.code()}")
+                    municipalityIdCallback.invoke(null) // Tratar o caso de resposta não bem-sucedida aqui
+                }
+
+                // A chamada original do callback pode ser mantida para casos onde você precisa apenas verificar o sucesso
+                callback.invoke(null)
+            }
+
+            override fun onFailure(call: Call<List<Users>>, t: Throwable) {
+                Log.e("createQueimada", "Falha na comunicação: ${t.message}")
+                callback.invoke(null) // Tratar falhas na comunicação com a API aqui
+
+                // No caso de falha, também chame o callback do município com null
+                municipalityIdCallback.invoke(null)
+            }
+        })
+    }
+
+
 
 }

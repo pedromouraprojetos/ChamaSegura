@@ -8,5 +8,6 @@ data class Queimadas(
     val reason: String,
     val status: String,
     val idUser: Long,
-    val idAprovation: Long?
+    val idAprovation: Long?,
+    val idMunicipalities: String?
 )
