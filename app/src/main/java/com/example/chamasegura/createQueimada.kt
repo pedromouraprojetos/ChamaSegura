@@ -143,7 +143,8 @@ class createQueimada : AppCompatActivity() {
                         Log.d("createQueimada3", "Resposta bem-sucedida: $locationId")
 
                         if (locationId != null) {
-                            adicionarQueimada(locationId, type ?: 0, data, motivo, status, idUser)
+                            val idQueimada = 0.toLong()
+                            adicionarQueimada(idQueimada, locationId, type ?: 0, data, motivo, status, idUser)
                             val resultIntent = Intent()
                             resultIntent.putExtra("queimadaDate", data)
                             resultIntent.putExtra("queimadaStatus", status)
@@ -200,7 +201,7 @@ class createQueimada : AppCompatActivity() {
         })
     }
 
-    private fun adicionarQueimada(locationId: Long, idTypeQueimadas: Long, data: String, motivo: String, status: String, idUser: Long) {
+    private fun adicionarQueimada(idQueimada: Long, locationId: Long, idTypeQueimadas: Long, data: String, motivo: String, status: String, idUser: Long) {
         val queimadas = Queimadas(idQueimada = null, locationId, idTypeQueimadas, data, motivo, status, idUser, idAprovation = null)
 
         Log.d("entrou", "entrou")
@@ -208,6 +209,7 @@ class createQueimada : AppCompatActivity() {
         service.createQueimada(queimadas).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
+                    val idQueimadaCriada = response.body()
                         Toast.makeText(this@createQueimada, "Solicitação enviada com sucesso", Toast.LENGTH_SHORT).show()
                         ultimoId(queimadas)
                 } else {
