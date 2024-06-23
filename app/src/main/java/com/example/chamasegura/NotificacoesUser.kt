@@ -166,7 +166,14 @@ class NotificacoesUser : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val queimadas = response.body()
                     if (!queimadas.isNullOrEmpty()) {
-                        updatePendingQueimadasUI(queimadas, roleType)
+                        // Verifica se o tipo de role permite o acesso
+                        if (roleType in listOf("Admin", "Bombeiros", "Proteção Civil", "Municipio")) {
+                            updatePendingQueimadasUI(queimadas, roleType)
+                        } else {
+                            // Lida com o caso em que o tipo de usuário não tem acesso
+                            // Pode exibir uma mensagem de erro ou fazer outra ação
+                            Toast.makeText(this@NotificacoesUser, "Acesso não autorizado", Toast.LENGTH_SHORT).show()
+                        }
                     } else {
                         Log.e("home", "Resposta vazia ou nula")
                         updatePendingQueimadasUI(emptyList(), roleType)
@@ -186,6 +193,7 @@ class NotificacoesUser : AppCompatActivity() {
             }
         })
     }
+
 
     private fun updatePendingQueimadasUI(queimadas: List<Queimadas>, roleType: String) {
         val adapter = QueimadasAdapter2(queimadas, roleType)
