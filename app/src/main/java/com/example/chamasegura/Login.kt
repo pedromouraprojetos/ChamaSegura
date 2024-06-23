@@ -97,12 +97,14 @@ class Login : AppCompatActivity() {
                             val intent = Intent(this@Login, Profile::class.java)
                             MyApp.userId = user.idUsers.toString()
                             MyApp.firstName = user.name.toString()
+                            MyApp.role = user.idRole.toString()
                             startActivity(intent)
                         } else {
                             // Ação se firstEnter for false
                             val intent = Intent(this@Login, HomePageUser::class.java)
                             MyApp.userId = user.idUsers.toString()
                             MyApp.firstName = user.name.toString()
+                            MyApp.role = user.idRole.toString()
                             startActivity(intent)
                         }
 

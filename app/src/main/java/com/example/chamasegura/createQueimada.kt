@@ -1,11 +1,13 @@
 package com.example.chamasegura
 
+import MyApp
+import MyApp.Companion.userId
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import android.widget.CalendarView
 import android.widget.EditText
 import android.widget.ArrayAdapter
 import android.widget.ImageView
@@ -14,24 +16,27 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chamasegura.retrofit.RetrofitClient
 import com.example.chamasegura.retrofit.SupabaseAuthService
+import com.example.chamasegura.retrofit.UpdateInfoUserService
 import com.example.chamasegura.retrofit.UpdateQueimadaRequest
+import com.example.chamasegura.retrofit.UpdateUserRequest
 import com.example.chamasegura.retrofit.tabels.Queimadas
 import com.example.chamasegura.retrofit.tabels.Location
 import com.example.chamasegura.retrofit.tabels.TypeQueimadas
 import com.example.chamasegura.retrofit.tabels.Aprovation
+import com.example.chamasegura.retrofit.tabels.Rules
+import com.example.chamasegura.retrofit.tabels.Users
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 
 class createQueimada : AppCompatActivity() {
 
     private lateinit var coordenadasEditText: EditText
     private lateinit var tipoSpinner: Spinner
-    private lateinit var dataSolicitacao: EditText
+    private lateinit var dataCalendarView: EditText
     private lateinit var motivoEditText: EditText
     private lateinit var solicitarAprovacaoButton: Button
     private lateinit var firstName: String
@@ -43,14 +48,14 @@ class createQueimada : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_solicitaraprovacao)
 
-        dataSolicitacao = findViewById(R.id.datarealizacao)
+        dataCalendarView = findViewById(R.id.datarealizacao)
 
-        dataSolicitacao.setOnClickListener { showDatePickerDialog(dataSolicitacao) }
+        dataCalendarView.setOnClickListener { showDatePickerDialog(dataCalendarView) }
 
         // Inicialização dos componentes de UI
         coordenadasEditText = findViewById(R.id.coordenadasEditText)
         tipoSpinner = findViewById(R.id.tipoSpinner)
-        dataSolicitacao = findViewById(R.id.datarealizacao)
+        dataCalendarView = findViewById(R.id.datarealizacao)
         motivoEditText = findViewById(R.id.motivoEditText)
         solicitarAprovacaoButton = findViewById(R.id.solicitar_aprovacao_button)
 
@@ -77,7 +82,6 @@ class createQueimada : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
 
         // Buscar e popular o Spinner com os tipos de queimadas
         loadTypeQueimadas()
@@ -112,7 +116,7 @@ class createQueimada : AppCompatActivity() {
         val longitude = coordenadas.getOrNull(1)
         val selectedPosition = tipoSpinner.selectedItemPosition
         val type = typeQueimadasList.getOrNull(selectedPosition)?.idTypeQueimadas
-        val data = selectedDate
+        val data = dataCalendarView.text.toString()
         val motivo = motivoEditText.text.toString()
         val status = "Pendente"
 
@@ -141,13 +145,36 @@ class createQueimada : AppCompatActivity() {
                         Log.d("createQueimada3", "Resposta bem-sucedida: $locationId")
 
                         if (locationId != null) {
-                            val idQueimada = 0.toLong()
-                            adicionarQueimada(idQueimada, locationId, type ?: 0, data, motivo, status, idUser)
-                            val resultIntent = Intent()
-                            resultIntent.putExtra("queimadaDate", data)
-                            resultIntent.putExtra("queimadaStatus", status)
-                            setResult(RESULT_OK, resultIntent)
-                            finish()
+                            // Obtenha o idMunicipalities do usuário
+                            getMunicipalities(idUser,
+                                { result ->
+                                    if (result != null) {
+                                        Log.d("MainActivity", "Municipality ID: $result")
+                                    } else {
+                                        Log.e("MainActivity", "Erro ao obter municípios")
+                                    }
+                                },
+                                { idMunicipalities ->
+                                    idMunicipalities?.let { municipalityId ->
+                                        // Verifique as regras do município antes de adicionar a queimada
+                                        verificarRegrasMunicipio(municipalityId, data) { podeCriarQueimada ->
+                                            if (podeCriarQueimada) {
+                                                adicionarQueimada(locationId, type ?: 0, data, motivo, status, idUser)
+                                                val resultIntent = Intent()
+                                                resultIntent.putExtra("queimadaDate", data)
+                                                resultIntent.putExtra("queimadaStatus", status)
+                                                setResult(RESULT_OK, resultIntent)
+                                                finish()
+                                            } else {
+                                                Toast.makeText(this@createQueimada, "A queimada não pode ser realizada na data selecionada devido às regras do município.", Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+                                    } ?: run {
+                                        Log.e("createQueimada", "Não foi possível obter o idMunicipalities para o idUser: $idUser")
+                                        Toast.makeText(this@createQueimada, "Não foi possível obter o idMunicipalities", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            )
                         } else {
                             Toast.makeText(this@createQueimada, "ID de localização inválido", Toast.LENGTH_SHORT).show()
                         }
@@ -199,31 +226,67 @@ class createQueimada : AppCompatActivity() {
         })
     }
 
-    private fun adicionarQueimada(idQueimada: Long, locationId: Long, idTypeQueimadas: Long, data: String, motivo: String, status: String, idUser: Long) {
-        val queimadas = Queimadas(idQueimada = null, locationId, idTypeQueimadas, data, motivo, status, idUser, idAprovation = null)
+    private fun adicionarQueimada(locationId: Long, idTypeQueimadas: Long, data: String, motivo: String, status: String, idUser: Long) {
 
-        Log.d("entrou", "entrou")
-        val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
-        service.createQueimada(queimadas).enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
-                    val idQueimadaCriada = response.body()
-                    Toast.makeText(this@createQueimada, "Solicitação enviada com sucesso", Toast.LENGTH_SHORT).show()
-                    ultimoId(queimadas)
+        // Chama a função getMunicipalities para obter o idMunicipalities correspondente ao idUser
+        getMunicipalities(idUser,
+            // Callback para tratamento geral
+            { result ->
+                // Aqui dentro, você pode usar o resultado obtido da API para tratamento geral
+                if (result != null) {
+                    Log.d("MainActivity", "Municipality ID: $result")
                 } else {
-                    val errorBody = response.errorBody()?.string() ?: "Erro desconhecido"
-                    Log.d("createQueimada", "Código de resposta: ${response.code()}, Corpo de erro: $errorBody")
-                    Toast.makeText(this@createQueimada, "Erro ao enviar solicitação", Toast.LENGTH_SHORT).show()
+                    Log.e("MainActivity", "Erro ao obter municípios")
+                }
+            },
+            // Callback para obter o idMunicipalities específico
+            { idMunicipalities ->
+                idMunicipalities?.let { municipalities ->
+                    // Aqui você pode criar o objeto Queimadas com o idMunicipalities obtido
+                    val queimadas = Queimadas(
+                        idQueimada = null,
+                        location = locationId,
+                        idTypeQueimadas = idTypeQueimadas,
+                        date = data,
+                        reason = motivo,
+                        status = status,
+                        idUser = idUser,
+                        idAprovation = null,
+                        idMunicipalities = municipalities // Aqui idMunicipalities é do tipo String conforme obtido da API
+                    )
+
+                    // Inicia a requisição para criar a queimada usando Retrofit
+                    val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+                    service.createQueimada(queimadas).enqueue(object : Callback<Void> {
+                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                            if (response.isSuccessful) {
+                                Toast.makeText(this@createQueimada, "Solicitação enviada com sucesso", Toast.LENGTH_SHORT).show()
+                                ultimoId(queimadas)
+                            } else {
+                                val errorBody = response.errorBody()?.string() ?: "Erro desconhecido"
+                                Log.d("createQueimada", "Código de resposta: ${response.code()}, Corpo de erro: $errorBody")
+                                Toast.makeText(this@createQueimada, "Erro ao enviar solicitação", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Void>, t: Throwable) {
+                            Toast.makeText(this@createQueimada, "Falha na solicitação: ${t.message}", Toast.LENGTH_SHORT).show()
+                            Log.e("createQueimada", "Falha na solicitação", t)
+                            Log.e("createQueimada", "Mensagem de erro: ${t.localizedMessage}")
+                        }
+                    })
+                } ?: run {
+                    // Trate o caso em que idMunicipalities é null
+                    Log.e("createQueimada", "Não foi possível obter o idMunicipalities para o idUser: $idUser")
+                    Toast.makeText(this@createQueimada, "Não foi possível obter o idMunicipalities", Toast.LENGTH_SHORT).show()
                 }
             }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(this@createQueimada, "Falha na solicitação: ${t.message}", Toast.LENGTH_SHORT).show()
-                Log.e("createQueimada", "Falha na solicitação", t)
-                Log.e("createQueimada", "Mensagem de erro: ${t.localizedMessage}")
-            }
-        })
+        )
     }
+
+
+
+
 
     private fun criarNovaAprovacao(queimada: Queimadas) {
         val aprovacao = Aprovation(idAprovation = null, bombeiros = "Pendente", protecao_civil = "Pendente", municipio = "Pendente")
@@ -237,13 +300,26 @@ class createQueimada : AppCompatActivity() {
                     Log.d("teste", "teste")
                     getUltimoIdAprovation(queimada, aprovacao)
                 } else {
-                    Log.d("createQueimada", "Código de resposta: ${response.code()}, Corpo de erro: ${response.errorBody()?.string()}")
-                    Toast.makeText(this@createQueimada, "Erro ao criar aprovação", Toast.LENGTH_SHORT).show()
+                    Log.d(
+                        "createQueimada",
+                        "Código de resposta: ${response.code()}, Corpo de erro: ${
+                            response.errorBody()?.string()
+                        }"
+                    )
+                    Toast.makeText(
+                        this@createQueimada,
+                        "Erro ao criar aprovação",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(this@createQueimada, "Falha na criação da aprovação: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@createQueimada,
+                    "Falha na criação da aprovação: ${t.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
                 Log.e("createQueimada", "Falha na criação da aprovação", t)
             }
         })
@@ -285,6 +361,7 @@ class createQueimada : AppCompatActivity() {
             }
         })
     }
+
 
     private fun ultimoId(queimada: Queimadas) {
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
@@ -341,7 +418,7 @@ class createQueimada : AppCompatActivity() {
         })
     }
 
-
+    @SuppressLint("DefaultLocale")
     private fun showDatePickerDialog(editText: EditText) {
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
@@ -349,8 +426,82 @@ class createQueimada : AppCompatActivity() {
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         val datePickerDialog = DatePickerDialog(this, { _, year, monthOfYear, dayOfMonth ->
-            editText.setText("$year/${monthOfYear + 1}/$dayOfMonth")
+            val date = "$year-${String.format("%02d", monthOfYear + 1)}-${String.format("%02d", dayOfMonth)}"
+            editText.setText(date)
         }, year, month, day)
         datePickerDialog.show()
     }
+
+    private fun getMunicipalities(idUser: Long, callback: (String?) -> Unit, municipalityIdCallback: (String?) -> Unit) {
+        val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+
+        service.getRoleIdByUserId("eq.$idUser").enqueue(object : Callback<List<Users>> {
+            override fun onResponse(call: Call<List<Users>>, response: Response<List<Users>>) {
+                if (response.isSuccessful) {
+                    val users = response.body()
+                    if (users != null && users.isNotEmpty()) {
+                        // Supondo que há apenas um usuário com o id específico
+                        val municipalityId = users[0].idMunicipalities.toString()
+                        Log.d("createQueimada", "Municipality ID: $municipalityId")
+                        municipalityIdCallback.invoke(municipalityId)
+                    } else {
+                        Log.e("createQueimada", "Usuário não encontrado ou lista vazia")
+                        municipalityIdCallback.invoke(null) // Usuário não encontrado ou lista vazia
+                    }
+                } else {
+                    Log.e("createQueimada", "Erro na resposta: ${response.code()}")
+                    municipalityIdCallback.invoke(null) // Tratar o caso de resposta não bem-sucedida aqui
+                }
+
+                // A chamada original do callback pode ser mantida para casos onde você precisa apenas verificar o sucesso
+                callback.invoke(null)
+            }
+
+            override fun onFailure(call: Call<List<Users>>, t: Throwable) {
+                Log.e("createQueimada", "Falha na comunicação: ${t.message}")
+                callback.invoke(null) // Tratar falhas na comunicação com a API aqui
+
+                // No caso de falha, também chame o callback do município com null
+                municipalityIdCallback.invoke(null)
+            }
+        })
+    }
+
+    private fun verificarRegrasMunicipio(idMunicipio: String, data: String, callback: (Boolean) -> Unit) {
+        val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+
+        service.getRegrasMunicipio("eq.$idMunicipio").enqueue(object : Callback<List<Rules>> {
+            override fun onResponse(call: Call<List<Rules>>, response: Response<List<Rules>>) {
+                if (response.isSuccessful) {
+                    val regras = response.body()
+
+                    if (!regras.isNullOrEmpty()) {
+                        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                        val dataQueimada = sdf.parse(data)
+
+                        for (regra in regras) {
+                            val dataInicio = sdf.parse(regra.date_start)
+                            val dataFim = sdf.parse(regra.date_end)
+
+                            if (dataQueimada in dataInicio..dataFim) {
+                                callback(false)
+                                return
+                            }
+                        }
+                    }
+
+                    callback(true)
+                } else {
+                    Log.e("createQueimada", "Erro ao obter regras do município: ${response.code()}")
+                    callback(true)
+                }
+            }
+
+            override fun onFailure(call: Call<List<Rules>>, t: Throwable) {
+                Log.e("createQueimada", "Falha ao obter regras do município: ${t.message}")
+                callback(true)
+            }
+        })
+    }
+
 }

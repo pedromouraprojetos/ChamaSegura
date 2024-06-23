@@ -203,40 +203,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Data de Pedido -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/data_TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Data De Pedido"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <!-- Linha preta -->
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:background="@android:color/black"
-                    app:layout_constraintTop_toBottomOf="@id/data_TextView"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="8dp"/>
-
-                <!-- Ícone -->
-                <ImageView
-                    android:id="@+id/data_Icon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/data"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Motivo -->
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -275,76 +241,8 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Observação -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/ObservacaoTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Observação"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <!-- Linha preta -->
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:background="@android:color/black"
-                    app:layout_constraintTop_toBottomOf="@id/ObservacaoTextView"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="8dp"/>
-
-                <!-- Ícone -->
-                <ImageView
-                    android:id="@+id/ObservacaoIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/observacao"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Estado -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp">
-
-                <!-- Box para exibir o estado -->
-                <TextView
-                    android:id="@+id/estadoBox"
-                    android:layout_width="0dp"
-                    android:layout_height="45dp"
-                    android:background="@drawable/estado_box_background"
-                    android:gravity="center_vertical"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="76dp"
-                    android:text="Estado"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="8dp"/>
-
-                <!-- Ícone -->
-                <ImageView
-                    android:id="@+id/estadoIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/setadown"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginEnd="16dp"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
     </ScrollView>

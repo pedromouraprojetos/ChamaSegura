@@ -27,7 +27,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 class NotificacoesUser : AppCompatActivity() {
     val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
     private lateinit var drawerLayout: DrawerLayout
-
+    private lateinit var navigationView: NavigationView
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +35,22 @@ class NotificacoesUser : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_notificacoes_user)
         drawerLayout = findViewById(R.id.notificacoes)
+        navigationView = findViewById(R.id.nav_view)
+
+        getUserType { userType ->
+            if (userType != null) {
+                when (userType) {
+                    "Admin" -> navigationView.inflateMenu(R.menu.drawer_menu_admin)
+                    "user" -> navigationView.inflateMenu(R.menu.drawer_menu)
+                    "Bombeiros" -> navigationView.inflateMenu(R.menu.drawer_menu_bombeiro)
+                    "Proteção Civil" -> navigationView.inflateMenu(R.menu.drawer_menu_protecao_civil)
+                    "Municipio" -> navigationView.inflateMenu(R.menu.drawer_menu_municipio)
+                }
+                fetchPendingQueimadas(userType)
+            } else {
+                Toast.makeText(this, "Erro ao obter o tipo de usuário", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         //Bottom Menu
 
@@ -59,6 +75,10 @@ class NotificacoesUser : AppCompatActivity() {
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
+                R.id.nav_create_rules -> {
+                    startActivity(Intent(this, CreateRules::class.java))
+                    true
+                }
                 R.id.nav_logout -> {
                     logout()
                     true
@@ -146,7 +166,14 @@ class NotificacoesUser : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val queimadas = response.body()
                     if (!queimadas.isNullOrEmpty()) {
-                        updatePendingQueimadasUI(queimadas, roleType)
+                        // Verifica se o tipo de role permite o acesso
+                        if (roleType in listOf("Admin", "Bombeiros", "Proteção Civil", "Municipio")) {
+                            updatePendingQueimadasUI(queimadas, roleType)
+                        } else {
+                            // Lida com o caso em que o tipo de usuário não tem acesso
+                            // Pode exibir uma mensagem de erro ou fazer outra ação
+                            Toast.makeText(this@NotificacoesUser, "Acesso não autorizado", Toast.LENGTH_SHORT).show()
+                        }
                     } else {
                         Log.e("home", "Resposta vazia ou nula")
                         updatePendingQueimadasUI(emptyList(), roleType)
@@ -167,6 +194,7 @@ class NotificacoesUser : AppCompatActivity() {
         })
     }
 
+
     private fun updatePendingQueimadasUI(queimadas: List<Queimadas>, roleType: String) {
         val adapter = QueimadasAdapter2(queimadas, roleType)
         recyclerView.adapter = adapter
@@ -178,4 +206,69 @@ class NotificacoesUser : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
+    private fun getUserType(callback: (String?) -> Unit) {
+        val idUser = MyApp.userId.toLong()
+
+        service.getRoleIdByUserId("eq.$idUser").enqueue(object : Callback<List<Users>> {
+            override fun onResponse(call: Call<List<Users>>, response: Response<List<Users>>) {
+                if (response.isSuccessful) {
+                    val usersList = response.body()
+                    if (usersList != null && usersList.isNotEmpty()) {
+                        val user = usersList[0]
+                        val idRole = user.idRole
+                        Log.d("Role", "idRole: $idRole")
+                        if (idRole != null) {
+                            val idRoleString = idRole.toString()
+                            service.getRole("eq.$idRoleString").enqueue(object : Callback<List<Roles>> {
+                                override fun onResponse(call: Call<List<Roles>>, response: Response<List<Roles>>) {
+                                    if (response.isSuccessful) {
+                                        val rolesList = response.body()
+                                        if (rolesList != null && rolesList.isNotEmpty()) {
+                                            val role = rolesList[0]
+                                            val roleType = role.type
+                                            Log.d("Role", "Tipo de role: $roleType")
+                                            callback(roleType)
+                                        } else {
+                                            Toast.makeText(this@NotificacoesUser, "Tipo de role não encontrado", Toast.LENGTH_SHORT).show()
+                                            callback(null)
+                                        }
+                                    } else {
+                                        Toast.makeText(this@NotificacoesUser, "Erro ao obter o tipo de role", Toast.LENGTH_SHORT).show()
+                                        Log.e("teste", "Falha ao obter tipo do role do user: ${response.code()} - ${response.errorBody()?.string()}")
+                                        callback(null)
+                                    }
+                                }
+
+                                override fun onFailure(call: Call<List<Roles>>, t: Throwable) {
+                                    val errorMessage = t.message ?: "Erro desconhecido"
+                                    Log.d("Erro", "Falha ao obter o tipo de role: $errorMessage")
+                                    Toast.makeText(this@NotificacoesUser, "Erro ao obter o tipo de role: $errorMessage", Toast.LENGTH_SHORT).show()
+                                    callback(null)
+                                }
+                            })
+                        } else {
+                            Toast.makeText(this@NotificacoesUser, "ID do role do usuário não encontrado", Toast.LENGTH_SHORT).show()
+                            callback(null)
+                        }
+                    } else {
+                        Toast.makeText(this@NotificacoesUser, "Usuário não encontrado", Toast.LENGTH_SHORT).show()
+                        callback(null)
+                    }
+                } else {
+                    Toast.makeText(this@NotificacoesUser, "Erro ao obter o ID do role do usuário", Toast.LENGTH_SHORT).show()
+                    Log.e("teste", "Falha ao obter id do role do user: ${response.code()} - ${response.errorBody()?.string()}")
+                    callback(null)
+                }
+            }
+
+            override fun onFailure(call: Call<List<Users>>, t: Throwable) {
+                val errorMessage = t.message ?: "Erro desconhecido"
+                Log.d("Erro", "Falha ao obter o ID do role do usuário: $errorMessage")
+                Toast.makeText(this@NotificacoesUser, "Erro ao obter o ID do role do usuário: $errorMessage", Toast.LENGTH_SHORT).show()
+                callback(null)
+            }
+        })
+    }
+
 }
