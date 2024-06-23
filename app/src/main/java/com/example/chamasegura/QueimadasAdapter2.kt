@@ -19,6 +19,8 @@ import com.example.chamasegura.retrofit.UpdateAprovationBombeirosRequest
 import com.example.chamasegura.retrofit.UpdateAprovationProtecaoCivilRequest
 import com.example.chamasegura.retrofit.UpdateAprovationMunicipioRequest
 import com.example.chamasegura.retrofit.UpdateAprovationAdminRequest
+import com.example.chamasegura.retrofit.tabels.Location
+import com.example.chamasegura.retrofit.tabels.TypeQueimadas
 
 class QueimadasAdapter2(private val queimadas: List<Queimadas>, private val roleType: String) : RecyclerView.Adapter<QueimadasAdapter2.ViewHolder>() {
 
@@ -52,18 +54,68 @@ class QueimadasAdapter2(private val queimadas: List<Queimadas>, private val role
 
     private fun showQueimadaDetails(context: Context, queimada: Queimadas) {
         var status = "Pendente"
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.activity_queimada_details2, null)
-
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.activity_criarqueimada_with_check_boxes, null)
         val dialog = AlertDialog.Builder(context)
             .setView(dialogView)
             .create()
 
-        dialogView.findViewById<TextView>(R.id.text_coordinates).text = "Coordenadas: (${queimada.location})"
-        dialogView.findViewById<TextView>(R.id.text_type).text = "Tipo: ${queimada.idTypeQueimadas}"
-        dialogView.findViewById<TextView>(R.id.text_date).text = "Data: ${queimada.date}"
-        dialogView.findViewById<TextView>(R.id.text_reason).text = "Motivo: ${queimada.reason}"
+        val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
 
-        dialog.show()
+        // Chamada para obter os tipos de queimadas
+        service.getTypeQueimadas().enqueue(object : Callback<List<TypeQueimadas>> {
+            override fun onResponse(call: Call<List<TypeQueimadas>>, response: Response<List<TypeQueimadas>>) {
+                if (response.isSuccessful) {
+                    val typeQueimadasList = response.body()
+                    // Encontra o tipo correto com base no idTypeQueimadas
+                    val typeQueimada = typeQueimadasList?.find { it.idTypeQueimadas == queimada.idTypeQueimadas }
+
+                    if (typeQueimada != null) {
+                        dialogView.findViewById<TextView>(R.id.tipoTextView).text = typeQueimada.type
+                    } else {
+                        dialogView.findViewById<TextView>(R.id.tipoTextView).text = "Tipo não encontrado"
+                    }
+
+                    // Continuar com a chamada para obter as localizações
+                    service.getLocations().enqueue(object : Callback<List<Location>> {
+                        override fun onResponse(call: Call<List<Location>>, response: Response<List<Location>>) {
+                            if (response.isSuccessful) {
+                                val locationsList = response.body()
+                                // Supondo que a queimada tenha uma referência à localização
+                                // Aqui você deve encontrar a localização correta com base na queimada
+                                val location = locationsList?.find { it.idLocation == queimada.location }
+
+                                if (location != null) {
+                                    dialogView.findViewById<TextView>(R.id.coordenadasTextView).text = "(${location.latitude}, ${location.longitude})"
+                                } else {
+                                    dialogView.findViewById<TextView>(R.id.coordenadasTextView).text = "Localização não encontrada"
+                                }
+
+                                dialogView.findViewById<TextView>(R.id.dataTextView).text = queimada.date
+                                dialogView.findViewById<TextView>(R.id.MotivoTextView).text = queimada.reason
+
+                                dialog.show()
+                            } else {
+                                // Tratar erro na resposta da API de localizações
+                                Toast.makeText(context, "Erro ao obter as localizações", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                        override fun onFailure(call: Call<List<Location>>, t: Throwable) {
+                            // Tratar falha na requisição de localizações
+                            Toast.makeText(context, "Falha na requisição de localizações", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                } else {
+                    // Tratar erro na resposta da API de tipos de queimadas
+                    Toast.makeText(context, "Erro ao obter os tipos de queimadas", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<TypeQueimadas>>, t: Throwable) {
+                // Tratar falha na requisição de tipos de queimadas
+                Toast.makeText(context, "Falha na requisição de tipos de queimadas", Toast.LENGTH_SHORT).show()
+            }
+        })
 
         // Configurar cliques nos botões check e cross
         dialogView.findViewById<ImageView>(R.id.check).setOnClickListener {
