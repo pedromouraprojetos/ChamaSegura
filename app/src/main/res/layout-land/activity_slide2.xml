@@ -15,63 +15,57 @@
 
         <!-- Adicione aqui os elementos do seu layout -->
         <ImageView
-            android:id="@+id/imageViewLogo"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="255dp"
+            android:layout_height="245dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:src="@drawable/logo"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/textViewWelcome"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:layout_marginTop="58dp"
+            android:layout_marginBottom="55dp"
+            android:src="@drawable/logo" />
 
         <TextView
-            android:id="@+id/textViewWelcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bem-Vindo"
-            android:textSize="20sp"
+            android:textSize="25sp"
+            android:text="Nesta aplicação vais poder "
             android:textColor="@android:color/black"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@id/textViewDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:layout_gravity="center_horizontal"/>
 
         <TextView
-            android:id="@+id/textViewDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="A sua aplicação de registo das"
-            android:textSize="16sp"
+            android:text="agendar e rever as suas"
+            android:textSize="25sp"
             android:textColor="@android:color/black"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@id/textViewSubtitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:layout_gravity="center_horizontal"/>
 
         <TextView
-            android:id="@+id/textViewSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="vossas queimadas"
-            android:textSize="16sp"
+            android:textSize="25sp"
+            android:text="queimadas e comunicar com a"
+            android:textColor="@android:color/black"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sua Câmara Municipal"
+            android:textSize="25sp"
             android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@id/linearLayoutBalls"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:layout_marginBottom="135dp"/>
 
         <LinearLayout
-            android:id="@+id/linearLayoutBalls"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ball_white"
+                android:layout_margin="20dp"/>
 
             <!-- Bola preta -->
             <ImageView
@@ -80,12 +74,6 @@
                 android:src="@drawable/ball_black"
                 android:layout_margin="20dp"/>
 
-            <!-- Bola cinza 1 -->
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/ball_white"
-                android:layout_margin="20dp"/>
 
             <!-- Bola cinza 2 -->
             <ImageView
@@ -95,6 +83,10 @@
                 android:layout_margin="20dp"/>
         </LinearLayout>
 
+
+
+
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

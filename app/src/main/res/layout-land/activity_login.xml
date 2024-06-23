@@ -12,14 +12,15 @@
         android:id="@+id/frameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <!-- Imagem de Fundo -->
         <ImageView
             android:id="@+id/backgroundImageView"
-            android:layout_width="336dp"
-            android:layout_height="186dp"
+            android:layout_width="280dp"
+            android:layout_height="250dp"
             android:contentDescription="Background Image"
             android:scaleType="centerCrop"
             android:src="@drawable/bolastopo" />
@@ -32,45 +33,40 @@
             android:layout_marginStart="8dp"
             android:contentDescription="Logo"
             android:src="@drawable/logo" />
-
     </FrameLayout>
 
-    <!-- Texto Entrar -->
-
-    <!-- Endereço de Email -->
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="348dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
         android:text="Entrar"
         android:textColor="@android:color/black"
-        android:textSize="50sp"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
-
-    <!-- Palavra-Passe -->
+        app:layout_constraintTop_toBottomOf="@id/frameLayout" />
 
     <TextView
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="348dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
         android:text="Endereço de Email"
         android:textColor="#616161"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/emailEditText"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+        app:layout_constraintTop_toBottomOf="@id/titleTextView" />
 
+    <!-- Endereço de Email -->
     <EditText
         android:id="@+id/emailEditText"
-        android:layout_width="267dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
         android:drawableEnd="@drawable/email"
         android:inputType="textEmailAddress"
         android:padding="12dp"
@@ -82,19 +78,21 @@
         android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="348dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
         android:text="Palavra-Passe"
         android:textColor="#616161"
-        android:textSize="12sp"
+        android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emailEditText" />
 
+    <!-- Palavra-Passe -->
     <EditText
         android:id="@+id/passwordEditText"
-        android:layout_width="272dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
         android:drawableEnd="@drawable/cadeado"
         android:inputType="textPassword"
         android:padding="12dp"
@@ -103,50 +101,52 @@
         app:layout_constraintTop_toBottomOf="@id/password" />
 
     <!-- Esqueceu a Palavra-Passe? -->
-
-    <!-- Botões -->
     <TextView
         android:id="@+id/forgotPasswordTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="340dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
         android:text="Esqueceu a Palavra-Passe?"
         android:textColor="@android:color/holo_blue_dark"
-        android:textSize="14sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
 
-    <!-- Constraint para alinhar os elementos -->
-
+    <!-- Botão Entrar -->
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="324dp"
-        android:layout_height="74dp"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="315dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="24dp"
+        android:drawableEnd="@drawable/seta"
         android:text="Entrar"
         android:textAllCaps="false"
         android:textColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/parentEnd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/forgotPasswordTextView" />
 
+    <!-- Botão Registar -->
     <Button
         android:id="@+id/registerButton"
-        android:layout_width="324dp"
-        android:layout_height="74dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="315dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="8dp"
+        android:drawableEnd="@drawable/seta"
         android:text="Registar"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        app:layout_constraintStart_toEndOf="@+id/loginButton"
-        app:layout_constraintTop_toBottomOf="@id/forgotPasswordTextView" />
+        app:layout_constraintEnd_toStartOf="@+id/parentEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loginButton" />
 
+    <!-- Constraint para alinhar os elementos -->
     <View
         android:id="@+id/parentEnd"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
