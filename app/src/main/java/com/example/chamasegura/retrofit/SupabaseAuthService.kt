@@ -56,7 +56,7 @@ interface SupabaseAuthService {
     @Headers("Content-Type: application/json", "apikey: $API_KEY")
     @GET("rest/v1/Users")
     fun getUserById(
-        @Query("idUser") idUser: String
+        @Query("idUsers") idUser: String
     ): Call<List<Users>>
 
     @Headers("Content-Type: application/json", "apikey: $API_KEY")
