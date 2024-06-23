@@ -109,6 +109,10 @@ interface SupabaseAuthService {
     fun createLocation(@Body location: Location): Call<Void>
 
     @Headers("Content-Type: application/json", "apikey: $API_KEY")
+    @GET("rest/v1/Location")
+    fun getLocations(): Call<List<Location>>
+
+    @Headers("Content-Type: application/json", "apikey: $API_KEY")
     @GET("rest/v1/Queimadas")
     fun getPendingQueimadas(
         @Query("idUser") idUser: String
