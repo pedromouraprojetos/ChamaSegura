@@ -1,21 +1,15 @@
-<!-- res/menu/drawer_menu_admin.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:id="@+id/group_admin_menu">
+    <group android:id="@+id/group_bombeiro_menu">
         <item
             android:id="@+id/nav_admin_menu"
-            android:title="Menu Admin"
+            android:title="Menu Municipio"
             android:enabled="false"
             android:clickable="false"/>
-        <item
-            android:id="@+id/nav_create_user"
-            android:title="Criar Utilizador" />
         <item
             android:id="@+id/nav_create_rules"
             android:title="Criar Regras" />
     </group>
-    <item
-        android:id="@+id/nav_logout"
-        android:title="Logout" />
     <item
         android:id="@+id/nav_divider"
         android:title=""

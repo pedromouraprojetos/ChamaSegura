@@ -179,4 +179,10 @@ interface SupabaseAuthService {
     @POST("rest/v1/Rules")
     fun createRules(@Body rules: Rules): Call<Void>
 
+    @Headers("Content-Type: application/json", "apikey: $API_KEY")
+    @GET("rest/v1/Rules")
+    fun getRegrasMunicipio(
+        @Query("idMunicipalities") idMunicipio: String
+    ): Call<List<Rules>>
+
 }

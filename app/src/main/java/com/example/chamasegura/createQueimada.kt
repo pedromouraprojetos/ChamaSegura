@@ -23,6 +23,7 @@ import com.example.chamasegura.retrofit.tabels.Queimadas
 import com.example.chamasegura.retrofit.tabels.Location
 import com.example.chamasegura.retrofit.tabels.TypeQueimadas
 import com.example.chamasegura.retrofit.tabels.Aprovation
+import com.example.chamasegura.retrofit.tabels.Rules
 import com.example.chamasegura.retrofit.tabels.Users
 import retrofit2.Call
 import retrofit2.Callback
@@ -144,12 +145,36 @@ class createQueimada : AppCompatActivity() {
                         Log.d("createQueimada3", "Resposta bem-sucedida: $locationId")
 
                         if (locationId != null) {
-                            adicionarQueimada(locationId, type ?: 0, data, motivo, status, idUser)
-                            val resultIntent = Intent()
-                            resultIntent.putExtra("queimadaDate", data)
-                            resultIntent.putExtra("queimadaStatus", status)
-                            setResult(RESULT_OK, resultIntent)
-                            finish()
+                            // Obtenha o idMunicipalities do usuário
+                            getMunicipalities(idUser,
+                                { result ->
+                                    if (result != null) {
+                                        Log.d("MainActivity", "Municipality ID: $result")
+                                    } else {
+                                        Log.e("MainActivity", "Erro ao obter municípios")
+                                    }
+                                },
+                                { idMunicipalities ->
+                                    idMunicipalities?.let { municipalityId ->
+                                        // Verifique as regras do município antes de adicionar a queimada
+                                        verificarRegrasMunicipio(municipalityId, data) { podeCriarQueimada ->
+                                            if (podeCriarQueimada) {
+                                                adicionarQueimada(locationId, type ?: 0, data, motivo, status, idUser)
+                                                val resultIntent = Intent()
+                                                resultIntent.putExtra("queimadaDate", data)
+                                                resultIntent.putExtra("queimadaStatus", status)
+                                                setResult(RESULT_OK, resultIntent)
+                                                finish()
+                                            } else {
+                                                Toast.makeText(this@createQueimada, "A queimada não pode ser realizada na data selecionada devido às regras do município.", Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+                                    } ?: run {
+                                        Log.e("createQueimada", "Não foi possível obter o idMunicipalities para o idUser: $idUser")
+                                        Toast.makeText(this@createQueimada, "Não foi possível obter o idMunicipalities", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            )
                         } else {
                             Toast.makeText(this@createQueimada, "ID de localização inválido", Toast.LENGTH_SHORT).show()
                         }
@@ -442,6 +467,41 @@ class createQueimada : AppCompatActivity() {
         })
     }
 
+    private fun verificarRegrasMunicipio(idMunicipio: String, data: String, callback: (Boolean) -> Unit) {
+        val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
 
+        service.getRegrasMunicipio("eq.$idMunicipio").enqueue(object : Callback<List<Rules>> {
+            override fun onResponse(call: Call<List<Rules>>, response: Response<List<Rules>>) {
+                if (response.isSuccessful) {
+                    val regras = response.body()
+
+                    if (!regras.isNullOrEmpty()) {
+                        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                        val dataQueimada = sdf.parse(data)
+
+                        for (regra in regras) {
+                            val dataInicio = sdf.parse(regra.date_start)
+                            val dataFim = sdf.parse(regra.date_end)
+
+                            if (dataQueimada in dataInicio..dataFim) {
+                                callback(false)
+                                return
+                            }
+                        }
+                    }
+
+                    callback(true)
+                } else {
+                    Log.e("createQueimada", "Erro ao obter regras do município: ${response.code()}")
+                    callback(true)
+                }
+            }
+
+            override fun onFailure(call: Call<List<Rules>>, t: Throwable) {
+                Log.e("createQueimada", "Falha ao obter regras do município: ${t.message}")
+                callback(true)
+            }
+        })
+    }
 
 }

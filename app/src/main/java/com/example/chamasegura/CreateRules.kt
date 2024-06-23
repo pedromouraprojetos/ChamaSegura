@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -35,6 +36,7 @@ class CreateRules : AppCompatActivity() {
     private lateinit var municipalitiesIds: List<Int>
     private lateinit var typeRulesList: List<TypeRules>
     private lateinit var typeRulesIds: List<Int>
+    private lateinit var backboton: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,11 +55,16 @@ class CreateRules : AppCompatActivity() {
         fimRegraEditText = findViewById(R.id.fimRegra)
         selecaoProibicaoSpinner = findViewById(R.id.selecaoProibicao)
         saveRulesButton = findViewById(R.id.saveRules)
+        backboton = findViewById(R.id.menu_icon)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        backboton.setOnClickListener {
+            finish()
         }
 
         // Configurar o botão "Salvar Regra"
