@@ -26,14 +26,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="25sp"
-            android:text="Em caso de incendio ou perda do "
+            android:text="@string/em_caso_de_incendio_ou_perda_do"
             android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="controlo da queimada, por favor,"
+            android:text="@string/controlo_da_queimada_por_favor"
             android:textSize="25sp"
             android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"/>
@@ -41,7 +41,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="contacte as autoridades"
+            android:text="@string/contacte_as_autoridades"
             android:textSize="25sp"
             android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"
@@ -57,7 +57,7 @@
             android:layout_marginBottom="15dp"
             android:drawableEnd="@drawable/seta"
             android:drawablePadding="8dp"
-            android:text="Entrar"
+            android:text="@string/entrar"
             android:textAlignment="textStart"
             android:textColor="@android:color/white"
             tools:ignore="RtlCompat" />
@@ -73,7 +73,7 @@
             android:background="@drawable/button_background2"
             android:drawableEnd="@drawable/seta"
             android:drawablePadding="8dp"
-            android:text="Registar"
+            android:text="@string/registrar"
             android:textAlignment="textStart"
             android:textColor="@android:color/white"
             tools:ignore="RtlCompat" />

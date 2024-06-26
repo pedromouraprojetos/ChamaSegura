@@ -29,31 +29,31 @@
         android:id="@+id/editTextEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email" />
+        android:hint="@string/email" />
 
     <EditText
         android:id="@+id/editTextPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="@string/senha"
         android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/editTextName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name" />
+        android:hint="@string/nome" />
 
     <EditText
         android:id="@+id/editTextRole"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Role" />
+        android:hint="@string/regra" />
 
     <Button
         android:id="@+id/buttonSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save" />
+        android:text="@string/save" />
 
 </LinearLayout>

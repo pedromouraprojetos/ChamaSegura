@@ -26,14 +26,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="25sp"
-            android:text="Nesta aplicação vais poder "
+            android:text="@string/nesta_aplica_o_vais_poder"
             android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="agendar e rever as suas"
+            android:text="@string/agendar_e_rever_as_suas"
             android:textSize="25sp"
             android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"/>
@@ -42,14 +42,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="25sp"
-            android:text="queimadas e comunicar com a"
+            android:text="@string/queimadas_e_comunicar_com_a"
             android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="sua Câmara Municipal"
+            android:text="@string/sua_c_mara_municipal"
             android:textSize="25sp"
             android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"

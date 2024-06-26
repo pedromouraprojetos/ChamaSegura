@@ -7,7 +7,7 @@
     </group>
     <item
         android:id="@+id/nav_logout"
-        android:title="Logout" />
+        android:title="@string/Logout" />
     <item
         android:id="@+id/nav_divider"
         android:title=""

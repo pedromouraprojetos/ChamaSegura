@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Selecione o Destrito"
+                    android:text="@string/destrito"
                     android:textSize="18sp" />
 
                 <Spinner
@@ -93,7 +93,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Selecione o motivo"
+                    android:text="@string/selecione_o_motivo"
                     android:textSize="18sp" />
 
                 <Spinner
@@ -118,7 +118,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Inicio da Regra"
+                    android:text="@string/inicio_da_regra"
                     android:textSize="18sp" />
 
                 <EditText
@@ -129,7 +129,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="40dp"
-                    android:hint="Digite a data de inicio"
+                    android:hint="@string/digite_a_data_de_inicio"
                     android:drawableEnd="@drawable/calendario"
                     android:focusable="false"
                     android:minHeight="48dp" />
@@ -146,8 +146,9 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Fim da Regra"
-                    android:textSize="18sp" />
+                    android:text="@string/fim_da_regra"
+                    android:textSize="18sp"
+                    tools:ignore="TextViewEdits" />
 
                 <EditText
                     android:id="@+id/fimRegra"
@@ -157,7 +158,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="40dp"
-                    android:hint="Digite a data de termino"
+                    android:hint="@string/digite_a_data_de_termino"
                     android:drawableEnd="@drawable/calendario"
                     android:focusable="false"
                     android:minHeight="48dp" />
@@ -171,7 +172,7 @@
         android:id="@+id/saveRules"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Salvar Regra"
+        android:text="@string/salvar_regra"
         app:layout_constraintTop_toBottomOf="@+id/header"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

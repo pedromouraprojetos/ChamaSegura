@@ -8,7 +8,7 @@
             android:clickable="false"/>
         <item
             android:id="@+id/nav_create_rules"
-            android:title="Criar Regras" />
+            android:title="@string/Criar_Regras" />
     </group>
     <item
         android:id="@+id/nav_divider"

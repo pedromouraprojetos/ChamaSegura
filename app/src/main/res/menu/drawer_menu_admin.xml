@@ -8,14 +8,14 @@
             android:clickable="false"/>
         <item
             android:id="@+id/nav_create_user"
-            android:title="Criar Utilizador" />
+            android:title="@string/criar_utilizador" />
         <item
             android:id="@+id/nav_create_rules"
-            android:title="Criar Regras" />
+            android:title="@string/Criar_Regras" />
     </group>
     <item
         android:id="@+id/nav_logout"
-        android:title="Logout" />
+        android:title="@string/Logout" />
     <item
         android:id="@+id/nav_divider"
         android:title=""

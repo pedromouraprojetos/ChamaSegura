@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bem-Vindo"
+            android:text="@string/bem_vindo"
             android:textSize="30sp"
             android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"
@@ -34,7 +34,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="A sua aplicação de registo das"
+            android:text="@string/a_sua_aplica_o_de_registo_das"
             android:textSize="25sp"
             android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"/>
@@ -42,7 +42,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="vossas queimadas"
+            android:text="@string/vossas_queimadas"
             android:textSize="25sp"
             android:textColor="@android:color/black"
             android:layout_gravity="center_horizontal"

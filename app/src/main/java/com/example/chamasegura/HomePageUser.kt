@@ -57,7 +57,7 @@ class HomePageUser : AppCompatActivity() {
         }
 
         val greetingMessage = findViewById<TextView>(R.id.greeting_message)
-        greetingMessage.text = "Olá $fullname!"
+        greetingMessage.text = "@string/ola $fullname!"
 
         findViewById<ImageView>(R.id.notification_icon).setOnClickListener {
             val intent = Intent(this, NotificacoesUser::class.java)

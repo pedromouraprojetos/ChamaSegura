@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Selecione o Destrito"
+                    android:text="@string/destrito"
                     android:textSize="18sp" />
 
                 <Spinner
@@ -93,7 +93,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Selecione o motivo"
+                    android:text="@string/selecione_o_motivo"
                     android:textSize="18sp" />
 
                 <Spinner
@@ -118,7 +118,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Inicio da Regra"
+                    android:text="@string/inicio_da_regra"
                     android:textSize="18sp" />
 
                 <EditText
@@ -129,9 +129,9 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="40dp"
-                    android:hint="Digite a data de inicio"
                     android:drawableEnd="@drawable/calendario"
                     android:focusable="false"
+                    android:hint="@string/digite_a_data_de_inicio"
                     android:minHeight="48dp" />
             </RelativeLayout>
             <RelativeLayout
@@ -146,7 +146,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Fim da Regra"
+                    android:text="@string/fim_da_regra"
                     android:textSize="18sp" />
 
                 <EditText
@@ -157,9 +157,9 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="40dp"
-                    android:hint="Digite a data de termino"
                     android:drawableEnd="@drawable/calendario"
                     android:focusable="false"
+                    android:hint="@string/digite_a_data_de_termino"
                     android:minHeight="48dp" />
             </RelativeLayout>
 
@@ -171,11 +171,11 @@
         android:id="@+id/saveRules"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Salvar Regra"
-        app:layout_constraintTop_toBottomOf="@+id/header"
+        android:text="@string/salvar_regra"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header"
         app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
