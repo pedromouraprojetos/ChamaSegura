@@ -17,10 +17,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import android.content.Context
 import android.content.Intent
-import android.os.Handler
-import android.os.Looper
 import com.example.chamasegura.EditUserActivity
-
+import com.google.android.material.snackbar.Snackbar
 
 class UsersAdapter(private var userList: List<Users>) :
     RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
@@ -41,87 +39,60 @@ class UsersAdapter(private var userList: List<Users>) :
     }
 
     fun updateUsers(users: List<Users>) {
-        userList = users // Atualiza a lista de usuários
-        notifyDataSetChanged() // Notifica o RecyclerView que os dados mudaram
+        userList = users
+        notifyDataSetChanged()
     }
 
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val userName: TextView = itemView.findViewById(R.id.userName)
         private val userEmail: TextView = itemView.findViewById(R.id.userEmail)
-        private val userAccountState: TextView = itemView.findViewById(R.id.userAccountState) // Novo campo adicionado
+        private val userAccountState: TextView = itemView.findViewById(R.id.userAccountState)
         private val editIcon: ImageView = itemView.findViewById(R.id.icon1)
         private val deleteIcon: ImageView = itemView.findViewById(R.id.icon2)
 
         fun bind(user: Users) {
             userName.text = user.name ?: "Nome não fornecido"
             userEmail.text = user.email
-            userAccountState.text = user.estado_conta // Atualiza o estado da conta
+            userAccountState.text = user.estado_conta
 
-            // Definir listeners para os ícones, se necessário
-            editIcon.setOnClickListener {
-                // Criar um Intent para abrir a atividade de edição do usuário
-                val intent = Intent(itemView.context, EditUserActivity::class.java)
+            editIcon.setOnClickListener { editUser(user) }
+            deleteIcon.setOnClickListener { toggleUserAccountState(user) }
+        }
 
-                // Passar os dados do usuário para a atividade de edição via Intent
-                intent.putExtra("userId", user.idUsers)
-                Log.d("teste2", "idUser: ${user.idUsers}")
-                intent.putExtra("userName", user.name)
-                intent.putExtra("userEmail", user.email)
-
-                // Iniciar a atividade de edição
-                itemView.context.startActivity(intent)
+        private fun editUser(user: Users) {
+            val intent = Intent(itemView.context, EditUserActivity::class.java).apply {
+                putExtra("userId", user.idUsers)
+                putExtra("userName", user.name)
+                putExtra("userEmail", user.email)
+                putExtra("userRole", user.idRole)
             }
+            itemView.context.startActivity(intent)
+        }
 
-            deleteIcon.setOnClickListener {
-                val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
-                val novoEstado = if (user.estado_conta == "Ativo") "Desativado" else "Ativo"
-                val updateEstadoConta = UpdateEstadoConta(novoEstado)
-                val idUsers = user.idUsers
+        private fun toggleUserAccountState(user: Users) {
+            val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+            val novoEstado = if (user.estado_conta == "Ativo") "Desativado" else "Ativo"
+            val updateEstadoConta = UpdateEstadoConta(novoEstado)
+            val idUsers = user.idUsers
 
-                service.UpdateEstadoConta("eq.$idUsers", updateEstadoConta).enqueue(object :
-                    Callback<Void> {
-                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                        if (response.isSuccessful) {
-                            // Atualizar o estado do usuário localmente
-                            user.estado_conta = novoEstado
-                            userAccountState.text = novoEstado // Atualiza o campo na UI
-
-                            // Mostrar Toast de sucesso
-                            Toast.makeText(
-                                itemView.context,
-                                "Conta ${novoEstado.toLowerCase()} com sucesso",
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-                            // Atualizar a UI
-                            notifyItemChanged(adapterPosition)
-                        } else {
-                            Log.d(
-                                "updateStatus",
-                                "Código de resposta: ${response.code()}, Corpo de erro: ${
-                                    response.errorBody()?.string()
-                                }"
-                            )
-                            // Mostrar Toast de erro
-                            Toast.makeText(
-                                itemView.context,
-                                "Erro ao ${novoEstado.toLowerCase()} a conta",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+            service.UpdateEstadoConta("eq.$idUsers", updateEstadoConta).enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        user.estado_conta = novoEstado
+                        userAccountState.text = novoEstado
+                        Snackbar.make(itemView, "Conta $novoEstado com sucesso", Snackbar.LENGTH_SHORT).show()
+                        notifyItemChanged(adapterPosition)
+                    } else {
+                        Log.d("updateStatus", "Código de resposta: ${response.code()}, Corpo de erro: ${response.errorBody()?.string()}")
+                        Snackbar.make(itemView, "Erro ao $novoEstado a conta", Snackbar.LENGTH_SHORT).show()
                     }
+                }
 
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
-                        Log.e("updateStatus", "Falha na atualização do status", t)
-                        // Mostrar Toast de falha
-                        Toast.makeText(
-                            itemView.context,
-                            "Falha ao ${novoEstado.toLowerCase()} a conta",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                })
-            }
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Log.e("updateStatus", "Falha na atualização do status", t)
+                    Snackbar.make(itemView, "Falha ao $novoEstado a conta", Snackbar.LENGTH_SHORT).show()
+                }
+            })
         }
     }
 }

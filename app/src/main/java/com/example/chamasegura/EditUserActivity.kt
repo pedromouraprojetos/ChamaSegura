@@ -1,17 +1,21 @@
 package com.example.chamasegura
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chamasegura.retrofit.RetrofitClient
 import com.example.chamasegura.retrofit.SupabaseAuthService
 import com.example.chamasegura.retrofit.UpdateUser
 import com.example.chamasegura.retrofit.tabels.Users
+import com.example.chamasegura.retrofit.tabels.Roles
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,19 +23,35 @@ import retrofit2.Response
 class EditUserActivity : AppCompatActivity() {
 
     private var userId: Long = -1L
+    private var userRole: Long = -1L
     private lateinit var currentUserEmail: String
+    private lateinit var editTextName: EditText
+    private lateinit var editTextEmail: EditText
+    private lateinit var spinnerCargo: Spinner
+    private var roles: List<Roles> = emptyList()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_user)
 
         userId = intent.getLongExtra("userId", -1L)
-        Log.d("teste", "idUser: $userId")
+        val userName = intent.getStringExtra("userName")
+        val userEmail = intent.getStringExtra("userEmail")
+        userRole = intent.getLongExtra("userRole", -1L)
+        Log.d("teste", "idUser: $userId, idRole: $userRole")
 
-        // Inicializa os EditTexts e o botão salvar
-        val editTextEmail = findViewById<EditText>(R.id.editTextEmail)
-        val editTextPassword = findViewById<EditText>(R.id.editTextPassword)
-        val editTextName = findViewById<EditText>(R.id.editTextName)
+        // Inicializa os EditTexts e o Spinner
+        editTextName = findViewById(R.id.editTextName)
+        editTextEmail = findViewById(R.id.editTextEmail)
+        spinnerCargo = findViewById(R.id.spinnerRole)
+
+        // Popula os EditTexts com os dados recebidos do Intent
+        editTextName.setText(userName)
+        editTextEmail.setText(userEmail)
+
+        // Configura o Spinner
+        fetchCargos()
 
         val buttonSave = findViewById<Button>(R.id.buttonSave)
 
@@ -48,23 +68,50 @@ class EditUserActivity : AppCompatActivity() {
 
         buttonSave.setOnClickListener {
             val email = editTextEmail.text.toString().trim()
-            val password = editTextPassword.text.toString().trim()
             val name = editTextName.text.toString().trim()
+            val selectedRolePosition = spinnerCargo.selectedItemPosition
 
-            if (validateFields(email, password, name)) {
+            if (validateFields(email, name)) {
                 // Verifica se o email ou nome já existem na base de dados
-                isEmailOrNameDuplicate(email, name) { isDuplicate ->
-                    if (!isDuplicate) {
-                        // Se não houver duplicidade, atualiza o usuário
-                        updateUser(email, password, name)
-                    } else {
-                        // Se houver duplicidade, mostra mensagem de erro
-                        Toast.makeText(applicationContext, "Email ou nome já existem na base de dados.", Toast.LENGTH_SHORT).show()
-                    }
-                }
+                updateUser(email, name, roles[selectedRolePosition].idRole)
             } else {
-                Toast.makeText(applicationContext, "Por favor, preencha todos os campos.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Por favor, preencha todos os campos corretamente.", Toast.LENGTH_SHORT).show()
             }
+        }
+
+    }
+
+    private fun fetchCargos() {
+        val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+        val call = service.getAllCargos()
+
+        call.enqueue(object : Callback<List<Roles>> {
+            override fun onResponse(call: Call<List<Roles>>, response: Response<List<Roles>>) {
+                if (response.isSuccessful) {
+                    roles = response.body() ?: emptyList() // Atualiza a lista de roles com os dados recebidos
+                    setupSpinner(roles)
+                } else {
+                    showToast("Erro ao buscar cargos.")
+                }
+            }
+
+            override fun onFailure(call: Call<List<Roles>>, t: Throwable) {
+                showToast("Erro ao buscar cargos: ${t.message}")
+            }
+        })
+    }
+
+
+    private fun setupSpinner(roles: List<Roles>) {
+        val roleNames = roles.map { it.type }
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, roleNames)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerCargo.adapter = adapter
+
+        // Define o cargo atual do usuário no Spinner
+        val cargoPosition = roles.indexOfFirst { it.idRole == userRole }
+        if (cargoPosition >= 0) {
+            spinnerCargo.setSelection(cargoPosition)
         }
     }
 
@@ -72,53 +119,17 @@ class EditUserActivity : AppCompatActivity() {
         currentUserEmail = "email_atual@exemplo.com" // Você pode implementar a lógica para obter o email atual do usuário aqui
     }
 
-    private fun validateFields(email: String, password: String, name: String): Boolean {
-        if (email.isEmpty() || password.isEmpty() || name.isEmpty()) {
-            return false
-        }
-
-        if (password.length < 8) {
-            return false
-        }
-
-        if (!password.any { it.isUpperCase() }) {
-            return false
-        }
-
-        val specialChars = setOf('!', '@', '#', '$', '%', '^', '&', '*')
-        if (!password.any { it in specialChars }) {
+    private fun validateFields(email: String,name: String): Boolean {
+        if (email.isEmpty()  || name.isEmpty()) {
             return false
         }
 
         return true
     }
 
-    private fun isEmailOrNameDuplicate(email: String, name: String, callback: (Boolean) -> Unit) {
-        val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
-        val call = service.getAllUsers()
-
-        call.enqueue(object : Callback<List<Users>> {
-            override fun onResponse(call: Call<List<Users>>, response: Response<List<Users>>) {
-                if (response.isSuccessful) {
-                    val users = response.body() ?: emptyList()
-                    val isDuplicate = users.any { it.email == email || it.name == name }
-                    callback(isDuplicate)
-                } else {
-                    showToast("Error checking email or name duplication.")
-                    callback(false)
-                }
-            }
-
-            override fun onFailure(call: Call<List<Users>>, t: Throwable) {
-                showToast("Error checking email or name duplication.")
-                callback(false)
-            }
-        })
-    }
-
-    private fun updateUser(email: String, password: String, name: String) {
+    private fun updateUser(email: String, name: String, idRole: Long) {
         val userId2 = userId.toString()
-        val updateUser = UpdateUser(email, password, name)
+        val updateUser = UpdateUser(email,name, idRole)
 
         // Chama a função de atualização do Retrofit
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
@@ -141,6 +152,7 @@ class EditUserActivity : AppCompatActivity() {
             }
         })
     }
+
 
     private fun showToast(message: String) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()

@@ -76,7 +76,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_queimadas"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="180dp"
                     android:layout_marginTop="8dp"
                     app:layout_constraintBottom_toTopOf="@id/extra_space_view"
                     app:layout_constraintEnd_toEndOf="parent"

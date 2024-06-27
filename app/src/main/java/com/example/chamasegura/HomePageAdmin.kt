@@ -51,6 +51,11 @@ class HomePageAdmin : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
+                R.id.nav_create_rules -> {
+                    val intent = Intent(this, CreateRules::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.nav_logout -> {
                     val intent = Intent(this, Login::class.java)
                     startActivity(intent)

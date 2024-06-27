@@ -17,7 +17,7 @@ import retrofit2.Response
 
 class CreateUserActivity : AppCompatActivity() {
 
-    private lateinit var editTextName: EditText
+
     private lateinit var editTextEmail: EditText
     private lateinit var editTextPassword: EditText
     private lateinit var buttonCreateUser: Button
@@ -26,18 +26,17 @@ class CreateUserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_user)
 
-        editTextName = findViewById(R.id.editTextName)
+
         editTextEmail = findViewById(R.id.editTextEmail)
         editTextPassword = findViewById(R.id.editTextPassword)
         buttonCreateUser = findViewById(R.id.buttonCreateUser)
 
         buttonCreateUser.setOnClickListener {
-            val name = editTextName.text.toString().trim()
             val email = editTextEmail.text.toString().trim()
             val password = editTextPassword.text.toString().trim()
 
-            if (validateInputs(name, email, password)) {
-                createUser(name, email, password)
+            if (validateInputs(email, password)) {
+                createUser(email, password)
             }
         }
 
@@ -48,12 +47,7 @@ class CreateUserActivity : AppCompatActivity() {
         }
     }
 
-    private fun validateInputs(name: String, email: String, password: String): Boolean {
-        if (name.isEmpty()) {
-            showToast("Please enter a name.")
-            return false
-        }
-
+    private fun validateInputs(email: String, password: String): Boolean {
         if (email.isEmpty()) {
             showToast("Please enter an email.")
             return false
@@ -80,15 +74,15 @@ class CreateUserActivity : AppCompatActivity() {
         }
 
         // Verifying duplicate email and name
-        if (isEmailOrNameDuplicate(email, name)) {
-            showToast("Email or name already in use.")
+        if (isEmailOrNameDuplicate(email)) {
+            showToast("Email already in use.")
             return false
         }
 
         return true
     }
 
-    private fun isEmailOrNameDuplicate(email: String, name: String): Boolean {
+    private fun isEmailOrNameDuplicate(email: String): Boolean {
         val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
         val call = service.getAllUsers()
 
@@ -98,23 +92,23 @@ class CreateUserActivity : AppCompatActivity() {
             override fun onResponse(call: Call<List<Users>>, response: Response<List<Users>>) {
                 if (response.isSuccessful) {
                     val users = response.body() ?: emptyList()
-                    isDuplicate = users.any { it.email == email || it.name == name }
+                    isDuplicate = users.any { it.email == email}
                 } else {
-                    showToast("Error checking email or name duplication.")
+                    showToast("Error checking email duplication.")
                 }
             }
 
             override fun onFailure(call: Call<List<Users>>, t: Throwable) {
-                showToast("Error checking email or name duplication.")
+                showToast("Error checking email duplication.")
             }
         })
 
         return isDuplicate
     }
 
-    private fun createUser(name: String, email: String, password: String) {
+    private fun createUser(email: String, password: String) {
         val service = RetrofitClient.instance.create(SupabaseCreateService::class.java)
-        val user = Users(null, email, password, true, name, null, "Ativo", null)
+        val user = Users(null, email, password, true, null, null, "Ativo", null)
 
         service.addUsers(user).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {

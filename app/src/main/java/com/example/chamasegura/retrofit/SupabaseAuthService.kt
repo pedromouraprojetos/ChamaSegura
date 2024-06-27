@@ -30,8 +30,8 @@ data class UpdateEstadoConta(
 
 data class UpdateUser(
     val email: String,
-    val password: String,
-    val name: String
+    val name: String,
+    val idRole: Long
 )
 
 interface SupabaseAuthService {
@@ -58,6 +58,7 @@ interface SupabaseAuthService {
     fun getUserById(
         @Query("idUsers") idUser: String
     ): Call<List<Users>>
+
 
     @Headers("Content-Type: application/json", "apikey: $API_KEY")
     @GET("rest/v1/Users")
@@ -188,5 +189,10 @@ interface SupabaseAuthService {
     fun getRegrasMunicipio(
         @Query("idMunicipalities") idMunicipio: String
     ): Call<List<Rules>>
+
+    @Headers("Content-Type: application/json", "apikey: $API_KEY")
+    @GET("rest/v1/Roles")
+    fun getAllCargos(): Call<List<Roles>>
+
 
 }
