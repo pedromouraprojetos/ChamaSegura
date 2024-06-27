@@ -8,145 +8,139 @@
     tools:context=".Login">
 
     <!-- Container para a imagem de fundo e o logo -->
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <!-- Imagem de Fundo -->
-        <ImageView
-            android:id="@+id/backgroundImageView"
-            android:layout_width="280dp"
-            android:layout_height="250dp"
-            android:contentDescription="Background Image"
-            android:scaleType="centerCrop"
-            android:src="@drawable/bolastopo" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-        <!-- Logo -->
-        <ImageView
-            android:id="@+id/logoImageView"
-            android:layout_width="170dp"
-            android:layout_height="150dp"
-            android:layout_marginStart="8dp"
-            android:contentDescription="Logo"
-            android:src="@drawable/logo" />
-    </FrameLayout>
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp">
 
-    <TextView
-        android:id="@+id/titleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:text="Entrar"
-        android:textColor="@android:color/black"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/frameLayout" />
+                <!-- Imagem de Fundo -->
+                <ImageView
+                    android:id="@+id/backgroundImageView"
+                    android:layout_width="280dp"
+                    android:layout_height="250dp"
+                    android:contentDescription="Background Image"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bolastopo" />
 
-    <TextView
-        android:id="@+id/email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:text="Endereço de Email"
-        android:textColor="#616161"
-        android:textSize="25sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleTextView" />
+                <!-- Logo -->
+                <ImageView
+                    android:id="@+id/logoImageView"
+                    android:layout_width="170dp"
+                    android:layout_height="150dp"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="Logo"
+                    android:src="@drawable/logo" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="Entrar"
+                android:textColor="@android:color/black"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="Endereço de Email"
+                android:textColor="#616161"
+                android:textSize="25sp" />
+
+            <EditText
+                android:id="@+id/emailEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:drawableEnd="@drawable/email"
+                android:inputType="textEmailAddress"
+                android:padding="12dp" />
+
+            <TextView
+                android:id="@+id/password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="Palavra-Passe"
+                android:textColor="#616161"
+                android:textSize="25sp" />
+
+            <EditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:drawableEnd="@drawable/cadeado"
+                android:inputType="textPassword"
+                android:padding="12dp" />
+
+            <TextView
+                android:id="@+id/forgotPasswordTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="Esqueceu a Palavra-Passe?"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="315dp"
+                android:layout_height="72dp"
+                android:layout_marginTop="24dp"
+                android:drawableEnd="@drawable/seta"
+                android:text="Entrar"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/registerButton"
+                android:layout_width="315dp"
+                android:layout_height="72dp"
+                android:layout_marginTop="8dp"
+                android:drawableEnd="@drawable/seta"
+                android:text="Registar"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+            <View
+                android:id="@+id/parentEnd"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                tools:ignore="MissingConstraints" />
+        </LinearLayout>
+    </ScrollView>
 
     <!-- Endereço de Email -->
-    <EditText
-        android:id="@+id/emailEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:drawableEnd="@drawable/email"
-        android:inputType="textEmailAddress"
-        android:padding="12dp"
-        app:layout_constraintEnd_toStartOf="@+id/parentEnd"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/email" />
-
-    <TextView
-        android:id="@+id/password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:text="Palavra-Passe"
-        android:textColor="#616161"
-        android:textSize="25sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emailEditText" />
 
     <!-- Palavra-Passe -->
-    <EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:drawableEnd="@drawable/cadeado"
-        android:inputType="textPassword"
-        android:padding="12dp"
-        app:layout_constraintEnd_toStartOf="@+id/parentEnd"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/password" />
 
     <!-- Esqueceu a Palavra-Passe? -->
-    <TextView
-        android:id="@+id/forgotPasswordTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:text="Esqueceu a Palavra-Passe?"
-        android:textColor="@android:color/holo_blue_dark"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
 
     <!-- Botão Entrar -->
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="315dp"
-        android:layout_height="72dp"
-        android:layout_marginTop="24dp"
-        android:drawableEnd="@drawable/seta"
-        android:text="Entrar"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/parentEnd"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/forgotPasswordTextView" />
 
     <!-- Botão Registar -->
-    <Button
-        android:id="@+id/registerButton"
-        android:layout_width="315dp"
-        android:layout_height="72dp"
-        android:layout_marginTop="8dp"
-        android:drawableEnd="@drawable/seta"
-        android:text="Registar"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toStartOf="@+id/parentEnd"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginButton" />
 
     <!-- Constraint para alinhar os elementos -->
-    <View
-        android:id="@+id/parentEnd"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

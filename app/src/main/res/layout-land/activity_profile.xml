@@ -8,189 +8,162 @@
     android:background="@drawable/background_profile">
 
     <!-- Botão de Voltar -->
-    <ImageButton
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/setaback"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:padding="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="16dp"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="16dp"
+                android:src="@drawable/setaback" />
+
+            <ImageButton
+                android:id="@+id/avatarButton"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="32dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profileimg" />
+
+            <EditText
+                android:id="@+id/usernameEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:background="@android:color/transparent"
+                android:hint="Nome de Utilizador"
+                android:paddingBottom="8dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
+                android:textSize="16sp"
+                app:layout_constraintWidth_percent="0.8" />
+
+            <View
+                android:id="@+id/usernameLine"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:background="@android:color/white"
+                app:layout_constraintWidth_percent="0.8" />
+
+            <EditText
+                android:id="@+id/firstNameEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:background="@android:color/transparent"
+                android:hint="Primeiro Nome"
+                android:paddingBottom="8dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
+                android:textSize="16sp"
+                app:layout_constraintWidth_percent="0.8" />
+
+            <View
+                android:id="@+id/firstNameLine"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:background="@android:color/white"
+                app:layout_constraintWidth_percent="0.8" />
+
+            <EditText
+                android:id="@+id/lastNameEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:background="@android:color/transparent"
+                android:hint="Sobrenome"
+                android:paddingBottom="8dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
+                android:textSize="16sp"
+                app:layout_constraintWidth_percent="0.8" />
+
+            <View
+                android:id="@+id/lastNameLine"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:background="@android:color/white"
+                app:layout_constraintWidth_percent="0.8" />
+
+            <TextView
+                android:id="@+id/destrito"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:background="@android:color/transparent"
+                android:hint="Selecione o seu destrito"
+                android:paddingBottom="8dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
+                android:textSize="16sp"
+                app:layout_constraintWidth_percent="0.8" />
+
+            <Spinner
+                android:id="@+id/tipoSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintWidth_percent="0.8" />
+
+            <Button
+                android:id="@+id/confirmButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="32dp"
+                android:backgroundTint="@android:color/white"
+                android:text="Guardar Dados"
+                android:textAllCaps="false"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintWidth_percent="0.8" />
+        </LinearLayout>
+    </ScrollView>
 
     <!-- Imagem de Avatar como Botão -->
-    <ImageButton
-        android:id="@+id/avatarButton"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/profileimg"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:scaleType="centerCrop"
-        app:layout_constraintTop_toBottomOf="@id/backButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="40dp" />
 
 
     <!-- Nome de Utilizador -->
-    <EditText
-        android:id="@+id/usernameEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Nome de Utilizador"
-        android:background="@android:color/transparent"
-        android:textColorHint="@android:color/white"
-        android:textColor="@android:color/white"
-        android:paddingBottom="8dp"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/avatarButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintWidth_default="spread"
-        app:layout_constraintWidth_percent="0.8"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="32dp" />
-
-    <View
-        android:id="@+id/usernameLine"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@id/usernameEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.8"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="8dp" />
 
     <!-- Primeiro Nome -->
-    <EditText
-        android:id="@+id/firstNameEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Primeiro Nome"
-        android:background="@android:color/transparent"
-        android:textColorHint="@android:color/white"
-        android:textColor="@android:color/white"
-        android:paddingBottom="8dp"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/usernameLine"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintWidth_default="spread"
-        app:layout_constraintWidth_percent="0.8"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="16dp" />
-
-    <View
-        android:id="@+id/firstNameLine"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@id/firstNameEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.8"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="8dp" />
 
     <!-- Sobrenome -->
-    <EditText
-        android:id="@+id/lastNameEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Sobrenome"
-        android:background="@android:color/transparent"
-        android:textColorHint="@android:color/white"
-        android:textColor="@android:color/white"
-        android:paddingBottom="8dp"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/firstNameLine"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintWidth_default="spread"
-        app:layout_constraintWidth_percent="0.8"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="16dp" />
-
-    <View
-        android:id="@+id/lastNameLine"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@id/lastNameEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.8"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="8dp" />
-
-    <TextView
-        android:id="@+id/destrito"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Selecione o seu destrito"
-        android:background="@android:color/transparent"
-        android:textColorHint="@android:color/white"
-        android:textColor="@android:color/white"
-        android:paddingBottom="8dp"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/lastNameLine"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintWidth_default="spread"
-        app:layout_constraintWidth_percent="0.8"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="16dp" />
-
-    <Spinner
-        android:id="@+id/tipoSpinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/destrito"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintWidth_default="spread"
-        app:layout_constraintWidth_percent="0.8"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="1dp" />
 
     <!-- Botão Confirmar -->
-    <Button
-        android:id="@+id/confirmButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@android:color/white"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        android:text="Guardar Dados"
-        android:textAllCaps="false"
-        app:layout_constraintTop_toBottomOf="@id/destrito"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintWidth_percent="0.8"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"/>
 
     <!-- Barra de Navegação Inferior -->
 

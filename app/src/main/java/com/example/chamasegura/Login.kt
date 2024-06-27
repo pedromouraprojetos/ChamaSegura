@@ -108,7 +108,7 @@ class Login : AppCompatActivity() {
                             startActivity(intent)
                         }
 
-                        Toast.makeText(this@Login, "Login bem-sucedido", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@Login, "Login bem-sucedido", Toast.LENGTH_SHORT).show() // Pesquisar como meter strings
                     } else {
                         showError("Email ou palavra-passe inválida")
                         Log.e("Login", "Falha na verificação das credenciais: usuário não encontrado")

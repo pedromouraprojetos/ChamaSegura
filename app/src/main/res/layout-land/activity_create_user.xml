@@ -5,67 +5,77 @@
     android:background="@drawable/background_linear">
 
     <!-- Logotipo -->
-    <ImageView
-        android:id="@+id/imageViewLogo"
-        android:layout_width="311dp"
-        android:layout_height="314dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
-        android:src="@drawable/logo" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/imageViewBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="Voltar"
+                android:onClick="goToHomePageAdmin"
+                android:src="@drawable/setaback" />
+
+            <ImageView
+                android:id="@+id/imageViewLogo"
+                android:layout_width="400dp"
+                android:layout_height="314dp"
+                android:layout_marginStart="200dp"
+                android:layout_marginTop="0dp"
+                android:src="@drawable/logo" />
+
+            <EditText
+                android:id="@+id/editTextName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:hint="Nome"
+                android:padding="10dp"
+                android:textColor="@android:color/white" />
+
+            <EditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:padding="10dp"
+                android:textColor="@android:color/white" />
+
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="Senha"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/buttonCreateUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/button_background"
+                android:text="Criar Utilizador"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <!-- EditTexts -->
-    <EditText
-        android:id="@+id/editTextName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imageViewLogo"
-        android:layout_marginTop="24dp"
-        android:padding="10dp"
-        android:hint="Nome"
-        android:textColor="@android:color/white" />
-
-    <EditText
-        android:id="@+id/editTextEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editTextName"
-        android:layout_marginTop="12dp"
-        android:padding="10dp"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:textColor="@android:color/white" />
-
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editTextEmail"
-        android:layout_marginTop="12dp"
-        android:padding="10dp"
-        android:hint="Senha"
-        android:inputType="textPassword"
-        android:textColor="@android:color/white" />
-
-    <Button
-        android:id="@+id/buttonCreateUser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editTextPassword"
-        android:layout_marginTop="24dp"
-        android:text="Criar Utilizador"
-        android:background="@drawable/button_background"
-        android:textColor="@android:color/white"
-        android:textAllCaps="false" />
 
     <!-- Setinha no canto superior esquerdo -->
-    <ImageView
-        android:id="@+id/imageViewBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:src="@drawable/setaback"
-        android:contentDescription="Voltar"
-        android:onClick="goToHomePageAdmin" />
 
 </RelativeLayout>
