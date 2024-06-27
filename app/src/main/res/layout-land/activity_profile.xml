@@ -40,7 +40,7 @@
 
             <EditText
                 android:id="@+id/usernameEditText"
-                android:layout_width="0dp"
+                android:layout_width="500dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
@@ -55,7 +55,7 @@
 
             <View
                 android:id="@+id/usernameLine"
-                android:layout_width="0dp"
+                android:layout_width="500dp"
                 android:layout_height="1dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
@@ -65,7 +65,7 @@
 
             <EditText
                 android:id="@+id/firstNameEditText"
-                android:layout_width="0dp"
+                android:layout_width="500dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
@@ -80,7 +80,7 @@
 
             <View
                 android:id="@+id/firstNameLine"
-                android:layout_width="0dp"
+                android:layout_width="500dp"
                 android:layout_height="1dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
@@ -90,7 +90,7 @@
 
             <EditText
                 android:id="@+id/lastNameEditText"
-                android:layout_width="0dp"
+                android:layout_width="500dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
@@ -105,7 +105,7 @@
 
             <View
                 android:id="@+id/lastNameLine"
-                android:layout_width="0dp"
+                android:layout_width="500dp"
                 android:layout_height="1dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
@@ -115,7 +115,7 @@
 
             <TextView
                 android:id="@+id/destrito"
-                android:layout_width="0dp"
+                android:layout_width="500dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
@@ -130,7 +130,7 @@
 
             <Spinner
                 android:id="@+id/tipoSpinner"
-                android:layout_width="0dp"
+                android:layout_width="500dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="1dp"
@@ -139,7 +139,7 @@
 
             <Button
                 android:id="@+id/confirmButton"
-                android:layout_width="0dp"
+                android:layout_width="500dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.chamasegura.retrofit.RetrofitClient
+import com.example.chamasegura.retrofit.SupabaseAuthService
 import com.example.chamasegura.retrofit.SupabaseCreateService
 import com.example.chamasegura.retrofit.tabels.Users
 import retrofit2.Call
@@ -49,8 +50,14 @@ class Register : AppCompatActivity() {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     if (isValidPassword(password)) {
-                        val user = Users(null, email, password, true, null, null, "ativo", null)
-                        registerUser(user)
+                        isEmailDuplicate(email) { isDuplicate ->
+                            if (isDuplicate) {
+                                showError("Este email já está em uso")
+                            } else {
+                                val user = Users(null, email, password, true, null, null, "ativo", null)
+                                registerUser(user)
+                            }
+                        }
                     } else {
                         showError("A senha deve conter pelo menos 8 caracteres, uma letra maiúscula e um caractere especial")
                     }
@@ -62,6 +69,7 @@ class Register : AppCompatActivity() {
                 Log.e("Register", "Campos de email ou senha vazios")
             }
         }
+
     }
 
     private fun registerUser(user: Users) {
@@ -104,10 +112,37 @@ class Register : AppCompatActivity() {
         return true
     }
 
+    private fun isEmailDuplicate(email: String, callback: (Boolean) -> Unit) {
+        val service = RetrofitClient.instance.create(SupabaseAuthService::class.java)
+        val call = service.getAllUsers()
+
+        call.enqueue(object : Callback<List<Users>> {
+            override fun onResponse(call: Call<List<Users>>, response: Response<List<Users>>) {
+                if (response.isSuccessful) {
+                    val users = response.body() ?: emptyList()
+                    val isDuplicate = users.any { it.email == email }
+                    callback(isDuplicate)
+                } else {
+                    showError("Error checking email duplication.")
+                    callback(false)
+                }
+            }
+
+            override fun onFailure(call: Call<List<Users>>, t: Throwable) {
+                showError("Error checking email duplication.")
+                callback(false)
+            }
+        })
+    }
+
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         emailEditText.error = message
         passwordEditText.error = message
         Log.e("Register", message)
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 }

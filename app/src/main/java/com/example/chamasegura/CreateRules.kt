@@ -107,9 +107,7 @@ class CreateRules : AppCompatActivity() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@CreateRules, "Registo bem-sucedido", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this@CreateRules, Login::class.java)
-                    startActivity(intent)
-                    finish()
+                    finish() // Encerra a atividade atual e volta para a página anterior
                 } else {
                     val errorBody = response.errorBody()?.string()
                     showError("Erro no registo: $errorBody")
@@ -121,8 +119,6 @@ class CreateRules : AppCompatActivity() {
             }
         })
 
-        // Log the user's input
-        Log.d("CreateRules", "Distrito ID: $selectedTypeId, Início: $inicioRegra, Fim: $fimRegra, Tipo de Proibição: $selectedProibicaoId")
     }
 
     private fun loadMunicipalities() {
